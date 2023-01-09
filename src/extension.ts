@@ -1,15 +1,20 @@
 import * as vscode from "vscode";
-import { EcoreTreeDataProvider, EcoreModel, EcoreNode } from "./treeview";
+import { VcoreTreeDataProvider, } from "./editor/treeview";
+import { VcoreNode } from "./model/models";
 
 export function activate(context: vscode.ExtensionContext) {
-	const model = new EcoreModel([
-		new EcoreNode('EPackage', 'Package 1', [
-			new EcoreNode('EClass', 'My Class')
-		]),
-		new EcoreNode('EPackage', 'Package 2')
-	]);
+	// const model = new VcoreModel([
+	// 	new VcoreNode('EPackage', 'Package 1', [
+	// 		new VcoreNode('EClass', 'My Class')
+	// 	]),
+	// 	new VcoreNode('EPackage', 'Package 2')
+	// ]);
 
-	vscode.window.registerTreeDataProvider('exampleView', new EcoreTreeDataProvider(model));
+
+	const rootPath = (vscode.workspace.workspaceFolders && (vscode.workspace.workspaceFolders.length > 0))
+		? vscode.workspace.workspaceFolders[0].uri.fsPath : undefined;
+	const vcoreTreeDataProvider = new VcoreTreeDataProvider(rootPath);
+	vscode.window.registerTreeDataProvider('exampleView', vcoreTreeDataProvider);
 
 }
 
