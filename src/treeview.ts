@@ -1,42 +1,108 @@
 import * as vscode from "vscode";
+import * as fs from 'fs';
+import * as path from 'path';
 
-// export class TreeDataProvider implements vscode.TreeDataProvider<TreeItem> {
-//   onDidChangeTreeData?: vscode.Event<TreeItem | null | undefined> | undefined;
+export class VcoreProvider implements vscode.TreeDataProvider<VcoreNode> {
 
-//   data: TreeItem[];
+  private _onDidChangeTreeData: vscode.EventEmitter<VcoreNode | undefined | void> = new vscode.EventEmitter<VcoreNode | undefined | void>();
+  readonly onDidChangeTreeData: vscode.Event<VcoreNode | undefined | void> = this._onDidChangeTreeData.event;
 
-//   constructor() {
-//     this.data = [new TreeItem('cars', [
-//       new TreeItem(
-//         'Ford', [new TreeItem('Fiesta'), new TreeItem('Focus'), new TreeItem('Mustang')]),
-//       new TreeItem(
-//         'BMW', [new TreeItem('320'), new TreeItem('X3'), new TreeItem('X5')])
-//     ])];
-//   }
+  constructor(private workspaceRoot: string | undefined) {
+  }
 
-//   getTreeItem(element: TreeItem): vscode.TreeItem | Thenable<vscode.TreeItem> {
-//     return element;
-//   }
+  refresh(): void {
+    this._onDidChangeTreeData.fire();
+  }
 
-//   getChildren(element?: TreeItem | undefined): vscode.ProviderResult<TreeItem[]> {
-//     if (element === undefined) {
-//       return this.data;
-//     }
-//     return element.children;
-//   }
-// }
+  getTreeItem(element: VcoreNode): vscode.TreeItem {
+    return element;
+  }
 
-// class TreeItem extends vscode.TreeItem {
-//   children: TreeItem[] | undefined;
+  getChildren(element?: VcoreNode): Thenable<VcoreNode[]> {
+    if (!this.workspaceRoot) {
+      vscode.window.showInformationMessage('No dependency in empty workspace');
+      return Promise.resolve([]);
+    }
 
-//   constructor(label: string, children?: TreeItem[]) {
-//     super(
-//       label,
-//       children === undefined ? vscode.TreeItemCollapsibleState.None :
-//         vscode.TreeItemCollapsibleState.Expanded);
-//     this.children = children;
-//   }
-// }
+    if (element) {
+      return Promise.resolve(this.getDepsInPackageJson(path.join(this.workspaceRoot, 'node_modules', element.label, 'package.json')));
+    } else {
+      const packageJsonPath = path.join(this.workspaceRoot, 'package.json');
+      if (this.pathExists(packageJsonPath)) {
+        return Promise.resolve(this.getDepsInPackageJson(packageJsonPath));
+      } else {
+        vscode.window.showInformationMessage('Workspace has no package.json');
+        return Promise.resolve([]);
+      }
+    }
+
+  }
+
+  /**
+   * Given the path to package.json, read all its dependencies and devDependencies.
+   */
+  private getDepsInPackageJson(packageJsonPath: string): VcoreNode[] {
+    const workspaceRoot = this.workspaceRoot;
+    if (this.pathExists(packageJsonPath) && workspaceRoot) {
+      const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
+
+      const toDep = (moduleName: string, version: string): VcoreNode => {
+        if (this.pathExists(path.join(workspaceRoot, 'node_modules', moduleName))) {
+          return new VcoreNode(moduleName, version, vscode.TreeItemCollapsibleState.Collapsed);
+        } else {
+          return new VcoreNode(moduleName, version, vscode.TreeItemCollapsibleState.None, {
+            command: 'extension.openPackageOnNpm',
+            title: '',
+            arguments: [moduleName]
+          });
+        }
+      };
+
+      const deps = packageJson.dependencies
+        ? Object.keys(packageJson.dependencies).map(dep => toDep(dep, packageJson.dependencies[dep]))
+        : [];
+      const devDeps = packageJson.devDependencies
+        ? Object.keys(packageJson.devDependencies).map(dep => toDep(dep, packageJson.devDependencies[dep]))
+        : [];
+      return deps.concat(devDeps);
+    } else {
+      return [];
+    }
+  }
+
+  private pathExists(p: string): boolean {
+    try {
+      fs.accessSync(p);
+    } catch (err) {
+      return false;
+    }
+
+    return true;
+  }
+}
+
+export class VcoreNode extends vscode.TreeItem {
+
+  constructor(
+    public readonly label: string,
+    private readonly version: string,
+    public readonly collapsibleState: vscode.TreeItemCollapsibleState,
+    public readonly command?: vscode.Command
+  ) {
+    super(label, collapsibleState);
+
+    this.tooltip = `${this.label}-${this.version}`;
+    this.description = this.version;
+  }
+
+  // iconPath = {
+  //   light: path.join(__filename, '..', '..', 'resources', 'light', 'dependency.svg'),
+  //   dark: path.join(__filename, '..', '..', 'resources', 'dark', 'dependency.svg')
+  // };
+
+  contextValue = 'dependency';
+}
+
 
 export class EcoreTreeDataProvider implements vscode.TreeDataProvider<EcoreNode> {
   private _onDidChangeTreeData: vscode.EventEmitter<EcoreNode | undefined> = new vscode.EventEmitter<EcoreNode | undefined>();
