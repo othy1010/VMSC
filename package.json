@@ -29,6 +29,19 @@
         "title": "Hello World"
       },
       {
+        "command": "VMSC.refreshEntry",
+        "title": "Refresh"
+      },
+      {
+        "key": "ctrl+R",
+        "command": "VMSC.openContextMenu",
+        "title": "openContextMenu"
+      },
+      {
+        "command": "VMSC.openProperties",
+        "title": "openProperties"
+      },
+      {
         "command": "VMSC.createEcoreModel",
         "title": "Create Ecore Model",
         "icon": {
@@ -39,6 +52,14 @@
       {
         "command": "VMSC.addPackage",
         "title": "Add Package"
+      },
+      {
+        "command": "VMSC.rename",
+        "title": "Rename"
+      },
+      {
+        "command": "VMSC.delete",
+        "title": "Delete"
       },
       {
         "command": "VMSC.addClass",
@@ -71,6 +92,10 @@
       {
         "command": "VMSC.addOperation",
         "title": "Add Operation"
+      },
+      {
+        "command": "VMSC.addAnnotation",
+        "title": "Add Annotation"
       }
     ],
     "views": {
@@ -78,6 +103,12 @@
         {
           "id": "exampleView",
           "name": "exampleView"
+        }
+      ],
+      "explorer": [
+        {
+          "id": "nodeDependencies",
+          "name": "Node Dependencies"
         }
       ]
     }
