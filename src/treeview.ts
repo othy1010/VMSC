@@ -12,7 +12,8 @@ export class EcoreTreeDataProvider implements vscode.TreeDataProvider<EcoreNode>
 
   getTreeItem(element: EcoreNode): vscode.TreeItem {
     // Return a TreeItem based on the type of element
-    switch (element.type) {
+    switch (element.
+      type) {
       case 'EModel':
         return {
           label: element.name,
