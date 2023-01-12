@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated Vmsc -->
+      <package
+            uri="http://www.Vmsc.gen"
+            class="Vmsc.VmscPackage"
+            genModel="model/Vmsc.genmodel"/>
+   </extension>
+
+</plugin>
