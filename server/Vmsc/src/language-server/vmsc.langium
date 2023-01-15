@@ -1,10 +1,13 @@
 grammar Vmsc
+
+
 entry VModel:
 	'{'
 	'"id"' ':' id=ID ','
 	'"name"' ':' name=ID ','
 	('"VPackages"' ':' '[' '{' VPackage+=VPackage '}' ( ',' '{' VPackage+=VPackage '}')* ']' )?
 	 '}';
+
 VPackage:
 	'"VPackage"'
 	':' 
