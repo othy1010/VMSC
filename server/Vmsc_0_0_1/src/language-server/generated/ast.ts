@@ -22,6 +22,14 @@ export function isVStructuralFeatures(item: unknown): item is VStructuralFeature
     return reflection.isInstance(item, VStructuralFeatures);
 }
 
+export type VType = VFloat | VInt | VString;
+
+export const VType = 'VType';
+
+export function isVType(item: unknown): item is VType {
+    return reflection.isInstance(item, VType);
+}
+
 export interface VAnnotation extends AstNode {
     readonly $container: VAttribute | VClass | VDatatype | VEnum | VOperation | VReference;
     readonly $type: 'VAnnotation';
@@ -40,19 +48,18 @@ export interface VAttribute extends AstNode {
     readonly $container: VClass;
     readonly $type: 'VAttribute';
     id: string
+    IsChangeable: boolean
     IsDerived: boolean
-    IsID: boolean
-    IsNotChangeable: boolean
-    IsNotOrdered: boolean
-    IsNotUnique: boolean
+    IsOrdered: boolean
     IsTransient: boolean
+    IsUnique: boolean
     IsUnsettable: boolean
     IsVolatile: boolean
     LowerBound?: number
     name: string
     UpperBound?: number
     VAnnotations: Array<VAnnotation>
-    VType: string
+    VType?: VType
 }
 
 export const VAttribute = 'VAttribute';
@@ -62,7 +69,7 @@ export function isVAttribute(item: unknown): item is VAttribute {
 }
 
 export interface VClass extends AstNode {
-    readonly $container: VModel | VPackage;
+    readonly $container: VModel | VPackage | VReference;
     readonly $type: 'VClass';
     id: string
     IsAbstract: boolean
@@ -70,7 +77,7 @@ export interface VClass extends AstNode {
     name: string
     VAnnotations: Array<VAnnotation>
     VOperations: Array<VOperation>
-    VStructuralFeatures: Array<VStructuralFeatures>
+    VStructural_features: Array<VStructuralFeatures>
     VSuperType: Array<Reference<VClass>>
 }
 
@@ -81,7 +88,7 @@ export function isVClass(item: unknown): item is VClass {
 }
 
 export interface VDatatype extends AstNode {
-    readonly $container: VModel | VPackage;
+    readonly $container: VModel | VPackage | VReference;
     readonly $type: 'VDatatype';
     id: string
     IsSerializable: boolean
@@ -96,7 +103,7 @@ export function isVDatatype(item: unknown): item is VDatatype {
 }
 
 export interface VEnum extends AstNode {
-    readonly $container: VModel | VPackage;
+    readonly $container: VModel | VPackage | VReference;
     readonly $type: 'VEnum';
     id: string
     IsSerializable: boolean
@@ -109,6 +116,30 @@ export const VEnum = 'VEnum';
 
 export function isVEnum(item: unknown): item is VEnum {
     return reflection.isInstance(item, VEnum);
+}
+
+export interface VFloat extends AstNode {
+    readonly $container: VAttribute | VOperation | VParameter;
+    readonly $type: 'VFloat';
+    value: string
+}
+
+export const VFloat = 'VFloat';
+
+export function isVFloat(item: unknown): item is VFloat {
+    return reflection.isInstance(item, VFloat);
+}
+
+export interface VInt extends AstNode {
+    readonly $container: VAttribute | VOperation | VParameter;
+    readonly $type: 'VInt';
+    value: number
+}
+
+export const VInt = 'VInt';
+
+export function isVInt(item: unknown): item is VInt {
+    return reflection.isInstance(item, VInt);
 }
 
 export interface VLiteral extends AstNode {
@@ -145,7 +176,7 @@ export interface VOperation extends AstNode {
     name: string
     VAnnotations: Array<VAnnotation>
     VParameters: Array<VParameter>
-    VType?: string
+    VType?: VType
 }
 
 export const VOperation = 'VOperation';
@@ -155,7 +186,7 @@ export function isVOperation(item: unknown): item is VOperation {
 }
 
 export interface VPackage extends AstNode {
-    readonly $container: VModel | VPackage;
+    readonly $container: VModel | VPackage | VReference;
     readonly $type: 'VPackage';
     id: string
     name: string
@@ -175,7 +206,7 @@ export interface VParameter extends AstNode {
     readonly $type: 'VParameter';
     id: string
     name: string
-    VType?: string
+    VType?: VType
 }
 
 export const VParameter = 'VParameter';
@@ -188,21 +219,20 @@ export interface VReference extends AstNode {
     readonly $container: VClass;
     readonly $type: 'VReference';
     id: string
+    IsChangeable: boolean
     IsContainer: boolean
     IsContainment: boolean
     IsDerived: boolean
-    IsID: boolean
-    IsNotChangeable: boolean
-    IsNotOrdered: boolean
-    IsNotUnique: boolean
+    IsOrdered: boolean
     IsTransient: boolean
+    IsUnique: boolean
     IsUnsettable: boolean
     IsVolatile: boolean
     LowerBound?: number
     name: string
     UpperBound?: number
     VAnnotations: Array<VAnnotation>
-    VType: Reference<VClass>
+    VType?: VClass
 }
 
 export const VReference = 'VReference';
@@ -211,26 +241,42 @@ export function isVReference(item: unknown): item is VReference {
     return reflection.isInstance(item, VReference);
 }
 
+export interface VString extends AstNode {
+    readonly $container: VAttribute | VOperation | VParameter;
+    readonly $type: 'VString';
+    value: string
+}
+
+export const VString = 'VString';
+
+export function isVString(item: unknown): item is VString {
+    return reflection.isInstance(item, VString);
+}
+
 export interface VmscAstType {
     VAnnotation: VAnnotation
     VAttribute: VAttribute
     VClass: VClass
     VDatatype: VDatatype
     VEnum: VEnum
+    VFloat: VFloat
+    VInt: VInt
     VLiteral: VLiteral
     VModel: VModel
     VOperation: VOperation
     VPackage: VPackage
     VParameter: VParameter
     VReference: VReference
+    VString: VString
     VStructuralComponent: VStructuralComponent
     VStructuralFeatures: VStructuralFeatures
+    VType: VType
 }
 
 export class VmscAstReflection extends AbstractAstReflection {
 
     getAllTypes(): string[] {
-        return ['VAnnotation', 'VAttribute', 'VClass', 'VDatatype', 'VEnum', 'VLiteral', 'VModel', 'VOperation', 'VPackage', 'VParameter', 'VReference', 'VStructuralComponent', 'VStructuralFeatures'];
+        return ['VAnnotation', 'VAttribute', 'VClass', 'VDatatype', 'VEnum', 'VFloat', 'VInt', 'VLiteral', 'VModel', 'VOperation', 'VPackage', 'VParameter', 'VReference', 'VString', 'VStructuralComponent', 'VStructuralFeatures', 'VType'];
     }
 
     protected override computeIsSubtype(subtype: string, supertype: string): boolean {
@@ -245,6 +291,11 @@ export class VmscAstReflection extends AbstractAstReflection {
             case VPackage: {
                 return this.isSubtype(VStructuralComponent, supertype);
             }
+            case VFloat:
+            case VInt:
+            case VString: {
+                return this.isSubtype(VType, supertype);
+            }
             default: {
                 return false;
             }
@@ -254,8 +305,7 @@ export class VmscAstReflection extends AbstractAstReflection {
     getReferenceType(refInfo: ReferenceInfo): string {
         const referenceId = `${refInfo.container.$type}:${refInfo.property}`;
         switch (referenceId) {
-            case 'VClass:VSuperType':
-            case 'VReference:VType': {
+            case 'VClass:VSuperType': {
                 return VClass;
             }
             default: {
@@ -270,12 +320,11 @@ export class VmscAstReflection extends AbstractAstReflection {
                 return {
                     name: 'VAttribute',
                     mandatory: [
+                        { name: 'IsChangeable', type: 'boolean' },
                         { name: 'IsDerived', type: 'boolean' },
-                        { name: 'IsID', type: 'boolean' },
-                        { name: 'IsNotChangeable', type: 'boolean' },
-                        { name: 'IsNotOrdered', type: 'boolean' },
-                        { name: 'IsNotUnique', type: 'boolean' },
+                        { name: 'IsOrdered', type: 'boolean' },
                         { name: 'IsTransient', type: 'boolean' },
+                        { name: 'IsUnique', type: 'boolean' },
                         { name: 'IsUnsettable', type: 'boolean' },
                         { name: 'IsVolatile', type: 'boolean' },
                         { name: 'VAnnotations', type: 'array' }
@@ -290,7 +339,7 @@ export class VmscAstReflection extends AbstractAstReflection {
                         { name: 'IsInterface', type: 'boolean' },
                         { name: 'VAnnotations', type: 'array' },
                         { name: 'VOperations', type: 'array' },
-                        { name: 'VStructuralFeatures', type: 'array' },
+                        { name: 'VStructural_features', type: 'array' },
                         { name: 'VSuperType', type: 'array' }
                     ]
                 };
@@ -343,14 +392,13 @@ export class VmscAstReflection extends AbstractAstReflection {
                 return {
                     name: 'VReference',
                     mandatory: [
+                        { name: 'IsChangeable', type: 'boolean' },
                         { name: 'IsContainer', type: 'boolean' },
                         { name: 'IsContainment', type: 'boolean' },
                         { name: 'IsDerived', type: 'boolean' },
-                        { name: 'IsID', type: 'boolean' },
-                        { name: 'IsNotChangeable', type: 'boolean' },
-                        { name: 'IsNotOrdered', type: 'boolean' },
-                        { name: 'IsNotUnique', type: 'boolean' },
+                        { name: 'IsOrdered', type: 'boolean' },
                         { name: 'IsTransient', type: 'boolean' },
+                        { name: 'IsUnique', type: 'boolean' },
                         { name: 'IsUnsettable', type: 'boolean' },
                         { name: 'IsVolatile', type: 'boolean' },
                         { name: 'VAnnotations', type: 'array' }

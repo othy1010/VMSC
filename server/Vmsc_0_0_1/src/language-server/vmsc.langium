@@ -23,8 +23,8 @@ VStructuralComponent:
 VStructuralFeatures:
 	VAttribute | VReference;
 
-// VType:
-// 	VString | VInt | VFloat;
+VType:
+	VString | VInt | VFloat;
 
 
 VEnum:
@@ -53,7 +53,7 @@ VClass:
 	'{'
 	'"id"' ':' id=ID ','
 	'"name"' ':' name=ID ','
-	('"VStructuralFeatures"' ':' '[' '{' VStructuralFeatures+=VStructuralFeatures '}' ( ',' '{' VStructuralFeatures+=VStructuralFeatures '}')*  ']' ',')? 
+	('"VStructuralFeatures"' ':' '[' '{' VStructural_features+=VStructuralFeatures '}' ( ',' '{' VStructural_features+=VStructuralFeatures '}')*  ']' ',')? 
 	('"VSuperType"' ':' '['  VSuperType+=[VClass:ID] ( ',' VSuperType+=[VClass:ID])* ']' ',')? 
 	('"VOperations"' ':' '[' '{' VOperations+=VOperation '}' ( ',' '{' VOperations+=VOperation '}')* ']' ',')?
 	('"VAnnotations"' ':' '[' '{' VAnnotations+=VAnnotation '}' ( ',' '{' VAnnotations+=VAnnotation '}')* ']' ',')?
@@ -70,17 +70,16 @@ VAttribute:
 	'"id"' ':' id=ID ','
 	'"name"' ':' name=ID ','
 	('"VAnnotations"' ':' '[' '{' VAnnotations+=VAnnotation '}' ( ',' '{' VAnnotations+=VAnnotation '}')* ']' ',')?
-  ('"VType"' ':' VType=VType) ','
-  ('"LowerBound"' ':' LowerBound=INT ',')?
-  ('"UpperBound"' ':' UpperBound=INT ',')?
-	(IsNotChangeable?='"IsNotChangeable"' ':' 'true' ',')?
-	(IsNotOrdered?='"IsNotOrdered"' ':' 'true' ',')?
-	(IsTransient?='"IsTransient"' ':' 'true' ',')?
-	(IsUnsettable?='"IsUnsettable"' ':' 'true' ',')?
-	(IsVolatile?='"IsVolatile"' ':' 'true' ',')?
-	(IsDerived?='"IsDerived"' ':' 'true' ',')?
-	(IsNotUnique?='"IsNotUnique"' ':' 'true' ',')?
-  (IsID?='"IsID"' ':' 'true' ',')?
+	(IsChangeable?='"IsChangeable"')?
+	(IsOrdered?='"IsOrdered"')?
+	(IsTransient?='"IsTransient"')?
+	(IsUnsettable?='"IsUnsettable"')?
+	(IsVolatile?='"IsVolatile"')?
+	(IsDerived?='"IsDerived"')?
+	(IsUnique?='"IsUnique"')?
+		('"LowerBound"' ':' LowerBound=INT ',')?
+		('"UpperBound"' ':' UpperBound=INT ',')?
+		('"VType"' ':' VType=VType)?
 	 '}';
 
 VReference:
@@ -89,19 +88,18 @@ VReference:
 	'"id"' ':' id=ID ','
 	'"name"' ':' name=ID ','
 	('"VAnnotations"' ':' '[' '{' VAnnotations+=VAnnotation '}' ( ',' '{' VAnnotations+=VAnnotation '}')* ']' ',')?
-	('"VType"' ':' VType=[VClass:ID])','
-	('"LowerBound"' ':' LowerBound=INT ',')?
-	('"UpperBound"' ':' UpperBound=INT ',')?
+	(IsChangeable?='"IsChangeable"' ':' 'True' ',')?
+	(IsOrdered?='"IsOrdered"' ':' 'True' ',')?
+	(IsTransient?='"IsTransient"' ':' 'True' ',')?
+	(IsUnsettable?='"IsUnsettable"' ':' 'True' ',')?
+	(IsVolatile?='"IsVolatile"' ':' 'True' ',')?
+	(IsDerived?='"IsDerived"' ':' 'True' ',')?
+	(IsUnique?='"IsUnique"' ':' 'True' ',')?
 	(IsContainer?='"IsContainer"' ':' 'True' ',')?
 	(IsContainment?='"IsContainment"' ':' 'True' ',')?
-	(IsNotChangeable?='"IsNotChangeable"' ':' 'true' ',')?
-	(IsNotOrdered?='"IsNotOrdered"' ':' 'true' ',')?
-	(IsTransient?='"IsTransient"' ':' 'true' ',')?
-	(IsUnsettable?='"IsUnsettable"' ':' 'true' ',')?
-	(IsVolatile?='"IsVolatile"' ':' 'true' ',')?
-	(IsDerived?='"IsDerived"' ':' 'true' ',')?
-	(IsNotUnique?='"IsNotUnique"' ':' 'true' ',')?
-  (IsID?='"IsID"' ':' 'true' ',')?
+		('"LowerBound"' ':' LowerBound=INT ',')?
+		('"UpperBound"' ':' UpperBound=INT ',')?
+		('"VType"' ':' VType=VClass)? 
 	 '}';
 
 VOperation:
@@ -139,24 +137,24 @@ VLiteral:
 	 '}';
 
 
-// VString:
-// 	'"VString"'
-// 	','
-// 	'"value"' ':' value=STRING
-// ;
+VString:
+	'"VString"'
+	','
+	'"value"' ':' value=STRING
+;
 
-// VInt:
-// 	'"VInt"'
-// 	','
-// 	'"value"' ':' value=INT
-// ;
+VInt:
+	'"VInt"'
+	','
+	'"value"' ':' value=INT
+;
 
-// VFloat:
-// 	'"VFloat"'
-// 	','
-// 	'"value"' ':' value=FLOAT
-// ;
-terminal VType: /"VString"|"VInt"|"VFloat"|"VBoolean"/;
+VFloat:
+	'"VFloat"'
+	','
+	'"value"' ':' value=FLOAT
+;
+
 terminal FLOAT: /\d+.\d+/;
 hidden terminal WS: /\s+|','+/;
 terminal ID: /["][_a-zA-Z][\w_]*["]/;

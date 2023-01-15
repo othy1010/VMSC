@@ -37,7 +37,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@16"
+                "$ref": "#/rules@19"
               },
               "arguments": []
             }
@@ -61,7 +61,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@16"
+                "$ref": "#/rules@19"
               },
               "arguments": []
             }
@@ -187,7 +187,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@16"
+                "$ref": "#/rules@19"
               },
               "arguments": []
             }
@@ -211,7 +211,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@16"
+                "$ref": "#/rules@19"
               },
               "arguments": []
             }
@@ -238,7 +238,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@16"
+                    "$ref": "#/rules@19"
                   },
                   "arguments": []
                 }
@@ -268,7 +268,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@16"
+                    "$ref": "#/rules@19"
                   },
                   "arguments": []
                 }
@@ -374,14 +374,14 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@4"
+              "$ref": "#/rules@5"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@5"
+              "$ref": "#/rules@6"
             },
             "arguments": []
           },
@@ -395,7 +395,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@6"
+              "$ref": "#/rules@7"
             },
             "arguments": []
           }
@@ -417,14 +417,50 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@7"
+              "$ref": "#/rules@8"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@8"
+              "$ref": "#/rules@9"
+            },
+            "arguments": []
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "VType",
+      "definition": {
+        "$type": "Alternatives",
+        "elements": [
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@14"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@15"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@16"
             },
             "arguments": []
           }
@@ -470,7 +506,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@16"
+                "$ref": "#/rules@19"
               },
               "arguments": []
             }
@@ -494,7 +530,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@16"
+                "$ref": "#/rules@19"
               },
               "arguments": []
             }
@@ -529,7 +565,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@11"
+                    "$ref": "#/rules@12"
                   },
                   "arguments": []
                 }
@@ -556,7 +592,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                     "terminal": {
                       "$type": "RuleCall",
                       "rule": {
-                        "$ref": "#/rules@11"
+                        "$ref": "#/rules@12"
                       },
                       "arguments": []
                     }
@@ -605,7 +641,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@12"
+                    "$ref": "#/rules@13"
                   },
                   "arguments": []
                 }
@@ -632,7 +668,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                     "terminal": {
                       "$type": "RuleCall",
                       "rule": {
-                        "$ref": "#/rules@12"
+                        "$ref": "#/rules@13"
                       },
                       "arguments": []
                     }
@@ -728,7 +764,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@16"
+                "$ref": "#/rules@19"
               },
               "arguments": []
             }
@@ -752,7 +788,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@16"
+                "$ref": "#/rules@19"
               },
               "arguments": []
             }
@@ -787,7 +823,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@11"
+                    "$ref": "#/rules@12"
                   },
                   "arguments": []
                 }
@@ -814,7 +850,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                     "terminal": {
                       "$type": "RuleCall",
                       "rule": {
-                        "$ref": "#/rules@11"
+                        "$ref": "#/rules@12"
                       },
                       "arguments": []
                     }
@@ -911,7 +947,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@16"
+                "$ref": "#/rules@19"
               },
               "arguments": []
             }
@@ -935,7 +971,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@16"
+                "$ref": "#/rules@19"
               },
               "arguments": []
             }
@@ -965,7 +1001,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
               },
               {
                 "$type": "Assignment",
-                "feature": "VStructuralFeatures",
+                "feature": "VStructural_features",
                 "operator": "+=",
                 "terminal": {
                   "$type": "RuleCall",
@@ -992,7 +1028,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                   },
                   {
                     "$type": "Assignment",
-                    "feature": "VStructuralFeatures",
+                    "feature": "VStructural_features",
                     "operator": "+=",
                     "terminal": {
                       "$type": "RuleCall",
@@ -1042,12 +1078,12 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                 "terminal": {
                   "$type": "CrossReference",
                   "type": {
-                    "$ref": "#/rules@6"
+                    "$ref": "#/rules@7"
                   },
                   "terminal": {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@16"
+                      "$ref": "#/rules@19"
                     },
                     "arguments": []
                   },
@@ -1068,12 +1104,12 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                     "terminal": {
                       "$type": "CrossReference",
                       "type": {
-                        "$ref": "#/rules@6"
+                        "$ref": "#/rules@7"
                       },
                       "terminal": {
                         "$type": "RuleCall",
                         "rule": {
-                          "$ref": "#/rules@16"
+                          "$ref": "#/rules@19"
                         },
                         "arguments": []
                       },
@@ -1120,7 +1156,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@9"
+                    "$ref": "#/rules@10"
                   },
                   "arguments": []
                 }
@@ -1147,7 +1183,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                     "terminal": {
                       "$type": "RuleCall",
                       "rule": {
-                        "$ref": "#/rules@9"
+                        "$ref": "#/rules@10"
                       },
                       "arguments": []
                     }
@@ -1196,7 +1232,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@11"
+                    "$ref": "#/rules@12"
                   },
                   "arguments": []
                 }
@@ -1223,7 +1259,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                     "terminal": {
                       "$type": "RuleCall",
                       "rule": {
-                        "$ref": "#/rules@11"
+                        "$ref": "#/rules@12"
                       },
                       "arguments": []
                     }
@@ -1346,7 +1382,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@16"
+                "$ref": "#/rules@19"
               },
               "arguments": []
             }
@@ -1370,7 +1406,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@16"
+                "$ref": "#/rules@19"
               },
               "arguments": []
             }
@@ -1405,7 +1441,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@11"
+                    "$ref": "#/rules@12"
                   },
                   "arguments": []
                 }
@@ -1432,7 +1468,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                     "terminal": {
                       "$type": "RuleCall",
                       "rule": {
-                        "$ref": "#/rules@11"
+                        "$ref": "#/rules@12"
                       },
                       "arguments": []
                     }
@@ -1456,33 +1492,74 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
             "cardinality": "?"
           },
           {
-            "$type": "Group",
-            "elements": [
-              {
-                "$type": "Keyword",
-                "value": "\\"VType\\""
-              },
-              {
-                "$type": "Keyword",
-                "value": ":"
-              },
-              {
-                "$type": "Assignment",
-                "feature": "VType",
-                "operator": "=",
-                "terminal": {
-                  "$type": "RuleCall",
-                  "rule": {
-                    "$ref": "#/rules@13"
-                  },
-                  "arguments": []
-                }
-              }
-            ]
+            "$type": "Assignment",
+            "feature": "IsChangeable",
+            "operator": "?=",
+            "terminal": {
+              "$type": "Keyword",
+              "value": "\\"IsChangeable\\""
+            },
+            "cardinality": "?"
           },
           {
-            "$type": "Keyword",
-            "value": ","
+            "$type": "Assignment",
+            "feature": "IsOrdered",
+            "operator": "?=",
+            "terminal": {
+              "$type": "Keyword",
+              "value": "\\"IsOrdered\\""
+            },
+            "cardinality": "?"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "IsTransient",
+            "operator": "?=",
+            "terminal": {
+              "$type": "Keyword",
+              "value": "\\"IsTransient\\""
+            },
+            "cardinality": "?"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "IsUnsettable",
+            "operator": "?=",
+            "terminal": {
+              "$type": "Keyword",
+              "value": "\\"IsUnsettable\\""
+            },
+            "cardinality": "?"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "IsVolatile",
+            "operator": "?=",
+            "terminal": {
+              "$type": "Keyword",
+              "value": "\\"IsVolatile\\""
+            },
+            "cardinality": "?"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "IsDerived",
+            "operator": "?=",
+            "terminal": {
+              "$type": "Keyword",
+              "value": "\\"IsDerived\\""
+            },
+            "cardinality": "?"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "IsUnique",
+            "operator": "?=",
+            "terminal": {
+              "$type": "Keyword",
+              "value": "\\"IsUnique\\""
+            },
+            "cardinality": "?"
           },
           {
             "$type": "Group",
@@ -1502,7 +1579,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@18"
+                    "$ref": "#/rules@21"
                   },
                   "arguments": []
                 }
@@ -1532,7 +1609,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@18"
+                    "$ref": "#/rules@21"
                   },
                   "arguments": []
                 }
@@ -1548,214 +1625,24 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
             "$type": "Group",
             "elements": [
               {
-                "$type": "Assignment",
-                "feature": "IsNotChangeable",
-                "operator": "?=",
-                "terminal": {
-                  "$type": "Keyword",
-                  "value": "\\"IsNotChangeable\\""
-                }
+                "$type": "Keyword",
+                "value": "\\"VType\\""
               },
               {
                 "$type": "Keyword",
                 "value": ":"
               },
               {
-                "$type": "Keyword",
-                "value": "true"
-              },
-              {
-                "$type": "Keyword",
-                "value": ","
-              }
-            ],
-            "cardinality": "?"
-          },
-          {
-            "$type": "Group",
-            "elements": [
-              {
                 "$type": "Assignment",
-                "feature": "IsNotOrdered",
-                "operator": "?=",
+                "feature": "VType",
+                "operator": "=",
                 "terminal": {
-                  "$type": "Keyword",
-                  "value": "\\"IsNotOrdered\\""
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@4"
+                  },
+                  "arguments": []
                 }
-              },
-              {
-                "$type": "Keyword",
-                "value": ":"
-              },
-              {
-                "$type": "Keyword",
-                "value": "true"
-              },
-              {
-                "$type": "Keyword",
-                "value": ","
-              }
-            ],
-            "cardinality": "?"
-          },
-          {
-            "$type": "Group",
-            "elements": [
-              {
-                "$type": "Assignment",
-                "feature": "IsTransient",
-                "operator": "?=",
-                "terminal": {
-                  "$type": "Keyword",
-                  "value": "\\"IsTransient\\""
-                }
-              },
-              {
-                "$type": "Keyword",
-                "value": ":"
-              },
-              {
-                "$type": "Keyword",
-                "value": "true"
-              },
-              {
-                "$type": "Keyword",
-                "value": ","
-              }
-            ],
-            "cardinality": "?"
-          },
-          {
-            "$type": "Group",
-            "elements": [
-              {
-                "$type": "Assignment",
-                "feature": "IsUnsettable",
-                "operator": "?=",
-                "terminal": {
-                  "$type": "Keyword",
-                  "value": "\\"IsUnsettable\\""
-                }
-              },
-              {
-                "$type": "Keyword",
-                "value": ":"
-              },
-              {
-                "$type": "Keyword",
-                "value": "true"
-              },
-              {
-                "$type": "Keyword",
-                "value": ","
-              }
-            ],
-            "cardinality": "?"
-          },
-          {
-            "$type": "Group",
-            "elements": [
-              {
-                "$type": "Assignment",
-                "feature": "IsVolatile",
-                "operator": "?=",
-                "terminal": {
-                  "$type": "Keyword",
-                  "value": "\\"IsVolatile\\""
-                }
-              },
-              {
-                "$type": "Keyword",
-                "value": ":"
-              },
-              {
-                "$type": "Keyword",
-                "value": "true"
-              },
-              {
-                "$type": "Keyword",
-                "value": ","
-              }
-            ],
-            "cardinality": "?"
-          },
-          {
-            "$type": "Group",
-            "elements": [
-              {
-                "$type": "Assignment",
-                "feature": "IsDerived",
-                "operator": "?=",
-                "terminal": {
-                  "$type": "Keyword",
-                  "value": "\\"IsDerived\\""
-                }
-              },
-              {
-                "$type": "Keyword",
-                "value": ":"
-              },
-              {
-                "$type": "Keyword",
-                "value": "true"
-              },
-              {
-                "$type": "Keyword",
-                "value": ","
-              }
-            ],
-            "cardinality": "?"
-          },
-          {
-            "$type": "Group",
-            "elements": [
-              {
-                "$type": "Assignment",
-                "feature": "IsNotUnique",
-                "operator": "?=",
-                "terminal": {
-                  "$type": "Keyword",
-                  "value": "\\"IsNotUnique\\""
-                }
-              },
-              {
-                "$type": "Keyword",
-                "value": ":"
-              },
-              {
-                "$type": "Keyword",
-                "value": "true"
-              },
-              {
-                "$type": "Keyword",
-                "value": ","
-              }
-            ],
-            "cardinality": "?"
-          },
-          {
-            "$type": "Group",
-            "elements": [
-              {
-                "$type": "Assignment",
-                "feature": "IsID",
-                "operator": "?=",
-                "terminal": {
-                  "$type": "Keyword",
-                  "value": "\\"IsID\\""
-                }
-              },
-              {
-                "$type": "Keyword",
-                "value": ":"
-              },
-              {
-                "$type": "Keyword",
-                "value": "true"
-              },
-              {
-                "$type": "Keyword",
-                "value": ","
               }
             ],
             "cardinality": "?"
@@ -1806,7 +1693,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@16"
+                "$ref": "#/rules@19"
               },
               "arguments": []
             }
@@ -1830,7 +1717,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@16"
+                "$ref": "#/rules@19"
               },
               "arguments": []
             }
@@ -1865,7 +1752,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@11"
+                    "$ref": "#/rules@12"
                   },
                   "arguments": []
                 }
@@ -1892,7 +1779,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                     "terminal": {
                       "$type": "RuleCall",
                       "rule": {
-                        "$ref": "#/rules@11"
+                        "$ref": "#/rules@12"
                       },
                       "arguments": []
                     }
@@ -1919,60 +1806,21 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
             "$type": "Group",
             "elements": [
               {
-                "$type": "Keyword",
-                "value": "\\"VType\\""
+                "$type": "Assignment",
+                "feature": "IsChangeable",
+                "operator": "?=",
+                "terminal": {
+                  "$type": "Keyword",
+                  "value": "\\"IsChangeable\\""
+                }
               },
               {
                 "$type": "Keyword",
                 "value": ":"
               },
               {
-                "$type": "Assignment",
-                "feature": "VType",
-                "operator": "=",
-                "terminal": {
-                  "$type": "CrossReference",
-                  "type": {
-                    "$ref": "#/rules@6"
-                  },
-                  "terminal": {
-                    "$type": "RuleCall",
-                    "rule": {
-                      "$ref": "#/rules@16"
-                    },
-                    "arguments": []
-                  },
-                  "deprecatedSyntax": false
-                }
-              }
-            ]
-          },
-          {
-            "$type": "Keyword",
-            "value": ","
-          },
-          {
-            "$type": "Group",
-            "elements": [
-              {
                 "$type": "Keyword",
-                "value": "\\"LowerBound\\""
-              },
-              {
-                "$type": "Keyword",
-                "value": ":"
-              },
-              {
-                "$type": "Assignment",
-                "feature": "LowerBound",
-                "operator": "=",
-                "terminal": {
-                  "$type": "RuleCall",
-                  "rule": {
-                    "$ref": "#/rules@18"
-                  },
-                  "arguments": []
-                }
+                "value": "True"
               },
               {
                 "$type": "Keyword",
@@ -1985,24 +1833,156 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
             "$type": "Group",
             "elements": [
               {
-                "$type": "Keyword",
-                "value": "\\"UpperBound\\""
+                "$type": "Assignment",
+                "feature": "IsOrdered",
+                "operator": "?=",
+                "terminal": {
+                  "$type": "Keyword",
+                  "value": "\\"IsOrdered\\""
+                }
               },
               {
                 "$type": "Keyword",
                 "value": ":"
               },
               {
+                "$type": "Keyword",
+                "value": "True"
+              },
+              {
+                "$type": "Keyword",
+                "value": ","
+              }
+            ],
+            "cardinality": "?"
+          },
+          {
+            "$type": "Group",
+            "elements": [
+              {
                 "$type": "Assignment",
-                "feature": "UpperBound",
-                "operator": "=",
+                "feature": "IsTransient",
+                "operator": "?=",
                 "terminal": {
-                  "$type": "RuleCall",
-                  "rule": {
-                    "$ref": "#/rules@18"
-                  },
-                  "arguments": []
+                  "$type": "Keyword",
+                  "value": "\\"IsTransient\\""
                 }
+              },
+              {
+                "$type": "Keyword",
+                "value": ":"
+              },
+              {
+                "$type": "Keyword",
+                "value": "True"
+              },
+              {
+                "$type": "Keyword",
+                "value": ","
+              }
+            ],
+            "cardinality": "?"
+          },
+          {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Assignment",
+                "feature": "IsUnsettable",
+                "operator": "?=",
+                "terminal": {
+                  "$type": "Keyword",
+                  "value": "\\"IsUnsettable\\""
+                }
+              },
+              {
+                "$type": "Keyword",
+                "value": ":"
+              },
+              {
+                "$type": "Keyword",
+                "value": "True"
+              },
+              {
+                "$type": "Keyword",
+                "value": ","
+              }
+            ],
+            "cardinality": "?"
+          },
+          {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Assignment",
+                "feature": "IsVolatile",
+                "operator": "?=",
+                "terminal": {
+                  "$type": "Keyword",
+                  "value": "\\"IsVolatile\\""
+                }
+              },
+              {
+                "$type": "Keyword",
+                "value": ":"
+              },
+              {
+                "$type": "Keyword",
+                "value": "True"
+              },
+              {
+                "$type": "Keyword",
+                "value": ","
+              }
+            ],
+            "cardinality": "?"
+          },
+          {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Assignment",
+                "feature": "IsDerived",
+                "operator": "?=",
+                "terminal": {
+                  "$type": "Keyword",
+                  "value": "\\"IsDerived\\""
+                }
+              },
+              {
+                "$type": "Keyword",
+                "value": ":"
+              },
+              {
+                "$type": "Keyword",
+                "value": "True"
+              },
+              {
+                "$type": "Keyword",
+                "value": ","
+              }
+            ],
+            "cardinality": "?"
+          },
+          {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Assignment",
+                "feature": "IsUnique",
+                "operator": "?=",
+                "terminal": {
+                  "$type": "Keyword",
+                  "value": "\\"IsUnique\\""
+                }
+              },
+              {
+                "$type": "Keyword",
+                "value": ":"
+              },
+              {
+                "$type": "Keyword",
+                "value": "True"
               },
               {
                 "$type": "Keyword",
@@ -2069,21 +2049,24 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
             "$type": "Group",
             "elements": [
               {
-                "$type": "Assignment",
-                "feature": "IsNotChangeable",
-                "operator": "?=",
-                "terminal": {
-                  "$type": "Keyword",
-                  "value": "\\"IsNotChangeable\\""
-                }
+                "$type": "Keyword",
+                "value": "\\"LowerBound\\""
               },
               {
                 "$type": "Keyword",
                 "value": ":"
               },
               {
-                "$type": "Keyword",
-                "value": "true"
+                "$type": "Assignment",
+                "feature": "LowerBound",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@21"
+                  },
+                  "arguments": []
+                }
               },
               {
                 "$type": "Keyword",
@@ -2096,21 +2079,24 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
             "$type": "Group",
             "elements": [
               {
-                "$type": "Assignment",
-                "feature": "IsNotOrdered",
-                "operator": "?=",
-                "terminal": {
-                  "$type": "Keyword",
-                  "value": "\\"IsNotOrdered\\""
-                }
+                "$type": "Keyword",
+                "value": "\\"UpperBound\\""
               },
               {
                 "$type": "Keyword",
                 "value": ":"
               },
               {
-                "$type": "Keyword",
-                "value": "true"
+                "$type": "Assignment",
+                "feature": "UpperBound",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@21"
+                  },
+                  "arguments": []
+                }
               },
               {
                 "$type": "Keyword",
@@ -2123,160 +2109,24 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
             "$type": "Group",
             "elements": [
               {
-                "$type": "Assignment",
-                "feature": "IsTransient",
-                "operator": "?=",
-                "terminal": {
-                  "$type": "Keyword",
-                  "value": "\\"IsTransient\\""
-                }
+                "$type": "Keyword",
+                "value": "\\"VType\\""
               },
               {
                 "$type": "Keyword",
                 "value": ":"
               },
               {
-                "$type": "Keyword",
-                "value": "true"
-              },
-              {
-                "$type": "Keyword",
-                "value": ","
-              }
-            ],
-            "cardinality": "?"
-          },
-          {
-            "$type": "Group",
-            "elements": [
-              {
                 "$type": "Assignment",
-                "feature": "IsUnsettable",
-                "operator": "?=",
+                "feature": "VType",
+                "operator": "=",
                 "terminal": {
-                  "$type": "Keyword",
-                  "value": "\\"IsUnsettable\\""
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@7"
+                  },
+                  "arguments": []
                 }
-              },
-              {
-                "$type": "Keyword",
-                "value": ":"
-              },
-              {
-                "$type": "Keyword",
-                "value": "true"
-              },
-              {
-                "$type": "Keyword",
-                "value": ","
-              }
-            ],
-            "cardinality": "?"
-          },
-          {
-            "$type": "Group",
-            "elements": [
-              {
-                "$type": "Assignment",
-                "feature": "IsVolatile",
-                "operator": "?=",
-                "terminal": {
-                  "$type": "Keyword",
-                  "value": "\\"IsVolatile\\""
-                }
-              },
-              {
-                "$type": "Keyword",
-                "value": ":"
-              },
-              {
-                "$type": "Keyword",
-                "value": "true"
-              },
-              {
-                "$type": "Keyword",
-                "value": ","
-              }
-            ],
-            "cardinality": "?"
-          },
-          {
-            "$type": "Group",
-            "elements": [
-              {
-                "$type": "Assignment",
-                "feature": "IsDerived",
-                "operator": "?=",
-                "terminal": {
-                  "$type": "Keyword",
-                  "value": "\\"IsDerived\\""
-                }
-              },
-              {
-                "$type": "Keyword",
-                "value": ":"
-              },
-              {
-                "$type": "Keyword",
-                "value": "true"
-              },
-              {
-                "$type": "Keyword",
-                "value": ","
-              }
-            ],
-            "cardinality": "?"
-          },
-          {
-            "$type": "Group",
-            "elements": [
-              {
-                "$type": "Assignment",
-                "feature": "IsNotUnique",
-                "operator": "?=",
-                "terminal": {
-                  "$type": "Keyword",
-                  "value": "\\"IsNotUnique\\""
-                }
-              },
-              {
-                "$type": "Keyword",
-                "value": ":"
-              },
-              {
-                "$type": "Keyword",
-                "value": "true"
-              },
-              {
-                "$type": "Keyword",
-                "value": ","
-              }
-            ],
-            "cardinality": "?"
-          },
-          {
-            "$type": "Group",
-            "elements": [
-              {
-                "$type": "Assignment",
-                "feature": "IsID",
-                "operator": "?=",
-                "terminal": {
-                  "$type": "Keyword",
-                  "value": "\\"IsID\\""
-                }
-              },
-              {
-                "$type": "Keyword",
-                "value": ":"
-              },
-              {
-                "$type": "Keyword",
-                "value": "true"
-              },
-              {
-                "$type": "Keyword",
-                "value": ","
               }
             ],
             "cardinality": "?"
@@ -2327,7 +2177,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@16"
+                "$ref": "#/rules@19"
               },
               "arguments": []
             }
@@ -2351,7 +2201,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@16"
+                "$ref": "#/rules@19"
               },
               "arguments": []
             }
@@ -2386,7 +2236,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@11"
+                    "$ref": "#/rules@12"
                   },
                   "arguments": []
                 }
@@ -2413,7 +2263,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                     "terminal": {
                       "$type": "RuleCall",
                       "rule": {
-                        "$ref": "#/rules@11"
+                        "$ref": "#/rules@12"
                       },
                       "arguments": []
                     }
@@ -2462,7 +2312,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@10"
+                    "$ref": "#/rules@11"
                   },
                   "arguments": []
                 }
@@ -2489,7 +2339,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                     "terminal": {
                       "$type": "RuleCall",
                       "rule": {
-                        "$ref": "#/rules@10"
+                        "$ref": "#/rules@11"
                       },
                       "arguments": []
                     }
@@ -2530,7 +2380,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@13"
+                    "$ref": "#/rules@4"
                   },
                   "arguments": []
                 }
@@ -2584,7 +2434,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@16"
+                "$ref": "#/rules@19"
               },
               "arguments": []
             }
@@ -2608,7 +2458,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@16"
+                "$ref": "#/rules@19"
               },
               "arguments": []
             }
@@ -2635,7 +2485,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@13"
+                    "$ref": "#/rules@4"
                   },
                   "arguments": []
                 }
@@ -2689,7 +2539,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@16"
+                "$ref": "#/rules@19"
               },
               "arguments": []
             }
@@ -2713,7 +2563,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@16"
+                "$ref": "#/rules@19"
               },
               "arguments": []
             }
@@ -2740,7 +2590,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@17"
+                    "$ref": "#/rules@20"
                   },
                   "arguments": []
                 }
@@ -2798,7 +2648,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@16"
+                "$ref": "#/rules@19"
               },
               "arguments": []
             }
@@ -2822,7 +2672,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@16"
+                "$ref": "#/rules@19"
               },
               "arguments": []
             }
@@ -2849,7 +2699,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@18"
+                    "$ref": "#/rules@21"
                   },
                   "arguments": []
                 }
@@ -2875,14 +2725,133 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
       "wildcard": false
     },
     {
-      "$type": "TerminalRule",
-      "name": "VType",
+      "$type": "ParserRule",
+      "name": "VString",
       "definition": {
-        "$type": "RegexToken",
-        "regex": "\\"VString\\"|\\"VInt\\"|\\"VFloat\\"|\\"VBoolean\\""
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Keyword",
+            "value": "\\"VString\\""
+          },
+          {
+            "$type": "Keyword",
+            "value": ","
+          },
+          {
+            "$type": "Keyword",
+            "value": "\\"value\\""
+          },
+          {
+            "$type": "Keyword",
+            "value": ":"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "value",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@20"
+              },
+              "arguments": []
+            }
+          }
+        ]
       },
+      "definesHiddenTokens": false,
+      "entry": false,
       "fragment": false,
-      "hidden": false
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "VInt",
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Keyword",
+            "value": "\\"VInt\\""
+          },
+          {
+            "$type": "Keyword",
+            "value": ","
+          },
+          {
+            "$type": "Keyword",
+            "value": "\\"value\\""
+          },
+          {
+            "$type": "Keyword",
+            "value": ":"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "value",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@21"
+              },
+              "arguments": []
+            }
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
+    },
+    {
+      "$type": "ParserRule",
+      "name": "VFloat",
+      "definition": {
+        "$type": "Group",
+        "elements": [
+          {
+            "$type": "Keyword",
+            "value": "\\"VFloat\\""
+          },
+          {
+            "$type": "Keyword",
+            "value": ","
+          },
+          {
+            "$type": "Keyword",
+            "value": "\\"value\\""
+          },
+          {
+            "$type": "Keyword",
+            "value": ":"
+          },
+          {
+            "$type": "Assignment",
+            "feature": "value",
+            "operator": "=",
+            "terminal": {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@17"
+              },
+              "arguments": []
+            }
+          }
+        ]
+      },
+      "definesHiddenTokens": false,
+      "entry": false,
+      "fragment": false,
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
     },
     {
       "$type": "TerminalRule",

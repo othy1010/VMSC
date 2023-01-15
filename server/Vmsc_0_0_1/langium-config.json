@@ -1,0 +1,12 @@
+{
+    "projectName": "Vmsc",
+    "languages": [{
+        "id": "vmsc",
+        "grammar": "src/language-server/vmsc.langium",
+        "fileExtensions": [".vmsc"],
+        "textMate": {
+            "out": "syntaxes/vmsc.tmLanguage.json"
+        }
+    }],
+    "out": "src/language-server/generated"
+}
