@@ -3,32 +3,65 @@ import * as fs from "fs";
 import { EcoreTreeDataProvider, EcoreModel, EcoreNode } from "./treeview";
 import {JsonTreeDataProvider, JsonTreeItem} from "./jsonToModel"
 import * as path from "path";
-import { MyTreeDataProvider, MyTreeItem } from './models/selectFileButton';
+import { MySelectFileButtonProvider, MySelectFileButton } from './models/selectFileButton';
 
 export let file ="";
+let model : EcoreModel;
+let ecoreTreeDataProvider : EcoreTreeDataProvider;
+let treeView : vscode.TreeView<EcoreNode>;
 
 export async function activate(context: vscode.ExtensionContext) {
 	// Create the tree view
-    const treeView = vscode.window.createTreeView("exampleView", { treeDataProvider: new MyTreeDataProvider() });
-    context.subscriptions.push(treeView);
+    let mytreeView = vscode.window.createTreeView("exampleView", { treeDataProvider: new MySelectFileButtonProvider() });
+    context.subscriptions.push(mytreeView);
 
     // Create the button in the sidebar
     context.subscriptions.push(
-        vscode.commands.registerCommand("myButtonCommand", () => {
+        vscode.commands.registerCommand("mySelectFileButtonCommand", () => {
             vscode.window
               .showOpenDialog({
                 canSelectMany: false,
                 openLabel: "Select",
                 filters: {
-                  "All files": ["*"],
-                  "Model files": ["*.model"],
-                  "MODEL files": ["*.MODEL"]
+                  "All files": ["*"]
+                  //"Model files": ["*.model"]
                 },
               })
               .then((fileUri) => {
                 if (fileUri) {
                   // you can use the path of the selected file to read its content
-                  const filePath = fileUri[0].fsPath;
+                  let filePath = fileUri[0].fsPath;
+
+				  // Parse the JSON file and create the tree view nodes
+					const workspaceRoot =
+					vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders.length > 0 ? vscode.workspace.workspaceFolders[0].uri.fsPath  : undefined;
+					if (!workspaceRoot) {
+						console.log("ERROR: workspaceRoot is undefined")
+						return [];
+					}
+					const filename = "\\test2.model" 
+
+					/*const selectedFile = await vscode.window.showOpenDialog({
+						canSelectMany: false,
+						filters: {
+						'Model files': ['model']
+						}
+					}); */
+					if(filePath == undefined){
+						filePath = workspaceRoot + filename;
+					}
+
+					file = filePath;
+
+					context.subscriptions.splice(context.subscriptions.indexOf(mytreeView), 1)
+					model = convertJsonToEcoreModel(file);
+
+					ecoreTreeDataProvider = new EcoreTreeDataProvider(model);
+					vscode.window.registerTreeDataProvider('exampleView', ecoreTreeDataProvider);
+
+					treeView = vscode.window.createTreeView('exampleView', { treeDataProvider: ecoreTreeDataProvider });
+					context.subscriptions.push(treeView);
+
 				  vscodeMDE(context, filePath);
                 }
               });
@@ -39,429 +72,447 @@ export async function activate(context: vscode.ExtensionContext) {
 	//vscodeMDE(context);
 }
 
-function vscodeMDE(context: vscode.ExtensionContext, selectFile? : string){
-	// Parse the JSON file and create the tree view nodes
-	const workspaceRoot =
-    vscode.workspace.workspaceFolders &&
-      vscode.workspace.workspaceFolders.length > 0
-      ? vscode.workspace.workspaceFolders[0].uri.fsPath
-      : undefined;
- 	if (!workspaceRoot) {
-		console.log("ERROR: workspaceRoot is undefined")
-		return [];
-	}
-	const filename = "\\test2.model" 
+async function vscodeMDE(context: vscode.ExtensionContext, selectFile : string){
+	//// Parse the JSON file and create the tree view nodes
+	//const workspaceRoot =
+    //vscode.workspace.workspaceFolders &&
+    //  vscode.workspace.workspaceFolders.length > 0
+    //  ? vscode.workspace.workspaceFolders[0].uri.fsPath
+    //  : undefined;
+ 	//if (!workspaceRoot) {
+	//	console.log("ERROR: workspaceRoot is undefined")
+	//	return [];
+	//}
+	//const filename = "\\test2.model" 
+//
+	///*const selectedFile = await vscode.window.showOpenDialog({
+	//	canSelectMany: false,
+	//	filters: {
+	//	  'Model files': ['model']
+	//	}
+	//  }); */
+	//if(selectFile == undefined){
+	//	selectFile = workspaceRoot + filename;
+	//}
+//
+	//file = selectFile;
+//
+	//const vcoreString = fs.readFileSync(selectFile, "utf8");
+	//let model = convertJsonToEcoreModel(selectFile);
+//
+	//let ecoreTreeDataProvider = new EcoreTreeDataProvider(model);
+	//vscode.window.registerTreeDataProvider('exampleView', ecoreTreeDataProvider);
+//
+	//const treeView = vscode.window.createTreeView('exampleView', { treeDataProvider: ecoreTreeDataProvider });
+	//context.subscriptions.push(treeView);
+//
+//
 
-	/*const selectedFile = await vscode.window.showOpenDialog({
-		canSelectMany: false,
-		filters: {
-		  'Model files': ['model']
-		}
-	  }); */
-	  if(selectFile == undefined){
-		 selectFile = workspaceRoot + filename;
-	  }
-
-	  file = selectFile;
-
-	  const vcoreString = fs.readFileSync(selectFile, "utf8");
-	  const model = convertJsonToEcoreModel(selectFile);
-
-	  const ecoreTreeDataProvider = new EcoreTreeDataProvider(model);
-	  vscode.window.registerTreeDataProvider('exampleView', ecoreTreeDataProvider);
-
-	  const treeView = vscode.window.createTreeView('exampleView', { treeDataProvider: ecoreTreeDataProvider });
-	  context.subscriptions.push(treeView);
-
-
-	  //right click node
-	  /*vscode.commands.registerCommand('VMSC.rightClickNode', async (node: EcoreNode) => {
-		// Code to execute when the user right-clicks on a node
-		//vscode.window.showInformationMessage(`ContextMenu for node ${node.getName()}`);
+	//execute command when sleceted from context menu
+	context.subscriptions.push(treeView.onDidChangeSelection(async (event) => {
+		if (event.selection.length > 0) {
+			const selectedNode: EcoreNode = event.selection[0];
 			const actions = []
 
-			switch (node.type) {
-				case 'VModel':
-				case 'VPackage':
-					actions.push({ label: 'Rename', command: 'VMSC.rename' });
-					actions.push({ label: 'Delete', command: 'VMSC.delete' });
-					actions.push({ label: 'Add Package', command: 'VMSC.addPackage' });
-					actions.push({ label: 'Add Class ', command: 'VMSC.addClass' });
-					actions.push({ label: 'Add Enumeration', command: 'VMSC.addEnumeration' })
-					actions.push({ label: 'Add Data Type', command: 'VMSC.addDataType' })
-					break;
-				case 'VClass':
-					actions.push({ label: 'Show Properties', command: 'VMSC.openContextMenu' });
-					actions.push({ label: 'Rename', command: 'VMSC.rename' });
-					actions.push({ label: 'Delete', command: 'VMSC.delete' });
-					actions.push({ label: 'Add Association', command: 'VMSC.addAssociation' });
-					actions.push({ label: 'Add Generalization', command: 'VMSC.addGeneralization' });
-					actions.push({ label: 'Add Constraint', command: 'VMSC.addConstraint' });
-					actions.push({ label: 'Add Attribute', command: 'VMSC.addAttribute' });
-					actions.push({ label: 'Add Operation', command: 'VMSC.addOperation' });
-					actions.push({ label: 'Add Reference', command: 'VMSC.addReference' });
-					actions.push({ label: 'Add Annotation', command: 'VMSC.addAnnotation' });
-					break;
-				case 'VEnumeration':
-					actions.push({ label: 'Show Properties', command: 'VMSC.openContextMenu' });
-					actions.push({ label: 'Rename', command: 'VMSC.rename' });
-					actions.push({ label: 'Delete', command: 'VMSC.delete' });
-					actions.push({ label: 'Add Annotation', command: 'VMSC.addAnnotation' });
-					actions.push({ label: 'Add Literal', command: 'VMSC.addLiteral' });
-					break;
-				case 'VDataType':
-					actions.push({ label: 'Show Properties', command: 'VMSC.openContextMenu' });
-					actions.push({ label: 'Rename', command: 'VMSC.rename' });
-					actions.push({ label: 'Delete', command: 'VMSC.delete' });
-					actions.push({ label: 'Add Annotation', command: 'VMSC.addAnnotation' });
-					break;
+			if(event.selection){
+				switch (selectedNode.type) {
+					case 'VModel':
+					case 'VPackage':
+						actions.push({ label: 'Rename', command: 'VMSC.rename' });
+						actions.push({ label: 'Delete', command: 'VMSC.delete' });
+						actions.push({ label: 'Add Package', command: 'VMSC.addPackage' });
+						actions.push({ label: 'Add Class ', command: 'VMSC.addClass' });
+						actions.push({ label: 'Add Enumeration', command: 'VMSC.addEnumeration' })
+						actions.push({ label: 'Add Data Type', command: 'VMSC.addDataType' })
+						break;
+					case 'VClass':
+						actions.push({ label: 'Show Properties', command: 'VMSC.openContextMenu' });
+						actions.push({ label: 'Rename', command: 'VMSC.rename' });
+						actions.push({ label: 'Delete', command: 'VMSC.delete' });
+						actions.push({ label: 'Add Association', command: 'VMSC.addAssociation' });
+						actions.push({ label: 'Add Generalization', command: 'VMSC.addGeneralization' });
+						actions.push({ label: 'Add Constraint', command: 'VMSC.addConstraint' });
+						actions.push({ label: 'Add Attribute', command: 'VMSC.addAttribute' });
+						actions.push({ label: 'Add Operation', command: 'VMSC.addOperation' });
+						actions.push({ label: 'Add Reference', command: 'VMSC.addReference' });
+						actions.push({ label: 'Add Annotation', command: 'VMSC.addAnnotation' });
+						break;
+					case 'VEnumeration':
+						actions.push({ label: 'Show Properties', command: 'VMSC.openContextMenu' });
+						actions.push({ label: 'Rename', command: 'VMSC.rename' });
+						actions.push({ label: 'Delete', command: 'VMSC.delete' });
+						actions.push({ label: 'Add Annotation', command: 'VMSC.addAnnotation' });
+						actions.push({ label: 'Add Literal', command: 'VMSC.addLiteral' });
+						break;
+					case 'VDataType':
+						actions.push({ label: 'Show Properties', command: 'VMSC.openContextMenu' });
+						actions.push({ label: 'Rename', command: 'VMSC.rename' });
+						actions.push({ label: 'Delete', command: 'VMSC.delete' });
+						actions.push({ label: 'Add Annotation', command: 'VMSC.addAnnotation' });
+						break;
 
-				case 'VAttribute':
-					actions.push({ label: 'Show Properties', command: 'VMSC.openContextMenu' });
-					actions.push({ label: 'Rename', command: 'VMSC.rename' });
-					actions.push({ label: 'Delete', command: 'VMSC.delete' });
-					actions.push({ label: 'Add Annotation', command: 'VMSC.addAnnotation' });
-					break;
-				case 'VOperation':
-					actions.push({ label: 'Show Properties', command: 'VMSC.openContextMenu' });
-					actions.push({ label: 'Rename', command: 'VMSC.rename' });
-					actions.push({ label: 'Delete', command: 'VMSC.delete' });
-					actions.push({ label: 'Add Annotation', command: 'VMSC.addAnnotation' });
-					actions.push({ label: 'Add Parameter', command: 'VMSC.addParameter' });
-					break;
-				case 'VReference':
-					actions.push({ label: 'Show Properties', command: 'VMSC.openContextMenu' });
-					actions.push({ label: 'Rename', command: 'VMSC.rename' });
-					actions.push({ label: 'Delete', command: 'VMSC.delete' });
-					actions.push({ label: 'Add Annotation', command: 'VMSC.addAnnotation' });
-					break;
-				case 'VAnnotation':
-					actions.push({ label: 'Show Properties', command: 'VMSC.openContextMenu' });
-					actions.push({ label: 'Rename', command: 'VMSC.rename' });
-					actions.push({ label: 'Delete', command: 'VMSC.delete' });
-					actions.push({ label: 'Add Detail Entry', command: 'VMSC.addDetailEntry' });
-					break;
-				
-				case 'VDetailEntry':
-					actions.push({ label: 'Show Properties', command: 'VMSC.openContextMenu' });
-					actions.push({ label: 'Rename', command: 'VMSC.rename' });
-					actions.push({ label: 'Delete', command: 'VMSC.delete' });
-					break;
-				case 'VParameter':
-					actions.push({ label: 'Show Properties', command: 'VMSC.openContextMenu' });
-					actions.push({ label: 'Rename', command: 'VMSC.rename' });
-					actions.push({ label: 'Delete', command: 'VMSC.delete' });
-					actions.push({ label: 'Add Annotation', command: 'VMSC.addAnnotation' });
-					break;
-				default:
-					break;
+					case 'VAttribute':
+						actions.push({ label: 'Show Properties', command: 'VMSC.openContextMenu' });
+						actions.push({ label: 'Rename', command: 'VMSC.rename' });
+						actions.push({ label: 'Delete', command: 'VMSC.delete' });
+						actions.push({ label: 'Add Annotation', command: 'VMSC.addAnnotation' });
+						break;
+					case 'VOperation':
+						actions.push({ label: 'Show Properties', command: 'VMSC.openContextMenu' });
+						actions.push({ label: 'Rename', command: 'VMSC.rename' });
+						actions.push({ label: 'Delete', command: 'VMSC.delete' });
+						actions.push({ label: 'Add Annotation', command: 'VMSC.addAnnotation' });
+						actions.push({ label: 'Add Parameter', command: 'VMSC.addParameter' });
+						break;
+					case 'VReference':
+						actions.push({ label: 'Show Properties', command: 'VMSC.openContextMenu' });
+						actions.push({ label: 'Rename', command: 'VMSC.rename' });
+						actions.push({ label: 'Delete', command: 'VMSC.delete' });
+						actions.push({ label: 'Add Annotation', command: 'VMSC.addAnnotation' });
+						break;
+					case 'VAnnotation':
+						actions.push({ label: 'Show Properties', command: 'VMSC.openContextMenu' });
+						actions.push({ label: 'Rename', command: 'VMSC.rename' });
+						actions.push({ label: 'Delete', command: 'VMSC.delete' });
+						actions.push({ label: 'Add Detail Entry', command: 'VMSC.addDetailEntry' });
+						break;
+					
+					case 'VDetailEntry':
+						actions.push({ label: 'Show Properties', command: 'VMSC.openContextMenu' });
+						actions.push({ label: 'Rename', command: 'VMSC.rename' });
+						actions.push({ label: 'Delete', command: 'VMSC.delete' });
+						break;
+					case 'VParameter':
+						actions.push({ label: 'Show Properties', command: 'VMSC.openContextMenu' });
+						actions.push({ label: 'Rename', command: 'VMSC.rename' });
+						actions.push({ label: 'Delete', command: 'VMSC.delete' });
+						actions.push({ label: 'Add Annotation', command: 'VMSC.addAnnotation' });
+						break;
+					default:
+						break;
+				}
+				const result = await vscode.window.showQuickPick(actions);
+				if (result) {
+					vscode.commands.executeCommand(result.command, selectedNode);
+				}
 			}
-			const result = await vscode.window.showQuickPick(actions);
-			if (result) {
-				vscode.commands.executeCommand(result.command, node);
+		}
+	})); 
+
+	//
+	// Listen for when the file is saved
+	vscode.workspace.onDidSaveTextDocument(event => {
+		// Check if the saved file is the one that the tree view is reading from
+		if (event.fileName === selectFile) {
+		// Refresh the tree view
+		vscode.window.showErrorMessage(`File has changed manually. Please reupload it again to take the changes into consideration.`);
+		//treeView.reveal(treeView.selection[0], { select: true, focus: true });
+		}
+	});
+
+	let commandName ;
+	const existingCommands = await vscode.commands.getCommands();
+
+
+	//rename node
+	commandName = 'VMSC.rename'
+	if (!existingCommands.includes(commandName)) {
+	context.subscriptions.push(vscode.commands.registerCommand(commandName, async (node: EcoreNode) => {
+		const result = await vscode.window.showInputBox({ prompt: `Rename ${node.getName()}` });
+		if(result)
+		{
+			node.setName(result);
+			ecoreTreeDataProvider?.getonDidChangeTreeData().fire();
+			vscode.window.showInformationMessage(`Renamed node to ${node.getName()}`);
+
+			//save changes to json
+			saveRenameDeleteChangesToJSON("rename", node);
+		}
+	}));	
+}
+
+	//delete node
+	commandName = 'VMSC.delete'
+	if (!existingCommands.includes(commandName)) {
+		context.subscriptions.push(vscode.commands.registerCommand(commandName, (node: EcoreNode) => {
+			vscode.window.showInformationMessage(`Delete ${node.getName()}`);
+			const hasparent = node.getParent();
+			if(hasparent){
+				const index = hasparent.getChildren().indexOf(node);
+				hasparent.getChildren().splice(index, 1);
 			}
+			else{ 
+				//delete node
+				const index = model.rootNodes.indexOf(node);
+				//console.log(index)
+				if(0<= index && index< model.rootNodes.length) model.rootNodes.splice(index, 1);
+			}
+			ecoreTreeDataProvider.getonDidChangeTreeData().fire();
 			
-		
-	  });*/
+			//save changes to json
+			saveRenameDeleteChangesToJSON("delete", node, hasparent);
 
-	  //execute command when sleceted from context menu
-	  context.subscriptions.push(treeView.onDidChangeSelection(async (event) => {
-		  if (event.selection.length > 0) {
-			  const selectedNode: EcoreNode = event.selection[0];
-			  const actions = []
+			//show select file button if model is empty
+			if(model.rootNodes.length == 0){
+			vscode.window.showErrorMessage("No model found");
 
-			  if(event.selection){
-				  switch (selectedNode.type) {
-					  case 'VModel':
-					  case 'VPackage':
-						  actions.push({ label: 'Rename', command: 'VMSC.rename' });
-						  actions.push({ label: 'Delete', command: 'VMSC.delete' });
-						  actions.push({ label: 'Add Package', command: 'VMSC.addPackage' });
-						  actions.push({ label: 'Add Class ', command: 'VMSC.addClass' });
-						  actions.push({ label: 'Add Enumeration', command: 'VMSC.addEnumeration' })
-						  actions.push({ label: 'Add Data Type', command: 'VMSC.addDataType' })
-						  break;
-					  case 'VClass':
-						  actions.push({ label: 'Show Properties', command: 'VMSC.openContextMenu' });
-						  actions.push({ label: 'Rename', command: 'VMSC.rename' });
-						  actions.push({ label: 'Delete', command: 'VMSC.delete' });
-						  actions.push({ label: 'Add Association', command: 'VMSC.addAssociation' });
-						  actions.push({ label: 'Add Generalization', command: 'VMSC.addGeneralization' });
-						  actions.push({ label: 'Add Constraint', command: 'VMSC.addConstraint' });
-						  actions.push({ label: 'Add Attribute', command: 'VMSC.addAttribute' });
-						  actions.push({ label: 'Add Operation', command: 'VMSC.addOperation' });
-						  actions.push({ label: 'Add Reference', command: 'VMSC.addReference' });
-						  actions.push({ label: 'Add Annotation', command: 'VMSC.addAnnotation' });
-						  break;
-					  case 'VEnumeration':
-						  actions.push({ label: 'Show Properties', command: 'VMSC.openContextMenu' });
-						  actions.push({ label: 'Rename', command: 'VMSC.rename' });
-						  actions.push({ label: 'Delete', command: 'VMSC.delete' });
-						  actions.push({ label: 'Add Annotation', command: 'VMSC.addAnnotation' });
-						  actions.push({ label: 'Add Literal', command: 'VMSC.addLiteral' });
-						  break;
-					  case 'VDataType':
-						  actions.push({ label: 'Show Properties', command: 'VMSC.openContextMenu' });
-						  actions.push({ label: 'Rename', command: 'VMSC.rename' });
-						  actions.push({ label: 'Delete', command: 'VMSC.delete' });
-						  actions.push({ label: 'Add Annotation', command: 'VMSC.addAnnotation' });
-						  break;
-
-					  case 'VAttribute':
-						  actions.push({ label: 'Show Properties', command: 'VMSC.openContextMenu' });
-						  actions.push({ label: 'Rename', command: 'VMSC.rename' });
-						  actions.push({ label: 'Delete', command: 'VMSC.delete' });
-						  actions.push({ label: 'Add Annotation', command: 'VMSC.addAnnotation' });
-						  break;
-					  case 'VOperation':
-						  actions.push({ label: 'Show Properties', command: 'VMSC.openContextMenu' });
-						  actions.push({ label: 'Rename', command: 'VMSC.rename' });
-						  actions.push({ label: 'Delete', command: 'VMSC.delete' });
-						  actions.push({ label: 'Add Annotation', command: 'VMSC.addAnnotation' });
-						  actions.push({ label: 'Add Parameter', command: 'VMSC.addParameter' });
-						  break;
-					  case 'VReference':
-						  actions.push({ label: 'Show Properties', command: 'VMSC.openContextMenu' });
-						  actions.push({ label: 'Rename', command: 'VMSC.rename' });
-						  actions.push({ label: 'Delete', command: 'VMSC.delete' });
-						  actions.push({ label: 'Add Annotation', command: 'VMSC.addAnnotation' });
-						  break;
-					  case 'VAnnotation':
-						  actions.push({ label: 'Show Properties', command: 'VMSC.openContextMenu' });
-						  actions.push({ label: 'Rename', command: 'VMSC.rename' });
-						  actions.push({ label: 'Delete', command: 'VMSC.delete' });
-						  actions.push({ label: 'Add Detail Entry', command: 'VMSC.addDetailEntry' });
-						  break;
-					  
-					  case 'VDetailEntry':
-						  actions.push({ label: 'Show Properties', command: 'VMSC.openContextMenu' });
-						  actions.push({ label: 'Rename', command: 'VMSC.rename' });
-						  actions.push({ label: 'Delete', command: 'VMSC.delete' });
-						  break;
-					  case 'VParameter':
-						  actions.push({ label: 'Show Properties', command: 'VMSC.openContextMenu' });
-						  actions.push({ label: 'Rename', command: 'VMSC.rename' });
-						  actions.push({ label: 'Delete', command: 'VMSC.delete' });
-						  actions.push({ label: 'Add Annotation', command: 'VMSC.addAnnotation' });
-						  break;
-					  default:
-						  break;
-				  }
-				  const result = await vscode.window.showQuickPick(actions);
-				  if (result) {
-					  vscode.commands.executeCommand(result.command, selectedNode);
-				  }
-			  }
-		  }
-	  })); 
-
-	  //rename node
-	  context.subscriptions.push(vscode.commands.registerCommand('VMSC.rename', async (node: EcoreNode) => {
-		  const result = await vscode.window.showInputBox({ prompt: `Rename ${node.getName()}` });
-		  if(result)
-		  {
-			  node.setName(result);
-			  ecoreTreeDataProvider?.getonDidChangeTreeData().fire();
-			  vscode.window.showInformationMessage(`Renamed node to ${node.getName()}`);
-
-			  //save changes to json
-			  saveRenameDeleteChangesToJSON("rename", node);
-		  }
-	  }));	
-
-	  //delete node
-	  context.subscriptions.push(vscode.commands.registerCommand('VMSC.delete', (node: EcoreNode) => {
-		  vscode.window.showInformationMessage(`Delete ${node.getName()}`);
-		  const hasparent = node.getParent();
-		  if(hasparent){
-			  const index = hasparent.getChildren().indexOf(node);
-			  hasparent.getChildren().splice(index, 1);
-		  }
-		  else{ 
-			  //delete node
-			  console.log("rootNodes")
-			  console.log(model.rootNodes)
-			  const index = model.rootNodes.indexOf(node);
-			  console.log(index)
-			  if(0<= index && index< model.rootNodes.length) model.rootNodes.splice(index, 1);
-		  }
-		  ecoreTreeDataProvider.getonDidChangeTreeData().fire();
-		  vscode.window.showWarningMessage(`Deleted`);
-		  
-		  //save changes to json
-		  saveRenameDeleteChangesToJSON("delete", node, hasparent);
-
-		  if(model.rootNodes.length === 0){
-			  // re display select button
+			// unregister tree data provider
+			vscode.window.registerTreeDataProvider('exampleView', new MySelectFileButtonProvider() );
+			// re-register command for "Select File" button 
 			
-		  }
-	  }));
+			const mySelectFileButtonCommand = 'mySelectFileButtonCommand';
 
-	  //add package
-	  context.subscriptions.push(vscode.commands.registerCommand('VMSC.addPackage', async (node: EcoreNode) => {
-		  vscode.window.showInformationMessage(`Add Package`);
-		  const newname = await vscode.window.showInputBox({ prompt: `New Package Name: ` });
-		  let newPackage = new EcoreNode('VPackage', newname? newname: 'New Package');
-		  newPackage.setParent(node);
-		  node.getChildren().push(newPackage);
-		  ecoreTreeDataProvider.getonDidChangeTreeData().fire();
+			
+			if (existingCommands.includes(mySelectFileButtonCommand)) {
+				context.subscriptions.splice(context.subscriptions.indexOf(treeView), 1)
+				vscode.commands.executeCommand(mySelectFileButtonCommand)
+			}
 
-		  //save changes to json
-		  saveAddChangesToJSON(newPackage);
-	  }));
+			else{
+				context.subscriptions.push(vscode.commands.registerCommand(mySelectFileButtonCommand, () => {
+					vscode.window
+						.showOpenDialog({
+							canSelectMany: false,
+							openLabel: "Select",
+							filters: {
+							"All files": ["*"]
+							//"Model files": ["*.model"]
+							},
+						})
+						.then((fileUri) => {
+							if (fileUri) {
+								// you can use the path of the selected file to read its content
+								const filePath = fileUri[0].fsPath;
+								
+								file = filePath;
 
-	  //add Class
-	  context.subscriptions.push(vscode.commands.registerCommand('VMSC.addClass', async (node: EcoreNode) => {
-		  vscode.window.showInformationMessage(`Add Class`);
-		  const newname = await vscode.window.showInputBox({ prompt: `New Class Name: ` });
-		  let newClass = new EcoreNode('VClass', newname? newname: 'New Class');
-		  newClass.setParent(node);
-		  node.getChildren().push(newClass);
-		  ecoreTreeDataProvider.getonDidChangeTreeData().fire();
+								context.subscriptions.splice(context.subscriptions.indexOf(treeView), 1)
+								model = convertJsonToEcoreModel(filePath);
 
-		   //save changes to json
-		  saveAddChangesToJSON(newClass);
-	}));
+								ecoreTreeDataProvider = new EcoreTreeDataProvider(model);
+								vscode.window.registerTreeDataProvider('exampleView', ecoreTreeDataProvider);
+
+								treeView = vscode.window.createTreeView('exampleView', { treeDataProvider: ecoreTreeDataProvider });
+								context.subscriptions.push(treeView);
+
+								vscodeMDE(context, filePath);
+							
+							}
+						});
+				}));
+			}
+			}
+		}));
+	}
+
+	//add package
+	commandName = 'VMSC.addPackage'
+	if (!existingCommands.includes(commandName)) {
+		context.subscriptions.push(vscode.commands.registerCommand(commandName, async (node: EcoreNode) => {
+			vscode.window.showInformationMessage(`Add Package`);
+			const newname = await vscode.window.showInputBox({ prompt: `New Package Name: ` });
+			let newPackage = new EcoreNode('VPackage', newname? newname: 'New Package');
+			newPackage.setParent(node);
+			node.getChildren().push(newPackage);
+			ecoreTreeDataProvider.getonDidChangeTreeData().fire();
+
+			//save changes to json
+			saveAddChangesToJSON(newPackage);
+		}));
+	}
+	
+
+	//add Class
+	commandName = 'VMSC.addClass'
+	if (!existingCommands.includes(commandName)) {
+		context.subscriptions.push(vscode.commands.registerCommand(commandName, async (node: EcoreNode) => {
+			vscode.window.showInformationMessage(`Add Class`);
+			const newname = await vscode.window.showInputBox({ prompt: `New Class Name: ` });
+			let newClass = new EcoreNode('VClass', newname? newname: 'New Class');
+			newClass.setParent(node);
+			node.getChildren().push(newClass);
+			ecoreTreeDataProvider.getonDidChangeTreeData().fire();
+
+			//save changes to json
+			saveAddChangesToJSON(newClass);
+		}));
+	}
 
 	  //add enumeration
-	  context.subscriptions.push(vscode.commands.registerCommand('VMSC.addEnumeration', async (node: EcoreNode) => {
-		  vscode.window.showInformationMessage(`Add Enumeration`);
-		  const newname = await vscode.window.showInputBox({ prompt: `New Enumeration Name: ` });
-		  let newEnumeration = new EcoreNode('VEnumeration', newname? newname: 'New Enumeration');
-		  newEnumeration.setParent(node);
-		  node.getChildren().push(newEnumeration);
-		  ecoreTreeDataProvider.getonDidChangeTreeData().fire(); 
-		  
-		  //save changes to json
-		  saveAddChangesToJSON(newEnumeration);
-	  }));
+	commandName = 'VMSC.addEnumeration'
+	if (!existingCommands.includes(commandName)) {
+		context.subscriptions.push(vscode.commands.registerCommand(commandName, async (node: EcoreNode) => {
+			vscode.window.showInformationMessage(`Add Enumeration`);
+			const newname = await vscode.window.showInputBox({ prompt: `New Enumeration Name: ` });
+			let newEnumeration = new EcoreNode('VEnumeration', newname? newname: 'New Enumeration');
+			newEnumeration.setParent(node);
+			node.getChildren().push(newEnumeration);
+			ecoreTreeDataProvider.getonDidChangeTreeData().fire(); 
+			
+			//save changes to json
+			saveAddChangesToJSON(newEnumeration);
+		}));
+	}
 
-	  //add date type
-	  context.subscriptions.push(vscode.commands.registerCommand('VMSC.addDataType', async (node: EcoreNode) => {
-		  vscode.window.showInformationMessage(`Add Date Type`);
-		  const newname = await vscode.window.showInputBox({ prompt: `New EDataType Name: ` });
-		  let newEDataType = new EcoreNode('VDataType', newname? newname: 'New EDataType');
-		  newEDataType.setParent(node);
-		  node.getChildren().push(newEDataType);
-		  ecoreTreeDataProvider.getonDidChangeTreeData().fire();
-		  
-		  //save changes to json
-		  saveAddChangesToJSON(newEDataType);
-	  }));
-
-
-	  //add attribute
-	  context.subscriptions.push(vscode.commands.registerCommand('VMSC.addAttribute', async (node: EcoreNode) => {
-		  vscode.window.showInformationMessage(`Add Attribute`);
-		  const newname = await vscode.window.showInputBox({ prompt: `New Attribute Name: ` });
-		  let newAttribute = new EcoreNode('VAttribute', newname? newname: 'New Attribute');
-		  newAttribute.setParent(node);
-		  node.getChildren().push(newAttribute);
-		  ecoreTreeDataProvider.getonDidChangeTreeData().fire();
-		  
-		  //save changes to json
-		  saveAddChangesToJSON(newAttribute);
-	  }));
-
-	  //add operation
-	  context.subscriptions.push(vscode.commands.registerCommand('VMSC.addOperation',async  (node: EcoreNode) => {
-		  vscode.window.showInformationMessage(`Add Operation`);
-		  const newname = await vscode.window.showInputBox({ prompt: `New Operation Name: ` });
-		  let newOperation = new EcoreNode('VOperation', newname? newname: 'New Operation');
-		  newOperation.setParent(node);
-		  node.getChildren().push(newOperation);
-		  ecoreTreeDataProvider.getonDidChangeTreeData().fire();
-		  
-		  //save changes to json
-		  saveAddChangesToJSON(newOperation);
-	  }));
-
-	  //add annotation
-	  context.subscriptions.push(vscode.commands.registerCommand('VMSC.addAnnotation', async (node: EcoreNode) => {
-		  vscode.window.showInformationMessage(`Add Annotation`);
-		  const newname = await vscode.window.showInputBox({ prompt: `New Annotation Name: ` });
-		  let newAnnotation = new EcoreNode('VAnnotation', newname? newname: 'New Annotation');
-		  newAnnotation.setParent(node);
-		  node.getChildren().push(newAnnotation);
-		  ecoreTreeDataProvider.getonDidChangeTreeData().fire();
-		  
-		  //save changes to json
-		  saveAddChangesToJSON(newAnnotation);
-	  }));
-
-	  //add literal
-	  context.subscriptions.push(vscode.commands.registerCommand('VMSC.addLiteral', async (node: EcoreNode) => {
-		  vscode.window.showInformationMessage(`Add Literal`);
-		  const newname = await vscode.window.showInputBox({ prompt: `New Literal Name: ` });
-		  let newLiteral = new EcoreNode('VLiteral', newname? newname: 'New Literal');
-		  newLiteral.setParent(node);
-		  node.getChildren().push(newLiteral);
-		  ecoreTreeDataProvider.getonDidChangeTreeData().fire();
-		  
-		  //save changes to json
-		  saveAddChangesToJSON(newLiteral);
-	  }));
-
-	  //add reference
-	  context.subscriptions.push(vscode.commands.registerCommand('VMSC.addReference', async (node: EcoreNode) => {
-		  vscode.window.showInformationMessage(`Add Reference`);
-		  const newname = await vscode.window.showInputBox({ prompt: `New Reference Name: ` });
-		  let newReference = new EcoreNode('VReference', newname? newname: 'New Reference');
-		  newReference.setParent(node);
-		  node.getChildren().push(newReference);
-		  ecoreTreeDataProvider.getonDidChangeTreeData().fire();
-		  
-		  //save changes to json
-		  saveAddChangesToJSON(newReference);
-	  }));
-
-	  
-
-	  //add parameter
-	  context.subscriptions.push(vscode.commands.registerCommand('VMSC.addParameter', async (node: EcoreNode) => {
-		  vscode.window.showInformationMessage(`Add Parameter`);
-		  const newname = await vscode.window.showInputBox({ prompt: `New Parameter Name: ` });
-		  let newParameter = new EcoreNode('VParameter', newname? newname: 'New Parameter');
-		  newParameter.setParent(node);
-		  node.getChildren().push(newParameter);
-		  ecoreTreeDataProvider.getonDidChangeTreeData().fire();
-		  
-		  //save changes to json
-		  saveAddChangesToJSON(newParameter);
-	  }));
-	  // add DetailEntry
-	  context.subscriptions.push(vscode.commands.registerCommand('VMSC.addDetailEntry', async (node: EcoreNode) => {
-		  vscode.window.showInformationMessage(`Add Reference`);
-		  const newname = await vscode.window.showInputBox({ prompt: `New Detail Entry: ` });
-		  let newDetailEntry = new EcoreNode('VDetailEntry', newname? newname: 'New DetailEntry');
-		  newDetailEntry.setParent(node);
-		  node.getChildren().push(newDetailEntry);
-		  ecoreTreeDataProvider.getonDidChangeTreeData().fire();
-		  
-		  //save changes to json
-		  saveAddChangesToJSON(newDetailEntry);
-	  }));
+	//add date type
+	commandName = 'VMSC.addDataType'
+	if (!existingCommands.includes(commandName)) {
+		context.subscriptions.push(vscode.commands.registerCommand(commandName, async (node: EcoreNode) => {
+			vscode.window.showInformationMessage(`Add Date Type`);
+			const newname = await vscode.window.showInputBox({ prompt: `New EDataType Name: ` });
+			let newEDataType = new EcoreNode('VDataType', newname? newname: 'New EDataType');
+			newEDataType.setParent(node);
+			node.getChildren().push(newEDataType);
+			ecoreTreeDataProvider.getonDidChangeTreeData().fire();
+			
+			//save changes to json
+			saveAddChangesToJSON(newEDataType);
+		}));
+	}
 
 
+	//add attribute
+	commandName = 'VMSC.addAttribute'
+	if (!existingCommands.includes(commandName)) {
+		context.subscriptions.push(vscode.commands.registerCommand(commandName, async (node: EcoreNode) => {
+			vscode.window.showInformationMessage(`Add Attribute`);
+			const newname = await vscode.window.showInputBox({ prompt: `New Attribute Name: ` });
+			let newAttribute = new EcoreNode('VAttribute', newname? newname: 'New Attribute');
+			newAttribute.setParent(node);
+			node.getChildren().push(newAttribute);
+			ecoreTreeDataProvider.getonDidChangeTreeData().fire();
+			
+			//save changes to json
+			saveAddChangesToJSON(newAttribute);
+		}));
+	}
 
-	  //add association
-	  context.subscriptions.push(vscode.commands.registerCommand('VMSC.addAssociation', (node: EcoreNode) => {
-		  vscode.window.showInformationMessage(`Add Association`);
-		  
-		  ecoreTreeDataProvider.getonDidChangeTreeData().fire();
-	  }));
-	  //add generalization
-	  context.subscriptions.push(vscode.commands.registerCommand('VMSC.addGeneralization', (node: EcoreNode) => {
-		  vscode.window.showInformationMessage(`Add Generalization`);
-		  
-		  ecoreTreeDataProvider.getonDidChangeTreeData().fire();
-	  }));
-	  //add constraint
-	  context.subscriptions.push(vscode.commands.registerCommand('VMSC.addConstraint', (node: EcoreNode) => {
-		  vscode.window.showInformationMessage(`Add Constraint`);
-		  
-		  ecoreTreeDataProvider.getonDidChangeTreeData().fire();
-	  }));
+	//add operation
+	commandName = 'VMSC.addOperation'
+	if (!existingCommands.includes(commandName)) {
+		context.subscriptions.push(vscode.commands.registerCommand(commandName,async  (node: EcoreNode) => {
+			vscode.window.showInformationMessage(`Add Operation`);
+			const newname = await vscode.window.showInputBox({ prompt: `New Operation Name: ` });
+			let newOperation = new EcoreNode('VOperation', newname? newname: 'New Operation');
+			newOperation.setParent(node);
+			node.getChildren().push(newOperation);
+			ecoreTreeDataProvider.getonDidChangeTreeData().fire();
+			
+			//save changes to json
+			saveAddChangesToJSON(newOperation);
+		}));
+	}
+
+	//add annotation
+	commandName = 'VMSC.addAnnotation'
+	if (!existingCommands.includes(commandName)) {
+		context.subscriptions.push(vscode.commands.registerCommand(commandName, async (node: EcoreNode) => {
+			vscode.window.showInformationMessage(`Add Annotation`);
+			const newname = await vscode.window.showInputBox({ prompt: `New Annotation Name: ` });
+			let newAnnotation = new EcoreNode('VAnnotation', newname? newname: 'New Annotation');
+			newAnnotation.setParent(node);
+			node.getChildren().push(newAnnotation);
+			ecoreTreeDataProvider.getonDidChangeTreeData().fire();
+			
+			//save changes to json
+			saveAddChangesToJSON(newAnnotation);
+		}));
+	}
+
+	//add literal
+	commandName = 'VMSC.addLiteral'
+	if (!existingCommands.includes(commandName)) {
+		context.subscriptions.push(vscode.commands.registerCommand(commandName, async (node: EcoreNode) => {
+			vscode.window.showInformationMessage(`Add Literal`);
+			const newname = await vscode.window.showInputBox({ prompt: `New Literal Name: ` });
+			let newLiteral = new EcoreNode('VLiteral', newname? newname: 'New Literal');
+			newLiteral.setParent(node);
+			node.getChildren().push(newLiteral);
+			ecoreTreeDataProvider.getonDidChangeTreeData().fire();
+			
+			//save changes to json
+			saveAddChangesToJSON(newLiteral);
+		}));
+	}
+
+	//add reference
+	commandName = 'VMSC.addReference'
+	if (!existingCommands.includes(commandName)) {
+		context.subscriptions.push(vscode.commands.registerCommand(commandName, async (node: EcoreNode) => {
+			vscode.window.showInformationMessage(`Add Reference`);
+			const newname = await vscode.window.showInputBox({ prompt: `New Reference Name: ` });
+			let newReference = new EcoreNode('VReference', newname? newname: 'New Reference');
+			newReference.setParent(node);
+			node.getChildren().push(newReference);
+			ecoreTreeDataProvider.getonDidChangeTreeData().fire();
+			
+			//save changes to json
+			saveAddChangesToJSON(newReference);
+		}));
+	}
+
+	
+
+	//add parameter
+	commandName = 'VMSC.addParameter'
+	if (!existingCommands.includes(commandName)) {
+		context.subscriptions.push(vscode.commands.registerCommand(commandName, async (node: EcoreNode) => {
+			vscode.window.showInformationMessage(`Add Parameter`);
+			const newname = await vscode.window.showInputBox({ prompt: `New Parameter Name: ` });
+			let newParameter = new EcoreNode('VParameter', newname? newname: 'New Parameter');
+			newParameter.setParent(node);
+			node.getChildren().push(newParameter);
+			ecoreTreeDataProvider.getonDidChangeTreeData().fire();
+			
+			//save changes to json
+			saveAddChangesToJSON(newParameter);
+		}));
+	}
+	// add DetailEntry
+	commandName = 'VMSC.addDetailEntry'
+	if (!existingCommands.includes(commandName)) {
+		context.subscriptions.push(vscode.commands.registerCommand(commandName, async (node: EcoreNode) => {
+			vscode.window.showInformationMessage(`Add Reference`);
+			const newname = await vscode.window.showInputBox({ prompt: `New Detail Entry: ` });
+			let newDetailEntry = new EcoreNode('VDetailEntry', newname? newname: 'New DetailEntry');
+			newDetailEntry.setParent(node);
+			node.getChildren().push(newDetailEntry);
+			ecoreTreeDataProvider.getonDidChangeTreeData().fire();
+			
+			//save changes to json
+			saveAddChangesToJSON(newDetailEntry);
+		}));
+	}
+
+
+
+	//add association
+	commandName = 'VMSC.addAssociation'
+	if (!existingCommands.includes(commandName)) {
+		context.subscriptions.push(vscode.commands.registerCommand(commandName, (node: EcoreNode) => {
+			vscode.window.showInformationMessage(`Add Association`);
+			
+			ecoreTreeDataProvider.getonDidChangeTreeData().fire();
+		}));
+	}
+	//add generalization
+	commandName = 'VMSC.addGeneralization'
+	if (!existingCommands.includes(commandName)) {
+		context.subscriptions.push(vscode.commands.registerCommand(commandName, (node: EcoreNode) => {
+			vscode.window.showInformationMessage(`Add Generalization`);
+			
+			ecoreTreeDataProvider.getonDidChangeTreeData().fire();
+		}));
+	}
+	//add constraint
+	commandName = 'VMSC.addConstraint'
+	if (!existingCommands.includes(commandName)) {
+		context.subscriptions.push(vscode.commands.registerCommand(commandName, (node: EcoreNode) => {
+			vscode.window.showInformationMessage(`Add Constraint`);
+			
+			ecoreTreeDataProvider.getonDidChangeTreeData().fire();
+		}));
+	}
 }
 
 export function deactivate() { }
@@ -577,8 +628,8 @@ function convertJsonToEcoreModel(selectFile:string): EcoreModel {
 	  
 	  // if the json object has a "VOperation" property, recursively parse it
 	  if (json.hasOwnProperty("VOperation") ) {
-		if(json.VOperation.hasOwnProperty("VStructuralFeatures")){
-			json.VOperation.VStructuralFeatures.forEach((child: any) => {
+		if(json.VOperation.hasOwnProperty("VStructuralAnnotations")){
+			json.VOperation.VStructuralAnnotations.forEach((child: any) => {
 				let child_key = getChildKey(child)
 				let child_name = child[child_key].name
 				let childNode = new EcoreNode(child_key, child_name);
@@ -928,8 +979,13 @@ function convertJsonToEcoreModel(selectFile:string): EcoreModel {
 				childJSON = renameNode(childJSON, node );
 			}
 		}
-		else if(json.hasOwnProperty("VOperation") && json.VOperation.hasOwnProperty("VStructuralFeatures")){
-			for (let childJSON of json.VOperation.VStructuralFeatures) {
+		else if(json.hasOwnProperty("VOperation") && json.VOperation.hasOwnProperty("VStructuralAnnotations")){
+			for (let childJSON of json.VOperation.VStructuralAnnotations) {
+				childJSON = renameNode(childJSON, node );
+			}
+		}
+		else if(json.hasOwnProperty("VOperation") && json.VOperation.hasOwnProperty("VParameters")){
+			for (let childJSON of json.VOperation.VParameters) {
 				childJSON = renameNode(childJSON, node );
 			}
 		}
@@ -957,8 +1013,6 @@ function convertJsonToEcoreModel(selectFile:string): EcoreModel {
 			console.log("not found");
 		}	
 	}
-	console.log("rename json " + node.getId() + " :" + node.getName() );
-	console.log(json);
     return json;
 }
 
@@ -1062,8 +1116,13 @@ function deleteNode(json: any, node : EcoreNode){
 				childJSON = deleteNode(childJSON, node );
 			}
 		}
-		else if(json.hasOwnProperty("VOperation") && json.VOperation.hasOwnProperty("VStructuralFeatures")){
-			for (let childJSON of json.VOperation.VStructuralFeatures) {
+		else if(json.hasOwnProperty("VOperation") && json.VOperation.hasOwnProperty("VStructuralAnnotations")){
+			for (let childJSON of json.VOperation.VStructuralAnnotations) {
+				childJSON = deleteNode(childJSON, node );
+			}
+		}
+		else if(json.hasOwnProperty("VOperation") && json.VOperation.hasOwnProperty("VParameters")){
+			for (let childJSON of json.VOperation.VParameters) {
 				childJSON = deleteNode(childJSON, node );
 			}
 		}
@@ -1140,7 +1199,7 @@ function addChildNode(json: any, child : any, node:EcoreNode): any {
 	
 	let jsonID= getJsonID(json);
 	if(jsonID === node.getParent()?.getId()){
-		console.log("found")
+		//console.log("found")
 		 //push child to parent
 		 pushChild(json, child, node);
 				
@@ -1171,8 +1230,13 @@ function addChildNode(json: any, child : any, node:EcoreNode): any {
 				childJSON = addChildNode(childJSON, child, node );
 			}
 		}
-		else if(json.hasOwnProperty("VOperation") && json.VOperation.hasOwnProperty("VStructuralFeatures")){
-			for (let childJSON of json.VOperation.VStructuralFeatures) {
+		else if(json.hasOwnProperty("VOperation") && json.VOperation.hasOwnProperty("VStructuralAnnotations")){
+			for (let childJSON of json.VOperation.VStructuralAnnotations) {
+				childJSON = addChildNode(childJSON, child, node );
+			}
+		}
+		else if(json.hasOwnProperty("VOperation") && json.VOperation.hasOwnProperty("VParameters")){
+			for (let childJSON of json.VOperation.VParameters) {
 				childJSON = addChildNode(childJSON, child, node );
 			}
 		}
@@ -1200,8 +1264,6 @@ function addChildNode(json: any, child : any, node:EcoreNode): any {
 			console.log("not found");
 		}	
 	}
-	console.log("add json " + child );
-	console.log(json);
     return json;
 }
 
