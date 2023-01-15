@@ -144,11 +144,6 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
           },
           {
             "$type": "Keyword",
-            "value": ",",
-            "cardinality": "?"
-          },
-          {
-            "$type": "Keyword",
             "value": "}"
           }
         ]
@@ -725,11 +720,6 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
           },
           {
             "$type": "Keyword",
-            "value": ",",
-            "cardinality": "?"
-          },
-          {
-            "$type": "Keyword",
             "value": "}"
           }
         ]
@@ -905,14 +895,10 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
               },
               {
                 "$type": "Keyword",
-                "value": ","
+                "value": ",",
+                "cardinality": "?"
               }
             ],
-            "cardinality": "?"
-          },
-          {
-            "$type": "Keyword",
-            "value": ",",
             "cardinality": "?"
           },
           {
@@ -1352,11 +1338,6 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
           },
           {
             "$type": "Keyword",
-            "value": ",",
-            "cardinality": "?"
-          },
-          {
-            "$type": "Keyword",
             "value": "}"
           }
         ]
@@ -1664,11 +1645,6 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                 }
               }
             ],
-            "cardinality": "?"
-          },
-          {
-            "$type": "Keyword",
-            "value": ",",
             "cardinality": "?"
           },
           {
@@ -2157,11 +2133,6 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
           },
           {
             "$type": "Keyword",
-            "value": ",",
-            "cardinality": "?"
-          },
-          {
-            "$type": "Keyword",
             "value": "}"
           }
         ]
@@ -2419,11 +2390,6 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
           },
           {
             "$type": "Keyword",
-            "value": ",",
-            "cardinality": "?"
-          },
-          {
-            "$type": "Keyword",
             "value": "}"
           }
         ]
@@ -2525,11 +2491,6 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                 }
               }
             ],
-            "cardinality": "?"
-          },
-          {
-            "$type": "Keyword",
-            "value": ",",
             "cardinality": "?"
           },
           {
@@ -2643,11 +2604,6 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
           },
           {
             "$type": "Keyword",
-            "value": ",",
-            "cardinality": "?"
-          },
-          {
-            "$type": "Keyword",
             "value": "}"
           }
         ]
@@ -2757,11 +2713,6 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
           },
           {
             "$type": "Keyword",
-            "value": ",",
-            "cardinality": "?"
-          },
-          {
-            "$type": "Keyword",
             "value": "}"
           }
         ]
@@ -2806,11 +2757,6 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
               },
               "arguments": []
             }
-          },
-          {
-            "$type": "Keyword",
-            "value": ",",
-            "cardinality": "?"
           }
         ]
       },
@@ -2854,11 +2800,6 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
               },
               "arguments": []
             }
-          },
-          {
-            "$type": "Keyword",
-            "value": ",",
-            "cardinality": "?"
           }
         ]
       },
@@ -2902,11 +2843,6 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
               },
               "arguments": []
             }
-          },
-          {
-            "$type": "Keyword",
-            "value": ",",
-            "cardinality": "?"
           }
         ]
       },

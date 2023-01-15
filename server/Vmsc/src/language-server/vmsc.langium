@@ -44,7 +44,7 @@ VDatatype:
 	'"id"' ':' id=ID ','
 	'"name"' ':' name=ID ','
 	('"VAnnotations"' ':' '[' '{' VAnnotations+=VAnnotation '}' ( ',' '{' VAnnotations+=VAnnotation '}')* ']' ',')?
-	(IsSerializable?='"IsSerializable"' ':' 'True' ',')?
+	(IsSerializable?='"IsSerializable"' ':' 'True' ','?)?
 	 '}'
 ;
 
