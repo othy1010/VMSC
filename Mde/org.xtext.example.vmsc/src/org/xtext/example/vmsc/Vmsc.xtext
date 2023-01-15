@@ -7,13 +7,13 @@ import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 VPackage returns VPackage:
 	{VPackage}
 	
-	'VPackage' ':'
+	'"VPackage"' ':'
 	'{'
-	'name' ':' name=EString (',' | '}')
+	'"name"' ':' name=EString ',' 
 	
-		('VPrefix' ':' VPrefix=EString ',')
-		('VUri' ':' VUri=EString ',')
-		('VComponents' ':' '[' '{' VComponents+=VStructuralComponent '}' ( ',' '{' VComponents+=VStructuralComponent '}')* ']' )? 
+		('"VPrefix"' ':' VPrefix=EString ',')
+		('"VUri"' ':' VUri=EString ',')
+		('"VComponents"' ':' '[' '{' VComponents+=VStructuralComponent '}' ( ',' '{' VComponents+=VStructuralComponent '}')* ']' )? 
 	'}'
 	;
 
@@ -32,94 +32,94 @@ EString returns ecore::EString:
 
 VEnum returns VEnum:
 	{VEnum}
-	'VEnum' ':'
+	'"VEnum"' ':'
 	'{'
-	'name' ':' name=EString ','
-	(IsSerializable?='IsSerializable' ':' 'True' ',')?
+	'"name"' ':' name=EString ','
+	(IsSerializable?='"IsSerializable"' ':' 'True' ',')?
 	'}'
 	;
 
 VDatatype_Impl returns VDatatype:
 	{VDatatype}
-	'VDatatype' ':' 
+	'"VDatatype"' ':' 
 	'{'
-	'name' ':' name=EString ','
-	(IsSerializable?='IsSerializable' ':' 'True' ',')?
+	'"name"' ':' name=EString ','
+	(IsSerializable?='"IsSerializable"' ':' 'True' ',')?
 	'}'
 	;
 
 VClass returns VClass:
 	{VClass}
-	'VClass' ':'
+	'"VClass"' ':'
 	'{'
-	'name' ':' name=EString ','
-	('VStructuralFeatures' ':' '[' '{' VStructural_features+=VStructuralFeatures '}' ( ',' '{' VStructural_features+=VStructuralFeatures '}')*  ']' ',')? 
-	('VSuperType' ':' '['  VSuperType+=[VClass|EString] ( ',' VSuperType+=[VClass|EString])* ']' ',')? 
-	(IsAbstract?='IsAbstract' ':' 'True' ',')?
-	(IsInterface?='IsInterface' ':' 'True' ',')?
+	'"name"' ':' name=EString ','
+	('"VStructuralFeatures"' ':' '[' '{' VStructural_features+=VStructuralFeatures '}' ( ',' '{' VStructural_features+=VStructuralFeatures '}')*  ']' ',')? 
+	('"VSuperType"' ':' '['  VSuperType+=[VClass|EString] ( ',' VSuperType+=[VClass|EString])* ']' ',')? 
+	(IsAbstract?='"IsAbstract"' ':' 'True' ',')?
+	(IsInterface?='"IsInterface"' ':' 'True' ',')?
 	'}';
 
 EBoolean returns ecore::EBoolean:
-	'true' | 'false';
+	'"true"' | '"false"';
 
 EInt returns ecore::EInt:
 	'-'? INT;
 
 VAttribute returns VAttribute:
 	{VAttribute}
-	'VAttribute' ':'
+	'"VAttribute"' ':'
 	'{'
-	'name' ':' name=EString ','
-	(IsChangeable?='IsChangeable')?
-	(IsOrdered?='IsOrdered')?
-	(IsTransient?='IsTransient')?
-	(IsUnsettable?='IsUnsettable')?
-	(IsVolatile?='IsVolatile')?
-	(IsDerived?='IsDerived')?
-	(IsUnique?='IsUnique')?
-		('LowerBound' ':' LowerBound=EInt ',')?
-		('UpperBound' ':' UpperBound=EInt ',')?
-		('VType' ':' VType=VType)?
+	'"name"' ':' name=EString ','
+	(IsChangeable?='"IsChangeable"')?
+	(IsOrdered?='"IsOrdered"')?
+	(IsTransient?='"IsTransient"')?
+	(IsUnsettable?='"IsUnsettable"')?
+	(IsVolatile?='"IsVolatile"')?
+	(IsDerived?='"IsDerived"')?
+	(IsUnique?='"IsUnique"')?
+		('"LowerBound"' ':' LowerBound=EInt ',')?
+		('"UpperBound"' ':' UpperBound=EInt ',')?
+		('"VType"' ':' VType=VType)?
 	'}';
 
 VReference returns VReference:
 	{VReference}
-	'VReference' ':'
+	'"VReference"' ':'
 	'{'
-	'name' ':' name=EString ','
-	(IsChangeable?='IsChangeable' ':' 'True' ',')?
-	(IsOrdered?='IsOrdered' ':' 'True' ',')?
-	(IsTransient?='IsTransient' ':' 'True' ',')?
-	(IsUnsettable?='IsUnsettable' ':' 'True' ',')?
-	(IsVolatile?='IsVolatile' ':' 'True' ',')?
-	(IsDerived?='IsDerived' ':' 'True' ',')?
-	(IsUnique?='IsUnique' ':' 'True' ',')?
-	(IsContainer?='IsContainer' ':' 'True' ',')?
-	(IsContainment?='IsContainment' ':' 'True' ',')?
-		('LowerBound' ':' LowerBound=EInt ',')?
-		('UpperBound' ':' UpperBound=EInt ',')?
-		('VType' ':' VType=VClass)? 
+	'"name"' ':' name=EString ','
+	(IsChangeable?='"IsChangeable"' ':' 'True' ',')?
+	(IsOrdered?='"IsOrdered"' ':' 'True' ',')?
+	(IsTransient?='"IsTransient"' ':' 'True' ',')?
+	(IsUnsettable?='"IsUnsettable"' ':' 'True' ',')?
+	(IsVolatile?='"IsVolatile"' ':' 'True' ',')?
+	(IsDerived?='"IsDerived"' ':' 'True' ',')?
+	(IsUnique?='"IsUnique"' ':' 'True' ',')?
+	(IsContainer?='"IsContainer"' ':' 'True' ',')?
+	(IsContainment?='"IsContainment"' ':' 'True' ',')?
+		('"LowerBound"' ':' LowerBound=EInt ',')?
+		('"UpperBound"' ':' UpperBound=EInt ',')?
+		('"VType"' ':' VType=VClass)? 
 	'}';
 
 VString returns VString:
 	{VString}
-	'VString'
+	'"VString"'
 	','
-	'VContent' ':' VContent=EString
+	'"VContent"' ':' VContent=EString
 	','?;
 
 VInt returns VInt:
 	{VInt}
-	'VInt'
+	'"VInt"'
 	','
-	'VContent' ':' VContent=EInt
+	'"VContent"' ':' VContent=EInt
 	','?;
 
 VFloat returns VFloat:
 	{VFloat}
-	'VFloat'
+	'"VFloat"'
 	','
-	'VContent' ':' VContent=EFloat
+	'"VContent"' ':' VContent=EFloat
 	','?;
 
 EFloat returns ecore::EFloat:

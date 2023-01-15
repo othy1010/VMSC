@@ -1,0 +1,52 @@
+{
+  "name": "vmsc",
+  "scopeName": "source.vmsc",
+  "fileTypes": [
+    ".vmsc"
+  ],
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "name": "keyword.control.vmsc",
+      "match": "\\b(True)\\b|\\B(\"id\"|\"IsAbstract\"|\"IsChangeable\"|\"IsContainer\"|\"IsContainment\"|\"IsDerived\"|\"IsInterface\"|\"IsOrdered\"|\"IsSerializable\"|\"IsTransient\"|\"IsUnique\"|\"IsUnsettable\"|\"IsVolatile\"|\"LowerBound\"|\"name\"|\"UpperBound\"|\"value\"|\"VAnnotation\"|\"VAnnotations\"|\"VAttribute\"|\"VClass\"|\"VComponents\"|\"VDatatype\"|\"VEnum\"|\"VEnumLiterals\"|\"VFloat\"|\"VInt\"|\"VLiteral\"|\"VOperation\"|\"VOperations\"|\"VPackage\"|\"VPackages\"|\"VParameter\"|\"VParameters\"|\"VPrefix\"|\"VReference\"|\"VReturnType\"|\"VString\"|\"VStructuralFeatures\"|\"VSuperType\"|\"VType\"|\"VUri\")\\B"
+    },
+    {
+      "name": "string.quoted.delimiter.vmsc",
+      "begin": "[\"]",
+      "end": "[\"]"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.block.vmsc",
+          "begin": "/\\*",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.vmsc"
+            }
+          },
+          "end": "\\*/",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.vmsc"
+            }
+          }
+        },
+        {
+          "begin": "//",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.whitespace.comment.leading.vmsc"
+            }
+          },
+          "end": "(?=$)",
+          "name": "comment.line.vmsc"
+        }
+      ]
+    }
+  }
+}
