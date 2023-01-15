@@ -60,8 +60,9 @@
                            }
                         }
                      ],
+                     "VSuperType" : ["class2"],
                   }
-               }
+               },
                {
                   "VClass":{
                      "id":"ded",
@@ -94,49 +95,10 @@
                               "IsNotUnique" : true,
                               "IsID" : true,
                            }
-                        },
-                       
+                        }       
                      ],
                   }
                }
-               // {
-               //    "VPackage":{
-               //       "id":"deed",
-               //       "name":"package11",
-               //       "VPrefix":"myPrefix",
-               //       "VUri":"myUri",
-               //       "VComponents":[
-               //          {
-               //             "VClass":{
-               //                "id":"deed",
-               //                "name":"class11",
-               //                "VStructuralFeatures":[
-               //                   {
-               //                      "VAttribute":{
-               //                         "id":"deed",
-               //                         "name":"attr12",
-               //                         "LowerBound":0,
-               //                         "UpperBound":10,
-               //                         "VType":"VInt",
-               //                         "value":23
-               //                      }
-               //                   },
-               //                   {
-               //                      "VAttribute":{
-               //                         "id":"deed",
-               //                         "name":"attr22",
-               //                         "LowerBound":0,
-               //                         "UpperBound":10,
-               //                         "VType":"VInt",
-               //                         "value":23
-               //                      }
-               //                   }
-               //                ],
-               //             }
-               //          }
-               //       ]
-               //    }
-               // }
             ]
          }
       }
