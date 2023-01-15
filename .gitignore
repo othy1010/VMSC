@@ -6,7 +6,7 @@ build/
 !**/src/test/**/build/
 util
 
-/Mde/
+*/Mde/*
 
 ### STS ###
 .apt_generated
