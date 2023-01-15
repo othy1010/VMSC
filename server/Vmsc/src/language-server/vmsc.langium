@@ -37,7 +37,7 @@ VEnum:
 	'"name"' ':' name=ID ','
 	('"VAnnotations"' ':' '[' '{' VAnnotations+=VAnnotation '}' ( ',' '{' VAnnotations+=VAnnotation '}')* ']' ',')?
 	('"VEnumLiterals"' ':' '[' '{' VEnumLiterals+=VLiteral '}' ( ',' '{' VEnumLiterals+=VLiteral '}')* ']' ',')?
-	(IsSerializable?='"IsSerializable"' ':' 'True' ',')?
+	(IsSerializable?='"IsSerializable"' ':' 'true' ',')?
 	 '}'
 ;
 
@@ -47,7 +47,7 @@ VDatatype:
 	'"id"' ':' id=ID ','
 	'"name"' ':' name=ID ','
 	('"VAnnotations"' ':' '[' '{' VAnnotations+=VAnnotation '}' ( ',' '{' VAnnotations+=VAnnotation '}')* ']' ',')?
-	(IsSerializable?='"IsSerializable"' ':' 'True' ','?)?
+	(IsSerializable?='"IsSerializable"' ':' 'true' ','?)?
 	 '}'
 ;
 
@@ -60,8 +60,8 @@ VClass:
 	('"VSuperType"' ':' '['  VSuperType+=[VClass:ID] ( ',' VSuperType+=[VClass:ID])* ']' ',')? 
 	('"VOperations"' ':' '[' '{' VOperations+=VOperation '}' ( ',' '{' VOperations+=VOperation '}')* ']' ',')?
 	('"VAnnotations"' ':' '[' '{' VAnnotations+=VAnnotation '}' ( ',' '{' VAnnotations+=VAnnotation '}')* ']' ',')?
-	(IsAbstract?='"IsAbstract"' ':' 'True' ',')?
-	(IsInterface?='"IsInterface"' ':' 'True' ',')?
+	(IsAbstract?='"IsAbstract"' ':' 'true' ',')?
+	(IsInterface?='"IsInterface"' ':' 'true' ',')?
 	 '}';
 
 
@@ -95,8 +95,8 @@ VReference:
 	('"VType"' ':' VType=[VClass:ID])','
 	('"LowerBound"' ':' LowerBound=INT ',')?
 	('"UpperBound"' ':' UpperBound=INT ',')?
-	(IsContainer?='"IsContainer"' ':' 'True' ',')?
-	(IsContainment?='"IsContainment"' ':' 'True' ',')?
+	(IsContainer?='"IsContainer"' ':' 'true' ',')?
+	(IsContainment?='"IsContainment"' ':' 'true' ',')?
 	(IsNotChangeable?='"IsNotChangeable"' ':' 'true' ',')?
 	(IsNotOrdered?='"IsNotOrdered"' ':' 'true' ',')?
 	(IsTransient?='"IsTransient"' ':' 'true' ',')?
@@ -142,23 +142,6 @@ VLiteral:
 	 '}';
 
 
-// VString:
-// 	'"VString"'
-// 	','
-// 	'"value"' ':' value=STRING
-// ;
-
-// VInt:
-// 	'"VInt"'
-// 	','
-// 	'"value"' ':' value=INT
-// ;
-
-// VFloat:
-// 	'"VFloat"'
-// 	','
-// 	'"value"' ':' value=FLOAT
-// ;
 terminal VType: /"VString"|"VInt"|"VFloat"|"VBoolean"/;
 terminal FLOAT: /\d+.\d+/;
 hidden terminal WS: /\s+|','+/;

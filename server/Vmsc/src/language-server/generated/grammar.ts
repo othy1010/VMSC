@@ -673,7 +673,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
               },
               {
                 "$type": "Keyword",
-                "value": "True"
+                "value": "true"
               },
               {
                 "$type": "Keyword",
@@ -855,7 +855,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
               },
               {
                 "$type": "Keyword",
-                "value": "True"
+                "value": "true"
               },
               {
                 "$type": "Keyword",
@@ -1264,7 +1264,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
               },
               {
                 "$type": "Keyword",
-                "value": "True"
+                "value": "true"
               },
               {
                 "$type": "Keyword",
@@ -1291,7 +1291,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
               },
               {
                 "$type": "Keyword",
-                "value": "True"
+                "value": "true"
               },
               {
                 "$type": "Keyword",
@@ -2029,7 +2029,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
               },
               {
                 "$type": "Keyword",
-                "value": "True"
+                "value": "true"
               },
               {
                 "$type": "Keyword",
@@ -2056,7 +2056,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
               },
               {
                 "$type": "Keyword",
-                "value": "True"
+                "value": "true"
               },
               {
                 "$type": "Keyword",

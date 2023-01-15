@@ -3,6 +3,7 @@
    "name":"Deed",
    "VPackages":[
       { 
+
          "VPackage":{
             "id":"deed",
             "name":"package1",

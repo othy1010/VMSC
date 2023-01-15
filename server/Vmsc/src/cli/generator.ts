@@ -111,7 +111,6 @@ function generateEType(vtype: string): string {
             return `"ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"`;
         case "\"VFloat\"":
             return `"ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"`;
-
         default:
             return "";
     }
