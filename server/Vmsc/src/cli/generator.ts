@@ -4,22 +4,6 @@ import path from 'path';
 import { VAnnotation, VAttribute, VClass, VModel, VOperation, VPackage, VReference, VStructuralComponent, VStructuralFeatures } from '../language-server/generated/ast';
 import { extractDestinationAndName } from './cli-util';
 
-export function generateJavaScript(model: VModel, filePath: string, destination: string | undefined): string {
-    const data = extractDestinationAndName(filePath, destination);
-    const generatedFilePath = `${path.join(data.destination, data.name)}.js`;
-
-    const fileNode = new CompositeGeneratorNode();
-    fileNode.append('"use strict";', NL, NL);
-
-    model.VPackage.forEach(vpackage => fileNode.append(`console.log('Hello, ${vpackage.name}!');`, NL));
-
-    if (!fs.existsSync(data.destination)) {
-        fs.mkdirSync(data.destination, { recursive: true });
-    }
-    fs.writeFileSync(generatedFilePath, toString(fileNode));
-    return generatedFilePath;
-}
-
 export function generateEcore(model: VModel, filePath: string, destination: string | undefined): string {
     const data = extractDestinationAndName(filePath, destination);
     const generatedFilePath = `${path.join(data.destination, data.name)}.ecore`;
