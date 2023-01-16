@@ -6,11 +6,11 @@ import { extractDestinationAndName } from '../cli/cli-util';
 
 export function generateEcore(model: VModel, filePath: string, destination: string | undefined): string {
   const data = extractDestinationAndName(filePath, destination);
-  const generatedFilePath = `${path.join(data.destination, data.name)}.ecore`;
+  const generatedFilePath = `${path.join(data.destination, data.name)}.vmsc`;
 
   const fileNode = new CompositeGeneratorNode();
 
-  fileNode.append('<?xml version="1.0" encoding="UTF-8"?>', NL);
+  fileNode.append('{', NL, '');
   model.VPackage.forEach(vpackage => fileNode.append(generateEPackage(vpackage), NL));
 
   if (!fs.existsSync(data.destination)) {

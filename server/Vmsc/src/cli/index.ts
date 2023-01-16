@@ -4,7 +4,7 @@ import { VModel } from '../language-server/generated/ast';
 import { VmscLanguageMetaData } from '../language-server/generated/module';
 import { createVmscServices } from '../language-server/vmsc-module';
 import { extractAstNode } from './cli-util';
-import { generateEcore } from '../generator/EcoreGenerator';
+import { generateEcore } from '../generators/EcoreGenerator';
 import { NodeFileSystem } from 'langium/node';
 
 export const generateAction = async (fileName: string, opts: GenerateOptions): Promise<void> => {
