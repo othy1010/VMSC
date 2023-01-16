@@ -12,15 +12,15 @@ jobs:
     steps:
     - name: Checkout Code
       uses: actions/checkout@v2
-
+      
+    - name: Enter Directory
+      run: cd server/Vmsc
+      
     - name: Use Node.js
       uses: actions/setup-node@v2
       with:
         node-version: 14  
 
-    - name: Enter Directory
-      run: cd server
-      
     - name: Install dependencies
       run: yarn install
       
