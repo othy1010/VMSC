@@ -3,7 +3,7 @@ name: Extension Tests
 on:
   push:
     branches:
-      - feature
+      - lspFeature
       
 jobs:
   test:
@@ -25,5 +25,5 @@ jobs:
       run: yarn install
       
     - name: Run Tests
-      run: yarn run test2
+      run: yarn run test
 
