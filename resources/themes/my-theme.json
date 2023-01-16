@@ -1,0 +1,17 @@
+{
+    "button.flat": {
+      "background-color": "var(--vscode-button-background)",
+      "color": "var(--vscode-button-foreground)",
+      "border-color": "var(--vscode-button-border)",
+      "&:hover": {
+          "background-color": "var(--vscode-button-hoverBackground)",
+          "border-color": "var(--vscode-button-hoverBorder)",
+          "color": "var(--vscode-button-hoverForeground)"
+      },
+      "&:active": {
+          "background-color": "var(--vscode-button-activeBackground)",
+          "border-color": "var(--vscode-button-activeBorder)",
+          "color": "var(--vscode-button-activeForeground)"
+      }
+    }
+  }

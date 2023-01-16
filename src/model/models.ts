@@ -1,15 +1,25 @@
 // package
 // class
 import * as vscode from "vscode";
+import { EcoreNode } from "../treeview";
+
 
 export class VcoreNode extends vscode.TreeItem {
   public readonly type:
     "Root"
+
+    | "EPackage"
     | "EClass"
+    | "EDataType"
+    | "EEnumeration"
     | "EAttribute"
     | "EReference"
-    | "EDataType"
-    | "EPackage"
+    | "EOperation"
+    | "EAnnotation"
+    | "EDetailEntry"
+    | "EParameter"
+    | "EAssociation"
+    | "EGeneralization"
     | "EConstraint";
   public readonly name: string;
 
@@ -32,16 +42,42 @@ export class VcoreNode extends vscode.TreeItem {
 
 
 
+class EPackage extends VcoreNode {
+  packages: EPackage[];
+  classes: EClass[];
+  dataTypes: EDataType[];
+  constructor(name: string) {
+    super(name, "EPackage");
+    this.packages = [];
+    this.classes = [];
+    this.dataTypes = [];
+  }
+}
+
 class EClass extends VcoreNode {
   attributes: EAttribute[];
   references: EReference[];
+  operations: EOperation[];
+  annotaions: EAnnotation[];
   constraints: EConstraint[];
+  generalization: EGeneralization[];
+  association: EAssociation[];
 
   constructor(name: string) {
     super(name, "EClass");
     this.attributes = [];
     this.references = [];
+    this.operations = [];
+    this.annotaions = [];
+    this.generalization = [];
+    this.association = [];
     this.constraints = [];
+  }
+}
+
+class EDataType extends VcoreNode {
+  constructor(name: string) {
+    super(name, "EDataType");
   }
 }
 
@@ -60,22 +96,26 @@ class EReference extends VcoreNode {
     this.target = target;
   }
 }
-
-class EDataType extends VcoreNode {
-  constructor(name: string) {
-    super(name, "EDataType");
+class EOperation extends VcoreNode {
+  target: EClass;
+  parameters : EParameter[] = []
+  constructor(name: string, target: EClass) {
+    super(name, "EOperation");
+    this.target = target;
   }
 }
-
-class EPackage extends VcoreNode {
-  packages: EPackage[];
-  classes: EClass[];
-  dataTypes: EDataType[];
-  constructor(name: string) {
-    super(name, "EPackage");
-    this.packages = [];
-    this.classes = [];
-    this.dataTypes = [];
+class EAnnotation extends VcoreNode {
+  target: EClass;
+  constructor(name: string, target: EClass) {
+    super(name, "EAnnotation");
+    this.target = target;
+  }
+}
+class EParameter extends VcoreNode {
+  dataType: EDataType;
+  constructor(name: string, dataType: EDataType) {
+    super(name, "EParameter");
+    this.dataType = dataType;
   }
 }
 
@@ -84,5 +124,23 @@ class EConstraint extends VcoreNode {
   constructor(name: string, expression: string) {
     super(name, "EConstraint");
     this.expression = expression;
+  }
+}
+class EGeneralization extends VcoreNode {
+  parentNode: EClass;
+  childNode: EClass;
+  constructor(name: string, parentNode: EClass, childNode: EClass) {
+    super(name, "EGeneralization");
+    this.parentNode = parentNode;
+    this.childNode = childNode;
+  }
+}
+class EAssociation extends VcoreNode {
+  nodeA: EClass;
+  nodeB: EClass;
+  constructor(name: string, nodeA: EClass, nodeB: EClass) {
+    super(name, "EAssociation");
+    this.nodeA = nodeA;
+    this.nodeB = nodeB;
   }
 }

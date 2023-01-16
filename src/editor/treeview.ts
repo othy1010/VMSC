@@ -14,11 +14,24 @@ export class VcoreTreeDataProvider
   }
   getTreeItem(element: VcoreNode): vscode.TreeItem {
     switch (element.type) {
+
+      case "EPackage":
+        return {
+          label: element.name,
+          collapsibleState: vscode.TreeItemCollapsibleState.Collapsed,
+          contextValue: "EPackage",
+        };
       case "EClass":
         return {
           label: element.name,
           collapsibleState: vscode.TreeItemCollapsibleState.Collapsed,
           contextValue: "EClass",
+        };
+      case "EDataType":
+        return {
+          label: element.name,
+          collapsibleState: vscode.TreeItemCollapsibleState.None,
+          contextValue: "EDataType",
         };
       case "EAttribute":
         return {
@@ -31,18 +44,7 @@ export class VcoreTreeDataProvider
           label: element.name,
           collapsibleState: vscode.TreeItemCollapsibleState.None,
           contextValue: "EReference",
-        };
-      case "EDataType":
-        return {
-          label: element.name,
-          collapsibleState: vscode.TreeItemCollapsibleState.None,
-          contextValue: "EDataType",
-        };
-      case "EPackage":
-        return {
-          label: element.name,
-          collapsibleState: vscode.TreeItemCollapsibleState.Collapsed,
-          contextValue: "EPackage",
+
         };
       case "EConstraint":
         return {

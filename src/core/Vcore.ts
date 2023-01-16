@@ -4,8 +4,10 @@ import * as path from 'path';
 
 export class DepNodeProvider implements vscode.TreeDataProvider<Dependency> {
 
-  private _onDidChangeTreeData: vscode.EventEmitter<Dependency | undefined | void> = new vscode.EventEmitter<Dependency | undefined | void>();
-  readonly onDidChangeTreeData: vscode.Event<Dependency | undefined | void> = this._onDidChangeTreeData.event;
+
+  private _onDidChangeTreeData: vscode.EventEmitter<Dependency | undefined | null> = new vscode.EventEmitter<Dependency | undefined | null>();
+  readonly onDidChangeTreeData: vscode.Event<Dependency | undefined | null > = this._onDidChangeTreeData.event;
+
 
   constructor(private workspaceRoot: string | undefined) {
   }
@@ -102,3 +104,4 @@ export class Dependency extends vscode.TreeItem {
 
   contextValue = 'dependency';
 }
+

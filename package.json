@@ -14,6 +14,13 @@
   ],
   "main": "./out/extension.js",
   "contributes": {
+    "themes": [
+      {
+        "label": "My Theme",
+        "uiTheme": "vs-dark",
+        "path": "./themes/my-theme.json"
+      }
+    ],
     "viewsContainers": {
       "activitybar": [
         {
@@ -29,12 +36,39 @@
         "title": "Hello World"
       },
       {
+        "command": "VMSC.refreshEntry",
+        "title": "Refresh"
+      },
+      {
+        "command": "VMSC.rightClickNode",
+        "title": "Right Click"
+      },
+      {
+        "key": "ctrl+R",
+        "command": "VMSC.openContextMenu",
+        "title": "Open Context Menu"
+      },
+      {
+        "command": "VMSC.openProperties",
+        "title": "Open Properties"
+      },
+      {
         "command": "VMSC.createEcoreModel",
         "title": "Create Ecore Model",
         "icon": {
           "light": "resources/light/create-ecore-model.svg",
           "dark": "resources/dark/create-ecore-model.svg"
         }
+      },
+
+     
+      {
+        "command": "VMSC.rename",
+        "title": "Rename"
+      },
+      {
+        "command": "VMSC.delete",
+        "title": "Delete"
       },
       {
         "command": "VMSC.addPackage",
@@ -45,6 +79,46 @@
         "title": "Add Class"
       },
       {
+        "command": "VMSC.addDataType",
+        "title": "Add Data Type"
+      },
+      {
+        "command": "VMSC.addEnumeration",
+        "title": "Add Enumeration"
+      },
+
+      
+      {
+        "command": "VMSC.addLiteral",
+        "title": "Add Literal"
+      },
+      {
+        "command": "VMSC.addAttribute",
+        "title": "Add Attribute"
+      },
+      {
+        "command": "VMSC.addReference",
+        "title": "Add Reference"
+      },
+      {
+        "command": "VMSC.addOperation",
+        "title": "Add Operation"
+      },
+      {
+        "command": "VMSC.addAnnotation",
+        "title": "Add Annotation"
+      },
+
+      {
+        "command": "VMSC.addParameter",
+        "title": "Add Parameter"
+      },
+      {
+        "command": "VMSC.addDetailEntry",
+        "title": "Add Detail Entry"
+      },
+
+      {
         "command": "VMSC.addAssociation",
         "title": "Add Association"
       },
@@ -53,24 +127,8 @@
         "title": "Add Generalization"
       },
       {
-        "command": "VMSC.addEnumeration",
-        "title": "Add Enumeration"
-      },
-      {
-        "command": "VMSC.addLiteral",
-        "title": "Add Literal"
-      },
-      {
-        "command": "VMSC.addDataType",
-        "title": "Add Data Type"
-      },
-      {
-        "command": "VMSC.addAttribute",
-        "title": "Add Attribute"
-      },
-      {
-        "command": "VMSC.addOperation",
-        "title": "Add Operation"
+        "command": "VMSC.addConstraint",
+        "title": "Add Constraint"
       }
     ],
     "views": {
@@ -79,6 +137,20 @@
           "id": "exampleView",
           "name": "exampleView"
         }
+      ],
+      "explorer": [
+        {
+          "id": "nodeDependencies",
+          "name": "Node Dependencies"
+        }
+      ]
+    },
+    "menus": {
+      "editor/context": [
+          {
+            "command": "VMSC.rightClickNode",
+            "when": "editorTextFocus && nodeTreeItem "
+          }
       ]
     }
   },
