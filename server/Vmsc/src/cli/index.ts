@@ -4,7 +4,7 @@ import { VModel } from '../language-server/generated/ast';
 import { VmscLanguageMetaData } from '../language-server/generated/module';
 import { createVmscServices } from '../language-server/vmsc-module';
 import { extractAstNode } from './cli-util';
-import { generateEcore } from './generator';
+import { generateEcore } from '../generator/EcoreGenerator';
 import { NodeFileSystem } from 'langium/node';
 
 export const generateAction = async (fileName: string, opts: GenerateOptions): Promise<void> => {
@@ -32,6 +32,13 @@ export default function (): void {
         .option('-d, --destination <dir>', 'destination directory of generating')
         .description('generates Ecore from vmsc file')
         .action(generateAction);
+    // program
+    //     .command('read')
+    //     .argument('<file>', `source file (possible file extensions: ${fileExtensions})`)
+    //     .option('-d, --destination <dir>', 'destination directory of generating')
+    //     .option('-d, --destination <dir>', 'destination directory of generating')
+    //     .description('generates vcore from vmsc file')
+    //     .action(generateAction);
 
     program.parse(process.argv);
 }

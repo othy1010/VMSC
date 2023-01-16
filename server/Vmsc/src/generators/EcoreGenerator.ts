@@ -2,7 +2,7 @@ import fs from 'fs';
 import { CompositeGeneratorNode, NL, Reference, toString } from 'langium';
 import path from 'path';
 import { VAnnotation, VAttribute, VClass, VModel, VOperation, VPackage, VReference, VStructuralComponent, VStructuralFeatures } from '../language-server/generated/ast';
-import { extractDestinationAndName } from './cli-util';
+import { extractDestinationAndName } from '../cli/cli-util';
 
 export function generateEcore(model: VModel, filePath: string, destination: string | undefined): string {
     const data = extractDestinationAndName(filePath, destination);
