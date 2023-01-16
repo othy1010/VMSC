@@ -1,7 +1,7 @@
 {
   "name": "Vmsc",
   "displayName": "Vmsc",
-  "description": "Please enter a brief description here",
+  "description": "Lsp server backend for the Vmsc extension",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.56.0"
