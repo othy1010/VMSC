@@ -160,8 +160,8 @@ export interface VPackage extends AstNode {
     id: string
     name: string
     VComponents: Array<VStructuralComponent>
-    VPrefix?: string
-    VUri?: string
+    VPrefix: string
+    VUri: string
 }
 
 export const VPackage = 'VPackage';

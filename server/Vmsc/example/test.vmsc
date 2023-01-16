@@ -6,14 +6,14 @@
 
          "VPackage":{
             "id":"deed",
-            "name":"package1",
+            "name":"Package1",
             "VPrefix":"myPrefix",
             "VUri":"myUri",
             "VComponents":[
                {
                   "VClass":{
                      "id":"deed",
-                     "name":"class1",
+                     "name":"Class1",
                      "VStructuralFeatures":[
                         {
                            "VAttribute":{
@@ -47,7 +47,7 @@
                            "VReference" : {
                               "id":"deed",
                               "name":"ref1",
-                              "VType":"class1",
+                              "VType":"Class1",
                               "LowerBound":0,
                               "UpperBound":10,
                               "IsNotChangeable" : true,
@@ -61,13 +61,13 @@
                            }
                         }
                      ],
-                     "VSuperType" : ["class2"],
+                     "VSuperType" : ["Class2"],
                   }
                },
                {
                   "VClass":{
                      "id":"ded",
-                     "name":"class2",
+                     "name":"Class2",
                      "VStructuralFeatures":[
                         {
                            "VAttribute":{

@@ -14,8 +14,8 @@ VPackage:
 	'{' 
 	'"id"' ':' id=ID ','
 	'"name"' ':' name=ID ','
-	('"VPrefix"' ':' VPrefix=ID	',')?
-	('"VUri"' ':' VUri=ID ',')?
+	('"VPrefix"' ':' VPrefix=ID	',')
+	('"VUri"' ':' VUri=ID ',')
 	('"VComponents"' ':' '[' '{' VComponents+=VStructuralComponent '}' ( ',' '{' VComponents+=VStructuralComponent '}')* ']' )?
   '}';
 

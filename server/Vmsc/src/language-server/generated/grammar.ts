@@ -247,8 +247,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                 "$type": "Keyword",
                 "value": ","
               }
-            ],
-            "cardinality": "?"
+            ]
           },
           {
             "$type": "Group",
@@ -277,8 +276,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                 "$type": "Keyword",
                 "value": ","
               }
-            ],
-            "cardinality": "?"
+            ]
           },
           {
             "$type": "Group",
