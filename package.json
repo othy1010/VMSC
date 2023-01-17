@@ -155,12 +155,21 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "yarn run compile",
+    "vscode:prepublish": "yarn run compile && yarn run build && yarn run lint2",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "pretest": "yarn run compile && yarn run lint",
     "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
+    "test": "node ./out/test/runTest.js",
+    "build": "tsc -b ./server/Vmsc/tsconfig.json",
+    "watch2": "tsc -b ./server/Vmsc/tsconfig.json --watch",
+    "lint2": "eslint ./server/Vmsc/src --ext ts",
+    "langium:generate": "langium generate",
+    "langium:watch": "langium generate --watch",
+    "test:mochawesome-screenshots": "mocha --reporter mochawesome --reporter-options reportDir=mochawesome-report,reportName=index,inlineAssets=true,overwrite=true,screenshots=true --timeout 5000 ./server/Vmsc/test/suite/*.test.ts",
+    "compile2": "tsc -p ./server/Vmsc/",
+    "pretest2": "yarn run compile2 && yarn run lint",
+    "test2": "node ./server/Vmsc/out/test/runTest.js"
   },
   "devDependencies": {
     "@types/vscode": "^1.74.0",

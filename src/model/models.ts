@@ -95,7 +95,7 @@ class EReference extends VcoreNode {
 }
 class EOperation extends VcoreNode {
   target: EClass;
-  parameters : EParameter[] = []
+  parameters: EParameter[] = []
   constructor(name: string, target: EClass) {
     super(name, "EOperation");
     this.target = target;

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated Vmsc -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="Vmsc.presentation.VmscModelWizardID"
+            name="%_UI_VmscModelWizard_label"
+            class="Vmsc.presentation.VmscModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/VmscModelFile.gif">
+         <description>%_UI_VmscModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated Vmsc -->
+      <editor
+            id="Vmsc.presentation.VmscEditorID"
+            name="%_UI_VmscEditor_label"
+            icon="icons/full/obj16/VmscModelFile.gif"
+            extensions="vmsc"
+            class="Vmsc.presentation.VmscEditor"
+            contributorClass="Vmsc.presentation.VmscActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>

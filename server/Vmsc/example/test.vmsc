@@ -1,0 +1,107 @@
+{
+   "id":"deed",
+   "name":"Deed",
+   "VPackages":[
+      { 
+
+         "VPackage":{
+            "id":"deed",
+            "name":"Package1",
+            "VPrefix":"myPrefix",
+            "VUri":"myUri",
+            "VComponents":[
+               {
+                  "VClass":{
+                     "id":"deed",
+                     "name":"Class1",
+                     "VStructuralFeatures":[
+                        {
+                           "VAttribute":{
+                              "id":"deed",
+                              "name":"attr1",
+                              "VType":"VInt",
+                              // "value":23
+                              "LowerBound":0,
+                              "UpperBound":10,
+                           }
+                        },
+                        {
+                           "VAttribute":{
+                              "id":"deed",
+                              "name":"attr2",
+                              "VType":"VFloat",
+                              // "value":23
+                              "LowerBound":0,
+                              "UpperBound":10,
+                              "IsNotChangeable" : true,
+                              "IsNotOrdered" : true,
+                              "IsTransient" : true,
+                              "IsUnsettable" : true,
+                              "IsVolatile" : true,
+                              "IsDerived" : true,
+                              "IsNotUnique" : true,
+                              "IsID" : true,
+                           }
+                        },
+                        {
+                           "VReference" : {
+                              "id":"deed",
+                              "name":"ref1",
+                              "VType":"Class1",
+                              "LowerBound":0,
+                              "UpperBound":10,
+                              "IsNotChangeable" : true,
+                              "IsNotOrdered" : true,
+                              "IsTransient" : true,
+                              "IsUnsettable" : true,
+                              "IsVolatile" : true,
+                              "IsDerived" : true,
+                              "IsNotUnique" : true,
+                              "IsID" : true,
+                           }
+                        }
+                     ],
+                     "VSuperType" : ["Class2"],
+                  }
+               },
+               {
+                  "VClass":{
+                     "id":"ded",
+                     "name":"Class2",
+                     "VStructuralFeatures":[
+                        {
+                           "VAttribute":{
+                              "id":"deed",
+                              "name":"attr1",
+                              "VType":"VInt",
+                              // "value":23
+                              "LowerBound":0,
+                              "UpperBound":10,
+                           }
+                        },
+                        {
+                           "VAttribute":{
+                              "id":"deed",
+                              "name":"attr2",
+                              "VType":"VFloat",
+                              // "value":23
+                              "LowerBound":0,
+                              "UpperBound":10,
+                              "IsNotChangeable" : true,
+                              "IsNotOrdered" : true,
+                              "IsTransient" : true,
+                              "IsUnsettable" : true,
+                              "IsVolatile" : true,
+                              "IsDerived" : true,
+                              "IsNotUnique" : true,
+                              "IsID" : true,
+                           }
+                        }       
+                     ],
+                  }
+               }
+            ]
+         }
+      }
+   ]
+}
