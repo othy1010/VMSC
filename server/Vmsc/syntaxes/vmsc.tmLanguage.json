@@ -10,7 +10,7 @@
     },
     {
       "name": "keyword.control.vmsc",
-      "match": "\\b(true)\\b|\\B(\"id\"|\"IsAbstract\"|\"IsContainer\"|\"IsContainment\"|\"IsDerived\"|\"IsID\"|\"IsInterface\"|\"IsNotChangeable\"|\"IsNotOrdered\"|\"IsNotUnique\"|\"IsSerializable\"|\"IsTransient\"|\"IsUnsettable\"|\"IsVolatile\"|\"LowerBound\"|\"name\"|\"UpperBound\"|\"value\"|\"VAnnotation\"|\"VAnnotations\"|\"VAttribute\"|\"VClass\"|\"VComponents\"|\"VDatatype\"|\"VEnum\"|\"VEnumLiterals\"|\"VLiteral\"|\"VOperation\"|\"VOperations\"|\"VPackage\"|\"VPackages\"|\"VParameter\"|\"VParameters\"|\"VPrefix\"|\"VReference\"|\"VReturnType\"|\"VStructuralFeatures\"|\"VSuperType\"|\"VType\"|\"VUri\")\\B"
+      "match": "\\b(true)\\b|\\B(\"id\"|\"IsAbstract\"|\"IsContainer\"|\"IsContainment\"|\"IsDerived\"|\"IsID\"|\"IsInterface\"|\"IsNotChangeable\"|\"IsNotOrdered\"|\"IsNotUnique\"|\"IsSerializable\"|\"IsTransient\"|\"IsUnsettable\"|\"IsVolatile\"|\"LowerBound\"|\"name\"|\"UpperBound\"|\"value\"|\"VAnnotation\"|\"VAnnotations\"|\"VAttribute\"|\"VClass\"|\"VComponents\"|\"VDatatype\"|\"VEnum\"|\"VEnumLiterals\"|\"VLiteral\"|\"VModel\"|\"VOperation\"|\"VOperations\"|\"VPackage\"|\"VPackages\"|\"VParameter\"|\"VParameters\"|\"VPrefix\"|\"VReference\"|\"VReturnType\"|\"VStructuralFeatures\"|\"VSuperType\"|\"VType\"|\"VUri\")\\B"
     },
     {
       "name": "string.quoted.delimiter.vmsc",

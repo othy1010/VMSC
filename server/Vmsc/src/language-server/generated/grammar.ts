@@ -24,6 +24,18 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
           },
           {
             "$type": "Keyword",
+            "value": "\\"VModel\\""
+          },
+          {
+            "$type": "Keyword",
+            "value": ":"
+          },
+          {
+            "$type": "Keyword",
+            "value": "{"
+          },
+          {
+            "$type": "Keyword",
             "value": "\\"id\\""
           },
           {
@@ -141,6 +153,10 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
               }
             ],
             "cardinality": "?"
+          },
+          {
+            "$type": "Keyword",
+            "value": "}"
           },
           {
             "$type": "Keyword",

@@ -1,4 +1,5 @@
 {
+   "VModel": {
    "id":"deed",
    "name":"Deed",
    "VPackages":[
@@ -104,4 +105,5 @@
          }
       }
    ]
+}
 }
