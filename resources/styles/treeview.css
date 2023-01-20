@@ -1,0 +1,14 @@
+.tree-view-container .monaco-tree-row {
+    height: 30px;
+}
+
+.tree-view-container .monaco-tree-row .content {
+    line-height: 30px;
+}
+.blue-button {
+    background-color: #0000FF;
+    color: #FFFFFF;
+}
+.tree-view-container .monaco-tree-row .description {
+    background-color: var(--description);
+}

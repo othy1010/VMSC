@@ -6,14 +6,14 @@ export class DepNodeProvider implements vscode.TreeDataProvider<Dependency> {
 
 
   private _onDidChangeTreeData: vscode.EventEmitter<Dependency | undefined | null> = new vscode.EventEmitter<Dependency | undefined | null>();
-  readonly onDidChangeTreeData: vscode.Event<Dependency | undefined | null > = this._onDidChangeTreeData.event;
+  readonly onDidChangeTreeData: vscode.Event<Dependency | undefined | null> = this._onDidChangeTreeData.event;
 
 
   constructor(private workspaceRoot: string | undefined) {
   }
 
   refresh(): void {
-    this._onDidChangeTreeData.fire();
+    this._onDidChangeTreeData.fire;
   }
 
   getTreeItem(element: Dependency): vscode.TreeItem {

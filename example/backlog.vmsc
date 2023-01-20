@@ -1,0 +1,161 @@
+{
+   "VModel": {
+   "id":"backlog",
+   "name":"Backlog",
+   "VPackages":[
+      { 
+
+         "VPackage":{
+            "id":"backlogpackage",
+            "name":"Backlog",
+            "VPrefix":"Backlog",
+            "VUri":"httpwwwexamplecom",
+            "VComponents":[
+               {
+                  "VClass":{
+                     "id":"1",
+                     "name":"BacklogModel",
+                     "VStructuralFeatures":[
+                        {
+                           "VReference":{
+                              "id":"processesattr",
+                              "name":"processes",
+                              "VType":"Process",
+                              // "value":23
+                              "LowerBound":1,
+                              "UpperBound":1,
+                           }
+                        },
+                        {
+                           "VReference":{
+                               "id":"processesattr2",
+                              "name":"bakclog",
+                              "VType":"Backlogs",
+                              // "value":23
+                              "LowerBound":1,
+                              "UpperBound":1,
+                           }
+                        }
+                  
+                     ],
+                   
+                  }
+               },
+               {
+                  "VClass":{
+                     "id":"2",
+                     "name":"Process",
+                     "VStructuralFeatures":[
+                        {
+                           "VReference":{
+                              "id":"processattr",
+                              "name":"activity",
+                              "VType":"Activity",
+                              // "value":23
+                              "LowerBound":1,
+                              "UpperBound":-1,
+                           }
+                        },{
+                           "VReference":{
+                              "id":"processattr2",
+                              "name":"role",
+                              "VType":"Roles",
+                              // "value":23
+                              "LowerBound":1,
+                              "UpperBound":-1,
+                           }
+                        }
+                     ],
+                   
+                  }
+               },
+               {
+                  "VClass":{
+                     "id":"3",
+                     "name":"Backlogs",
+                     "VStructuralFeatures":[
+                        {
+                           "VReference":{
+                              "id":"backlogattr",
+                              "name":"userstories",
+                              "VType":"UserStory",
+                              // "value":23
+                              "LowerBound":1,
+                              "UpperBound":-1,
+                           }
+                        }
+                     ],
+                  }
+               },
+               {
+                  "VClass":{
+                     "id":"4",
+                     "name":"UserStory",
+                     "VStructuralFeatures":[
+                        {
+                           "VReference":{
+                              "id":"userstoryattr",
+                              "name":"activities",
+                              "VType":"Activity",
+                              // "value":23
+                              "LowerBound":1,
+                              "UpperBound":1,
+                           }
+                        },  {
+                           "VReference":{
+                              "id":"userstoryattr",
+                              "name":"role",
+                              "VType":"Roles",
+                              // "value":23
+                              "LowerBound":1,
+                              "UpperBound":1,
+                           }
+                        }
+                     ],
+                   
+                  }
+               },
+                              {
+                  "VClass":{
+                     "id":"6",
+                     "name":"Activity",
+                     "VStructuralFeatures":[
+                        {
+                           "VAttribute":{
+                              "id":"activitiesattr",
+                              "name":"content",
+                              "VType": "VString",
+                              // "value":23
+                              "LowerBound":1,
+                              "UpperBound":1,
+                           }
+                        }
+                     ],
+                   
+                  }
+               },
+               {
+                  "VClass":{
+                     "id":"7",
+                     "name":"Roles",
+                     "VStructuralFeatures":[
+                        {
+                           "VAttribute":{
+                              "id":"activitiesattr",
+                              "name":"content",
+                              "VType": "VString",
+                              // "value":23
+                              "LowerBound":1,
+                              "UpperBound":1,
+                           }
+                        }
+                     ],
+                   
+                  }
+               }
+            ]
+         }
+      }
+   ]
+}
+}

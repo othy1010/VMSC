@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="Package1" nsURI="myUri" nsPrefix="myPrefix">
+    <eClassifiers xsi:type="ecore:EClass" name="Class1" eSuperTypes="#//Class2 ">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="attr1" upperBound="10" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="attr2" ordered="false" unique="false" upperBound="10" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble" changeable="false" volatile="true" transient="true" unsettable="true" derived="true" iD="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="ref1" ordered="false" unique="false" upperBound="10" eType="#//Class1" changeable="false" derived="true"/>
+
+
+
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Class2" eSuperTypes="">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="attr1" upperBound="10" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="attr2" ordered="false" unique="false" upperBound="10" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble" changeable="false" volatile="true" transient="true" unsettable="true" derived="true" iD="true"/>
+
+
+
+    </eClassifiers>
+</ecore:EPackage>
