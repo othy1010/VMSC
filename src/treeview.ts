@@ -167,6 +167,11 @@ export class EcoreTreeDataProvider implements vscode.TreeDataProvider<EcoreNode>
         treeItem.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
         treeItem.iconPath= vscode.Uri.file(path.join(__dirname, '..', 'resources', 'dark', 'db.svg'))
         break;
+      case 'VSuperType':
+        element.getChildren().length > 0 ? treeItem.collapsibleState = vscode.TreeItemCollapsibleState.Expanded :
+        treeItem.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
+        treeItem.iconPath= vscode.Uri.file(path.join(__dirname, '..', 'resources', 'dark', 'dependency.svg'))
+        break;
       case 'VAttribute':
         element.getChildren().length > 0 ? treeItem.collapsibleState = vscode.TreeItemCollapsibleState.Expanded :
         treeItem.collapsibleState = vscode.TreeItemCollapsibleState.None;
@@ -247,7 +252,7 @@ export class EcoreNode {
   constructor(
     public readonly type: 'VModel' |'VPackage' |'VClass' |'VDataType' | 'VEnumeration' |
     'VAttribute' | 'VReference' | 'VOperation' | 'VAnnotation' | 'VLiteral' |
-    'VParameter' | 'VDetailEntry' , 
+    'VParameter' | 'VDetailEntry' | 'VSuperType' , 
     private name: string,
     private children: EcoreNode[] = [], id? : string
   ) {
