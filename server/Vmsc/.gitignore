@@ -6,8 +6,6 @@ build/
 !**/src/test/**/build/
 util
 
-*/Mde/*
-
 ### STS ###
 .apt_generated
 .classpath
@@ -36,6 +34,8 @@ out/
 /nbdist/
 /.nb-gradle/
 
+### VS Code ###
+.vscode/
 
 ################################################################
 # Logs
