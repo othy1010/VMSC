@@ -1516,7 +1516,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@18"
+                    "$ref": "#/rules@19"
                   },
                   "arguments": []
                 }
@@ -1546,7 +1546,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@18"
+                    "$ref": "#/rules@19"
                   },
                   "arguments": []
                 }
@@ -1983,7 +1983,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@18"
+                    "$ref": "#/rules@19"
                   },
                   "arguments": []
                 }
@@ -2013,7 +2013,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@18"
+                    "$ref": "#/rules@19"
                   },
                   "arguments": []
                 }
@@ -2863,7 +2863,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@18"
+                    "$ref": "#/rules@19"
                   },
                   "arguments": []
                 }
@@ -2921,9 +2921,13 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
     {
       "$type": "TerminalRule",
       "name": "ID",
+      "type": {
+        "$type": "ReturnType",
+        "name": "string"
+      },
       "definition": {
         "$type": "RegexToken",
-        "regex": "[\\"][_a-zA-Z][\\\\w_]*[\\"]"
+        "regex": "[\\"][_a-zA-Z0-9][\\\\w_]*[\\"]"
       },
       "fragment": false,
       "hidden": false
@@ -2940,6 +2944,16 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
     },
     {
       "$type": "TerminalRule",
+      "name": "URL",
+      "definition": {
+        "$type": "RegexToken",
+        "regex": "[\\"]http[^ID]"
+      },
+      "fragment": false,
+      "hidden": false
+    },
+    {
+      "$type": "TerminalRule",
       "name": "INT",
       "type": {
         "$type": "ReturnType",
@@ -2947,7 +2961,7 @@ export const VmscGrammar = (): Grammar => loadedVmscGrammar ?? (loadedVmscGramma
       },
       "definition": {
         "$type": "RegexToken",
-        "regex": "[0-9]+"
+        "regex": "-?[0-9]+"
       },
       "fragment": false,
       "hidden": false

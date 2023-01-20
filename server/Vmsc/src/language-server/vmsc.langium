@@ -28,10 +28,6 @@ VStructuralComponent:
 VStructuralFeatures:
 	VAttribute | VReference;
 
-// VType:
-// 	VString | VInt | VFloat;
-
-
 VEnum:
 	'"VEnum"' ':'
 	'{'
@@ -147,9 +143,10 @@ VLiteral:
 terminal VType: /"VString"|"VInt"|"VFloat"|"VBoolean"/;
 terminal FLOAT: /\d+.\d+/;
 hidden terminal WS: /\s+|','+/;
-terminal ID: /["][_a-zA-Z][\w_]*["]/;
+terminal ID returns string: /["][_a-zA-Z0-9][\w_]*["]/;
 terminal STRING: /["][^"]*["]/;
-terminal INT returns number: /[0-9]+/;
+terminal URL: /["]http[^ID]/;
+terminal INT returns number: /-?[0-9]+/;
 
 
 hidden terminal ML_COMMENT: /\/\*[\s\S]*?\*\//;
