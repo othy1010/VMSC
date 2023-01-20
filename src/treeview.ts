@@ -1,12 +1,11 @@
 import * as vscode from "vscode";
 import * as fs from 'fs';
 import * as path from 'path';
-
-
-interface Properties {
-  name: String;
-  value: any;
-}
+import { parse } from 'jsonc-parser';
+// interface Properties {
+//   name: String;
+//   value: any;
+// }
 
 export class VcoreProvider implements vscode.TreeDataProvider<VcoreNode> {
   private _onDidChangeTreeData: vscode.EventEmitter<VcoreNode | undefined | null> = new vscode.EventEmitter<VcoreNode | undefined | null>();
@@ -48,7 +47,7 @@ export class VcoreProvider implements vscode.TreeDataProvider<VcoreNode> {
   private getDepsInPackageJson(packageJsonPath: string): VcoreNode[] {
     const workspaceRoot = this.workspaceRoot;
     if (this.pathExists(packageJsonPath) && workspaceRoot) {
-      const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
+      const packageJson = parse(fs.readFileSync(packageJsonPath, 'utf-8'));
 
       const toDep = (moduleName: string, version: string): VcoreNode => {
         if (this.pathExists(path.join(workspaceRoot, 'node_modules', moduleName))) {
@@ -88,10 +87,10 @@ export class VcoreProvider implements vscode.TreeDataProvider<VcoreNode> {
 export class VcoreNode extends vscode.TreeItem {
 
   constructor(
-    public readonly label: string,
+    public override readonly label: string,
     private readonly version: string,
-    public readonly collapsibleState: vscode.TreeItemCollapsibleState,
-    public readonly command?: vscode.Command
+    public override readonly collapsibleState: vscode.TreeItemCollapsibleState,
+    public override readonly command?: vscode.Command
   ) {
     super(label, collapsibleState);
 
@@ -104,14 +103,14 @@ export class VcoreNode extends vscode.TreeItem {
   //   dark: path.join(__filename, '..', '..', 'resources', 'dark', 'dependency.svg')
   // };
 
-  contextValue = 'dependency';
+  override contextValue = 'dependency';
 }
 
 export class EcoreTreeDataProvider implements vscode.TreeDataProvider<EcoreNode> {
   private _onDidChangeTreeData: vscode.EventEmitter<EcoreNode | undefined> = new vscode.EventEmitter<EcoreNode | undefined>();
   readonly onDidChangeTreeData: vscode.Event<EcoreNode | undefined> = this._onDidChangeTreeData.event;
 
-  constructor() { }
+  constructor(private readonly ecoreModel: EcoreModel) { }
 
   //constructor() { }
 
@@ -168,6 +167,11 @@ export class EcoreTreeDataProvider implements vscode.TreeDataProvider<EcoreNode>
           treeItem.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
         treeItem.iconPath = vscode.Uri.file(path.join(__dirname, '..', 'resources', 'dark', 'db.svg'))
         break;
+      case 'VSuperType':
+        element.getChildren().length > 0 ? treeItem.collapsibleState = vscode.TreeItemCollapsibleState.Expanded :
+          treeItem.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
+        treeItem.iconPath = vscode.Uri.file(path.join(__dirname, '..', 'resources', 'dark', 'dependency.svg'))
+        break;
       case 'VAttribute':
         element.getChildren().length > 0 ? treeItem.collapsibleState = vscode.TreeItemCollapsibleState.Expanded :
           treeItem.collapsibleState = vscode.TreeItemCollapsibleState.None;
@@ -206,7 +210,7 @@ export class EcoreTreeDataProvider implements vscode.TreeDataProvider<EcoreNode>
       default:
         return {
           label: 'Unknown Element',
-          collapsibleState: vscode.TreeItemCollapsibleState.Expanded
+          collapsibleState: vscode.TreeItemCollapsibleState.None
         };
     }
     return treeItem;
@@ -215,9 +219,8 @@ export class EcoreTreeDataProvider implements vscode.TreeDataProvider<EcoreNode>
 
   getChildren(element?: EcoreNode): vscode.ProviderResult<EcoreNode[]> {
     // If no element is provided, return the root nodes of the model
-    const JModel = convertJsonToEcoreModel();
     if (!element) {
-      return JModel.rootNodes;
+      return this.ecoreModel.rootNodes;
     }
 
     // Otherwise, return the children of the element
@@ -243,14 +246,13 @@ export class EcoreTreeDataProvider implements vscode.TreeDataProvider<EcoreNode>
 export class EcoreNode {
   private id: string = (genUniqueId() as string);
   private parent: EcoreNode | undefined;
-  private properties: Properties[] = [];
+  // private properties: Properties[] = [];
   private parameters: EcoreNode[] | undefined;
 
   constructor(
-
     public readonly type: 'VModel' | 'VPackage' | 'VClass' | 'VDataType' | 'VEnumeration' |
       'VAttribute' | 'VReference' | 'VOperation' | 'VAnnotation' | 'VLiteral' |
-      'VParameter' | 'VDetailEntry',
+      'VParameter' | 'VDetailEntry' | 'VSuperType',
     private name: string,
     private children: EcoreNode[] = [], id?: string
   ) {
@@ -299,11 +301,9 @@ export class EcoreNode {
 
 }
 
-
 export class EcoreModel {
   constructor(public readonly rootNodes: EcoreNode[]) { }
 }
-
 
 function genUniqueId(): string {
   const dateStr = Date

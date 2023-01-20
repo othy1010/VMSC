@@ -1,13 +1,10 @@
 // package
 // class
 import * as vscode from "vscode";
-import { EcoreNode } from "../treeview";
-
 
 export class VcoreNode extends vscode.TreeItem {
   public readonly type:
     "Root"
-
     | "EPackage"
     | "EClass"
     | "EDataType"
@@ -41,18 +38,17 @@ export class VcoreNode extends vscode.TreeItem {
 }
 
 
-
-class EPackage extends VcoreNode {
-  packages: EPackage[];
-  classes: EClass[];
-  dataTypes: EDataType[];
-  constructor(name: string) {
-    super(name, "EPackage");
-    this.packages = [];
-    this.classes = [];
-    this.dataTypes = [];
-  }
-}
+// class EPackage extends VcoreNode {
+//   packages: EPackage[];
+//   classes: EClass[];
+//   dataTypes: EDataType[];
+//   constructor(name: string) {
+//     super(name, "EPackage");
+//     this.packages = [];
+//     this.classes = [];
+//     this.dataTypes = [];
+//   }
+// }
 
 class EClass extends VcoreNode {
   attributes: EAttribute[];
@@ -98,7 +94,7 @@ class EReference extends VcoreNode {
 }
 class EOperation extends VcoreNode {
   target: EClass;
-  parameters : EParameter[] = []
+  parameters: EParameter[] = []
   constructor(name: string, target: EClass) {
     super(name, "EOperation");
     this.target = target;

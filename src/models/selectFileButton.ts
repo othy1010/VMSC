@@ -1,22 +1,30 @@
 import * as vscode from 'vscode';
 
 
-export class MySelectFileButtonProvider implements vscode.TreeDataProvider<MySelectFileButton> {
-    getTreeItem(element: MySelectFileButton): vscode.TreeItem {
+export class MyMenuButtonsProvider implements vscode.TreeDataProvider<MyMenuButtons> {
+    getTreeItem(element: MyMenuButtons): vscode.TreeItem {
         return element;
     }
 
-    getChildren(element?: MySelectFileButton): MySelectFileButton[] | undefined {
+    getChildren(element?: MyMenuButtons): MyMenuButtons[] | undefined {
         if (!element) {
-            return [new MySelectFileButton("Select file", vscode.TreeItemCollapsibleState.None, "mySelectFileButtonCommand")];
+            return [
+                new MyMenuButtons("Select file", vscode.TreeItemCollapsibleState.None, "mySelectFileButtonCommand"),
+                new MyMenuButtons("Create new Vcore file", vscode.TreeItemCollapsibleState.None, "myCreateFileButtonCommand"),
+                new MyMenuButtons("Import Ecore File", vscode.TreeItemCollapsibleState.None, "myImportEcoreButtonCommand")
+            ];
         }
         return undefined;
     }
 }
 
-export class MySelectFileButton extends vscode.TreeItem {
-    constructor(public readonly label: string, public readonly collapsibleState: vscode.TreeItemCollapsibleState, public readonly commandId: string) {
+export class MyMenuButtons extends vscode.TreeItem {
+    public override iconPath?: string | vscode.Uri | { light: string | vscode.Uri; dark: string | vscode.Uri; } | vscode.ThemeIcon | undefined;
+    constructor(public override readonly label: string,
+        public override readonly collapsibleState: vscode.TreeItemCollapsibleState,
+        public readonly commandId: string) {
         super(label, collapsibleState);
-        this.command = { command: commandId, title: label};
+        //this.iconPath = path.join(context.extensionPath, 'img', 'blue-button.png');
+        this.command = { command: commandId, title: label };
     }
 }

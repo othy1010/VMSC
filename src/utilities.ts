@@ -1,7 +1,6 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as os from 'os';
 
 export function myCommand() {
   const boilerplate = `
@@ -40,10 +39,10 @@ export function myCommand() {
         });
       }
       const workspaceFolder = vscode.workspace.workspaceFolders![0];
-      fs.writeFileSync(path.join(workspaceFolder.uri.fsPath, `${fileName}.model`), boilerplate);
+      fs.writeFileSync(path.join(workspaceFolder.uri.fsPath, `${fileName}.vmsc`), boilerplate);
 
       // Open the file in the editor
-      vscode.workspace.openTextDocument(path.join(workspaceFolder.uri.fsPath, `${fileName}.model`)).then((doc) => {
+      vscode.workspace.openTextDocument(path.join(workspaceFolder.uri.fsPath, `${fileName}.vmsc`)).then((doc) => {
         vscode.window.showTextDocument(doc);
       });
 
@@ -53,4 +52,3 @@ export function myCommand() {
     }
   });
 }
-

@@ -1,6 +1,4 @@
 import * as vscode from 'vscode';
-import * as fs from "fs";
-import * as path from "path";
 
 export class JsonTreeDataProvider implements vscode.TreeDataProvider<JsonTreeItem> {
   private _onDidChangeTreeData: vscode.EventEmitter<JsonTreeItem | undefined> = new vscode.EventEmitter<JsonTreeItem | undefined>();
@@ -9,7 +7,7 @@ export class JsonTreeDataProvider implements vscode.TreeDataProvider<JsonTreeIte
   constructor(private json: any) { }
 
   public getTreeItem(element: JsonTreeItem): vscode.TreeItem {
-  
+
     return element;
   }
 
@@ -27,7 +25,7 @@ export class JsonTreeDataProvider implements vscode.TreeDataProvider<JsonTreeIte
 
 export class JsonTreeItem extends vscode.TreeItem {
   public children: JsonTreeItem[] | undefined;
-  
+
   constructor(label: string, collapsibleState: vscode.TreeItemCollapsibleState, contextValue?: string) {
     super(label, collapsibleState);
     this.contextValue = contextValue;
