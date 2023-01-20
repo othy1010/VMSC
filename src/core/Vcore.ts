@@ -86,10 +86,10 @@ export class DepNodeProvider implements vscode.TreeDataProvider<Dependency> {
 export class Dependency extends vscode.TreeItem {
 
   constructor(
-    public readonly label: string,
+    public override readonly label: string,
     private readonly version: string,
-    public readonly collapsibleState: vscode.TreeItemCollapsibleState,
-    public readonly command?: vscode.Command
+    public override readonly collapsibleState: vscode.TreeItemCollapsibleState,
+    public override readonly command?: vscode.Command
   ) {
     super(label, collapsibleState);
 
@@ -97,11 +97,11 @@ export class Dependency extends vscode.TreeItem {
     this.description = this.version;
   }
 
-  iconPath = {
+  override iconPath = {
     light: path.join(__filename, '..', '..', 'resources', 'light', 'dependency.svg'),
     dark: path.join(__filename, '..', '..', 'resources', 'dark', 'dependency.svg')
   };
 
-  contextValue = 'dependency';
+  override contextValue = 'dependency';
 }
 

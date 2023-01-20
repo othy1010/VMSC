@@ -1,6 +1,5 @@
 import * as vscode from 'vscode';
 import * as fs from "fs";
-import * as path from "path";
 export class JsonTreeDataProvider implements vscode.TreeDataProvider<JsonTreeItem> {
   private _onDidChangeTreeData: vscode.EventEmitter<JsonTreeItem | undefined> = new vscode.EventEmitter<JsonTreeItem | undefined>();
   readonly onDidChangeTreeData: vscode.Event<JsonTreeItem | undefined> = this._onDidChangeTreeData.event;
