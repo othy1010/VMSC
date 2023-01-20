@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import * as fs from 'fs';
 import * as path from 'path';
-
+import { parse } from 'jsonc-parser';
 // interface Properties {
 //   name: String;
 //   value: any;
@@ -47,7 +47,7 @@ export class VcoreProvider implements vscode.TreeDataProvider<VcoreNode> {
   private getDepsInPackageJson(packageJsonPath: string): VcoreNode[] {
     const workspaceRoot = this.workspaceRoot;
     if (this.pathExists(packageJsonPath) && workspaceRoot) {
-      const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
+      const packageJson = parse(fs.readFileSync(packageJsonPath, 'utf-8'));
 
       const toDep = (moduleName: string, version: string): VcoreNode => {
         if (this.pathExists(path.join(workspaceRoot, 'node_modules', moduleName))) {

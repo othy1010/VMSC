@@ -6,6 +6,7 @@ import { MyMenuButtonsProvider } from './models/selectFileButton';
 import {
 	LanguageClient, LanguageClientOptions, ServerOptions, TransportKind
 } from 'vscode-languageclient/node';
+import { parse } from 'jsonc-parser';
 
 let client: LanguageClient;
 export let file = "";
@@ -648,7 +649,7 @@ function convertJsonToEcoreModel(selectFile: string): EcoreModel {
 
 		console.log(vcoreString);
 		try {
-			const json = JSON.parse(vcoreString);
+			const json = parse(vcoreString);
 
 			// const vcoreModel = this.convertJsonToModel(vcoreJson);
 			if (!json) {
@@ -918,7 +919,7 @@ function getChildKey(child: any) {
 function saveAddChangesToJSON(changedNode: EcoreNode) {
 	if (pathExists(file!) && file) {
 		const vcoreString = fs.readFileSync(file, "utf8");
-		let json = JSON.parse(vcoreString);
+		let json = parse(vcoreString);
 
 		//different json structure depending on the type of node
 
@@ -938,7 +939,7 @@ function saveAddChangesToJSON(changedNode: EcoreNode) {
 					}
 				}`;
 
-				newChild = JSON.parse(newPackage)
+				newChild = parse(newPackage)
 				addChildNode(json, newChild, changedNode)
 				break;
 			case "VClass":
@@ -951,7 +952,7 @@ function saveAddChangesToJSON(changedNode: EcoreNode) {
 					}
 				}`;
 
-				newChild = JSON.parse(newClassJSON);
+				newChild = parse(newClassJSON);
 				addChildNode(json, newChild, changedNode)
 				break;
 			case "VDataType":
@@ -963,7 +964,7 @@ function saveAddChangesToJSON(changedNode: EcoreNode) {
 					}
 				}`;
 
-				newChild = JSON.parse(newataTypeJSON);
+				newChild = parse(newataTypeJSON);
 				addChildNode(json, newChild, changedNode)
 				break;
 			case "VEnumeration":
@@ -975,7 +976,7 @@ function saveAddChangesToJSON(changedNode: EcoreNode) {
 					}
 				}`;
 
-				newChild = JSON.parse(newEnumerationJSON);
+				newChild = parse(newEnumerationJSON);
 				addChildNode(json, newChild, changedNode)
 				break;
 			case "VAttribute":
@@ -991,7 +992,7 @@ function saveAddChangesToJSON(changedNode: EcoreNode) {
 					}
 				}`;
 
-				newChild = JSON.parse(newAttributeJSON);
+				newChild = parse(newAttributeJSON);
 				addChildNode(json, newChild, changedNode)
 				break;
 			case "VReference":
@@ -1004,7 +1005,7 @@ function saveAddChangesToJSON(changedNode: EcoreNode) {
 					}
 				}`;
 
-				newChild = JSON.parse(newReferenceJSON);
+				newChild = parse(newReferenceJSON);
 				addChildNode(json, newChild, changedNode)
 				break;
 			case "VOperation":
@@ -1017,7 +1018,7 @@ function saveAddChangesToJSON(changedNode: EcoreNode) {
 						"VStructuralFeatures": []
 					}
 				}`;
-				newChild = JSON.parse(newOperationJSON);
+				newChild = parse(newOperationJSON);
 				addChildNode(json, newChild, changedNode)
 				break;
 			case "VAnnotation":
@@ -1030,7 +1031,7 @@ function saveAddChangesToJSON(changedNode: EcoreNode) {
 					}
 				}`;
 
-				newChild = JSON.parse(newAnnotationJSON);
+				newChild = parse(newAnnotationJSON);
 				addChildNode(json, newChild, changedNode)
 				break;
 			case "VLiteral":
@@ -1043,7 +1044,7 @@ function saveAddChangesToJSON(changedNode: EcoreNode) {
 					}
 				}`;
 
-				newChild = JSON.parse(newiteralJSON);
+				newChild = parse(newiteralJSON);
 				addChildNode(json, newChild, changedNode)
 				break;
 			case "VParameter":
@@ -1057,7 +1058,7 @@ function saveAddChangesToJSON(changedNode: EcoreNode) {
 					}
 				}`;
 
-				newChild = JSON.parse(newParameterJSON);
+				newChild = parse(newParameterJSON);
 				addChildNode(json, newChild, changedNode)
 				break;
 			case "VDetailEntry":
@@ -1070,7 +1071,7 @@ function saveAddChangesToJSON(changedNode: EcoreNode) {
 					}
 				}`;
 
-				newChild = JSON.parse(newDetailEntryJSON);
+				newChild = parse(newDetailEntryJSON);
 				addChildNode(json, newChild, changedNode)
 				break;
 			default:
@@ -1092,7 +1093,7 @@ function saveAddChangesToJSON(changedNode: EcoreNode) {
 function saveRenameDeleteChangesToJSON(operation: string, changedNode: EcoreNode, parentNode?: EcoreNode) {
 	if (pathExists(file!) && file) {
 		const vcoreString = fs.readFileSync(file, "utf8");
-		let json = JSON.parse(vcoreString);
+		let json = parse(vcoreString);
 
 		//different json structure depending on the type of node
 		switch (operation) {
