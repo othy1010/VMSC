@@ -101,6 +101,10 @@
         "title": "Delete"
       },
       {
+        "command": "VMSC.deleteSuperType",
+        "title": "Delete"
+      },
+      {
         "command": "VMSC.addPackage",
         "title": "Add Package"
       },

@@ -115,7 +115,7 @@ export class EcoreTreeDataProvider implements vscode.TreeDataProvider<EcoreNode>
   //constructor() { }
 
   refresh(): void {
-    this._onDidChangeTreeData.fire;
+    this._onDidChangeTreeData.fire();
   }
 
   getonDidChangeTreeData() {
@@ -206,7 +206,12 @@ export class EcoreTreeDataProvider implements vscode.TreeDataProvider<EcoreNode>
       case 'VDetailEntry':
         treeItem.iconPath = vscode.Uri.file(path.join(__dirname, '..', 'resources', 'dark', 'string.svg'))
         break;
-
+      case 'VSuperType':
+          element.getChildren().length > 0 ? treeItem.collapsibleState = vscode.TreeItemCollapsibleState.Expanded :
+          treeItem.collapsibleState = vscode.TreeItemCollapsibleState.None;
+          treeItem.iconPath= vscode.Uri.file(path.join(__dirname, '..', 'resources', 'dark', 'dependency.svg'))
+          treeItem.command = undefined
+        break;
       default:
         return {
           label: 'Unknown Element',
@@ -248,6 +253,7 @@ export class EcoreNode {
   private parent: EcoreNode | undefined;
   // private properties: Properties[] = [];
   private parameters: EcoreNode[] | undefined;
+  private superTypes: EcoreNode[] | undefined;
 
   constructor(
     public readonly type: 'VModel' | 'VPackage' | 'VClass' | 'VDataType' | 'VEnumeration' |
@@ -298,6 +304,14 @@ export class EcoreNode {
   setChildren(children: EcoreNode[]) {
     this.children = children;
   }
+  getSuperTypes() {
+    return this.superTypes;
+  }
+
+  setSuperTypes(superTypes: EcoreNode[]) {
+    this.superTypes = superTypes;
+  }
+
 
 }
 

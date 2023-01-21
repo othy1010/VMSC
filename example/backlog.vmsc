@@ -1,7 +1,7 @@
 {
    "VModel": {
    "id":"backlog",
-   "name":"Backlog",
+   "name":"BacklogMainModel",
    "VPackages":[
       { 
 

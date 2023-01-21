@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import * as fs from "fs";
 import { EcoreTreeDataProvider, EcoreModel, EcoreNode } from "./treeview";
 import * as path from "path";
-import { MyMenuButtonsProvider } from './models/selectFileButton';
+import { MyMenuButtonsProvider } from './models/myMenuButtons';
 import {
 	LanguageClient, LanguageClientOptions, ServerOptions, TransportKind
 } from 'vscode-languageclient/node';
@@ -13,6 +13,7 @@ export let file = "";
 let model: EcoreModel;
 let ecoreTreeDataProvider: EcoreTreeDataProvider;
 let treeView: vscode.TreeView<EcoreNode>;
+let superTypeList : EcoreNode[] = [];
 
 export async function activate(context: vscode.ExtensionContext) {
 	// Create the tree view
@@ -66,10 +67,10 @@ export async function activate(context: vscode.ExtensionContext) {
 						file = filePath;
 
 						context.subscriptions.splice(context.subscriptions.indexOf(mytreeView), 1)
-						model = convertJsonToEcoreModel(file);
+						model = convertJsonToEcoreModel();
 
 						ecoreTreeDataProvider = new EcoreTreeDataProvider(model);
-						vscode.commands.registerCommand('VMSC.refreshEntry', () => ecoreTreeDataProvider.refresh());
+						vscode.commands.registerCommand('VMSC.refreshEntry', () => refreshTree(context));
 
 						vscode.window.registerTreeDataProvider('exampleView', ecoreTreeDataProvider);
 
@@ -138,41 +139,22 @@ export async function activate(context: vscode.ExtensionContext) {
 	//vscodeMDE(context);
 }
 
-async function vscodeMDE(context: vscode.ExtensionContext, selectFile: string) {
-	//// Parse the JSON file and create the tree view nodes
-	//const workspaceRoot =
-	//vscode.workspace.workspaceFolders &&
-	//  vscode.workspace.workspaceFolders.length > 0
-	//  ? vscode.workspace.workspaceFolders[0].uri.fsPath
-	//  : undefined;
-	//if (!workspaceRoot) {
-	//	console.log("ERROR: workspaceRoot is undefined")
-	//	return [];
-	//}
-	//const filename = "\\test2.model" 
-	//
-	///*const selectedFile = await vscode.window.showOpenDialog({
-	//	canSelectMany: false,
-	//	filters: {
-	//	  'Model files': ['model']
-	//	}
-	//  }); */
-	//if(selectFile == undefined){
-	//	selectFile = workspaceRoot + filename;
-	//}
-	//
-	//file = selectFile;
-	//
-	//const vcoreString = fs.readFileSync(selectFile, "utf8");
-	//let model = convertJsonToEcoreModel(selectFile);
-	//
-	//let ecoreTreeDataProvider = new EcoreTreeDataProvider(model);
-	//vscode.window.registerTreeDataProvider('exampleView', ecoreTreeDataProvider);
-	//
-	//const treeView = vscode.window.createTreeView('exampleView', { treeDataProvider: ecoreTreeDataProvider });
-	//context.subscriptions.push(treeView);
-	//
-	//
+function refreshTree(context: vscode.ExtensionContext){
+	ecoreTreeDataProvider.refresh();
+	//re read file and convert file to model
+	context.subscriptions.splice(context.subscriptions.indexOf(treeView), 1)
+	model = convertJsonToEcoreModel();
+
+	ecoreTreeDataProvider = new EcoreTreeDataProvider(model);
+	vscode.window.registerTreeDataProvider('exampleView', ecoreTreeDataProvider);
+
+	treeView = vscode.window.createTreeView('exampleView', { treeDataProvider: ecoreTreeDataProvider });
+	context.subscriptions.push(treeView);
+
+	vscodeMDE(context);
+}
+
+async function vscodeMDE(context: vscode.ExtensionContext, selectFile?: string) {
 
 	//execute command when sleceted from context menu
 	context.subscriptions.push(treeView.onDidChangeSelection(async (event) => {
@@ -254,6 +236,10 @@ async function vscodeMDE(context: vscode.ExtensionContext, selectFile: string) {
 						actions.push({ label: 'Delete', command: 'VMSC.delete' });
 						actions.push({ label: 'Add Annotation', command: 'VMSC.addAnnotation' });
 						break;
+					case 'VSuperType':
+						actions.push({ label: 'Show Properties', command: 'VMSC.openContextMenu' });
+						actions.push({ label: 'Delete', command: 'VMSC.deleteSuperType' });
+						break;
 					default:
 						break;
 				}
@@ -271,8 +257,10 @@ async function vscodeMDE(context: vscode.ExtensionContext, selectFile: string) {
 		// Check if the saved file is the one that the tree view is reading from
 		if (event.fileName === selectFile) {
 			// Refresh the tree view
-			vscode.window.showErrorMessage(`File has changed manually. Please reupload it again to take the changes into consideration.`);
+			vscode.window.showErrorMessage(`File was changed manually`);
 			//treeView.reveal(treeView.selection[0], { select: true, focus: true });
+			refreshTree(context);
+			
 		}
 	});
 
@@ -285,15 +273,28 @@ async function vscodeMDE(context: vscode.ExtensionContext, selectFile: string) {
 	if (!existingCommands.includes(commandName)) {
 		context.subscriptions.push(vscode.commands.registerCommand(commandName, async (node: EcoreNode) => {
 			const result = await vscode.window.showInputBox({ prompt: `Rename ${node.getName()}` });
-			if (result) {
+			if(result)
+			{
 				node.setName(result);
-				ecoreTreeDataProvider?.getonDidChangeTreeData().fire;
+				ecoreTreeDataProvider?.getonDidChangeTreeData().fire();
 				vscode.window.showInformationMessage(`Renamed node to ${node.getName()}`);
+
+				//save shange to superTypeList
+				if(node.type == "VClass"){
+					superTypeList.forEach((element, index) => {
+						if(element.getId() == node.getId()){
+							element.setName(node.getName());
+						}
+					});
+				}
+				console.log("superTypeList");
+				console.log(superTypeList);
 
 				//save changes to json
 				saveRenameDeleteChangesToJSON("rename", node);
+
 			}
-		}));
+		}));	
 	}
 
 	//delete node
@@ -312,6 +313,18 @@ async function vscodeMDE(context: vscode.ExtensionContext, selectFile: string) {
 				//console.log(index)
 				if (0 <= index && index < model.rootNodes.length) model.rootNodes.splice(index, 1);
 			}
+			
+			//save shange to superTypeList
+			if(node.type == "VClass"){
+				superTypeList.forEach((element, index) => {
+					if(element.getId() == node.getId()){
+						superTypeList.splice(index, 1)
+					}
+				});
+			}
+			//console.log("superTypeList");
+			//console.log(superTypeList);
+
 			ecoreTreeDataProvider.getonDidChangeTreeData().fire;
 
 			//save changes to json
@@ -352,7 +365,7 @@ async function vscodeMDE(context: vscode.ExtensionContext, selectFile: string) {
 									file = filePath;
 
 									context.subscriptions.splice(context.subscriptions.indexOf(treeView), 1)
-									model = convertJsonToEcoreModel(filePath);
+									model = convertJsonToEcoreModel();
 
 									ecoreTreeDataProvider = new EcoreTreeDataProvider(model);
 									vscode.window.registerTreeDataProvider('exampleView', ecoreTreeDataProvider);
@@ -368,6 +381,26 @@ async function vscodeMDE(context: vscode.ExtensionContext, selectFile: string) {
 				}
 			}
 		}));
+	}
+
+	//deleteSuperType node
+	commandName = 'VMSC.deleteSuperType'
+	if (!existingCommands.includes(commandName)) {
+		context.subscriptions.push(vscode.commands.registerCommand(commandName, async (superTypeNode: EcoreNode) => {
+			vscode.window.showInformationMessage(`Delete Super Type relationship with ${superTypeNode.getName()}`);
+			const hasparent = superTypeNode.getParent();
+			if(hasparent){
+				const index = hasparent.getChildren().indexOf(superTypeNode);
+				hasparent.getChildren().splice(index, 1);
+			}
+			else{ 
+				console.log("error: no parent");
+			}
+			ecoreTreeDataProvider.getonDidChangeTreeData().fire();
+			
+			//save changes to json
+			saveDeleteSuperTypeChangesToJSON(superTypeNode, hasparent? hasparent: model.rootNodes[0]);
+		}));	
 	}
 
 	//add package
@@ -398,6 +431,18 @@ async function vscodeMDE(context: vscode.ExtensionContext, selectFile: string) {
 			node.getChildren().push(newClass);
 			ecoreTreeDataProvider.getonDidChangeTreeData().fire;
 
+			//save shange to superTypeList
+			if(node.type == "VClass"){
+				if(superTypeList.length == 0){
+					superTypeList.push(newClass);
+				}
+				else {
+					let result = superTypeList.find((element, index) => { element.getId() == newClass.getId() });
+					if(!result){ //doesn t exist
+						superTypeList.push(newClass);
+					}
+				}
+			}
 			//save changes to json
 			saveAddChangesToJSON(newClass);
 		}));
@@ -565,23 +610,30 @@ async function vscodeMDE(context: vscode.ExtensionContext, selectFile: string) {
 	if (!existingCommands.includes(commandName)) {
 		context.subscriptions.push(vscode.commands.registerCommand(commandName, async (node: EcoreNode) => {
 			vscode.window.showInformationMessage(`Add Super Type`);
-			//const newname = await vscode.window.showInputBox({ prompt: `Super : ` });
 
-			/*	let newParameter = new EcoreNode('VParameter', newname? newname: 'New Parameter');
-				newParameter.setParent(node);
-				node.getChildren().push(newParameter);*/
-			ecoreTreeDataProvider.getonDidChangeTreeData().fire;
+			let supertypeSuggestions : any[] = [];
+			superTypeList.forEach(element => {
+				if(element.getId() != node.getId()){
+					//if(node.getSuperTypes()?.indexOf(element) == -1){
+						let label = element.getParent()?.getName()+"\\" + element.getName()+" @id:"+ element.getId();
+						supertypeSuggestions.push({ command: element, label: label });
+					//}
+				}
+			})
 
-			//let supertypes = [];
-			//supertypes = getAllAvailableSuperTypes();
-			//supertypes.push({ command: '1', label: 'class1' });
-			//const result = await vscode.window.showQuickPick(supertypes);
-
-			//console.log(result);
-
-
-			//save changes to json
-			//saveAddChangesToJSON(newParameter);
+			const result = await vscode.window.showQuickPick(supertypeSuggestions);
+			console.log(result);
+			if(result){
+				let superTypeDependency = new EcoreNode('VSuperType', result.command.getName());
+				superTypeDependency.setId(result.command.getId());
+				superTypeDependency.setParent(node);
+				node.getChildren().push(superTypeDependency);
+				node.getSuperTypes()?.push(superTypeDependency);
+				ecoreTreeDataProvider.getonDidChangeTreeData().fire();
+				//save changes to json
+				saveAddChangesToJSON(superTypeDependency);
+			}
+		
 		}));
 	}
 	//add constraint
@@ -642,12 +694,12 @@ function startLanguageClient(context: vscode.ExtensionContext): LanguageClient {
 	return client;
 }
 
-function convertJsonToEcoreModel(selectFile: string): EcoreModel {
-	if (pathExists(selectFile!) && selectFile) {
-		const vcoreString = fs.readFileSync(selectFile, "utf8");
+function convertJsonToEcoreModel(): EcoreModel {
+	if (pathExists(file!) && file) {
+		const vcoreString = fs.readFileSync(file, "utf8");
 		//const vcoreString = fs.readFileSync(selectedFile[0].fsPath, "utf8");
 
-		console.log(vcoreString);
+		//console.log(vcoreString);
 		try {
 			const json = parse(vcoreString);
 
@@ -705,6 +757,10 @@ function transformJsonToTree(json: any): EcoreModel {
 				childNode.setParent(node);
 				node.getChildren().push(childNode);
 				parseJson(childNode, child);
+				
+				if(child_key == "VClass"){
+					superTypeList.push(childNode);
+				}
 			});
 		}
 
@@ -716,6 +772,22 @@ function transformJsonToTree(json: any): EcoreModel {
 				let childNode = new EcoreNode(child_key, child_name);
 				childNode.setId(child[child_key].id);
 				childNode.setParent(node);
+				
+			//save shange to superTypeList
+			if(childNode.type == "VClass"){
+				if(superTypeList.length == 0){
+					superTypeList.push(childNode);
+				}
+				else {
+					let result = superTypeList.find((element, index) => { element.getId() == childNode.getId() });
+					if(!result){ //doesn t exist
+						superTypeList.push(childNode);
+					}
+				}
+			}
+
+			parseJson(childNode, child);
+
 				node.getChildren().push(childNode);
 				parseJson(childNode, child);
 			});
@@ -735,13 +807,15 @@ function transformJsonToTree(json: any): EcoreModel {
 			}
 			if (json.VClass.hasOwnProperty("VSuperType")) {
 				json.VClass.VSuperType.forEach((child: any) => {
-					let child_key = getChildKey(child)
-					let child_name = child[child_key].name
-					let childNode = new EcoreNode(child_key, child_name);
-					childNode.setId(child[child_key].id);
-					childNode.setParent(node);
-					node.getChildren().push(childNode);
-					parseJson(childNode, child);
+					//let child_key = getChildKey(child)
+				//console.log("child")
+				//console.log(child)
+				let childNode = new EcoreNode('VSuperType', child);
+				childNode.setId(child);
+				childNode.setParent(node);
+				node.getChildren().push(childNode);
+				node.getSuperTypes()?.push(childNode);
+				parseJson(childNode, child);
 				});
 			}
 		}
@@ -861,17 +935,6 @@ function transformJsonToTree(json: any): EcoreModel {
 		if (json.hasOwnProperty("VDetailEntry")) {
 		}
 
-		// if the json object has a "VGeneralization" property, recursively parse it
-		if (json.hasOwnProperty("VGeneralization")) {
-			/*	json.references.forEach((child: any) => {
-					let child_key = getChildKey(child)
-					let child_name = child[child_key].name
-						let childNode = new EcoreNode(child_key, child_name);
-					childNode.setId(child[child_key].id);
-					node.getChildren().push(childNode);
-					parseJson(childNode, child);
-				});*/
-		}
 		// if the json object has a "VAssociation" property, recursively parse it
 		if (json.hasOwnProperty("VAssociation")) {
 			/*json.references.forEach((child: any) => {
@@ -1060,6 +1123,10 @@ function saveAddChangesToJSON(changedNode: EcoreNode) {
 
 				newChild = parse(newParameterJSON);
 				addChildNode(json, newChild, changedNode)
+				break;
+			
+			case "VSuperType":
+				addSuperType(json, changedNode)
 				break;
 			case "VDetailEntry":
 				const newDetailEntryJSON = `{
@@ -1250,6 +1317,23 @@ function setJsonName(json: any, newName: string) {
 	else if (json.hasOwnProperty("VDetailEntry"))
 		json.VDetailEntry.name = newName;
 }
+function saveDeleteSuperTypeChangesToJSON(superType: EcoreNode, node: EcoreNode) {
+	if (pathExists(file!) && file) {
+		const vcoreString = fs.readFileSync(file, "utf8");
+		let  json = JSON.parse(vcoreString);
+		
+		json = deleteSuperType(json, superType, node);
+		
+		//write in File
+		fs.writeFile(file, JSON.stringify(json, null, 4), 'utf8', (err) => {
+			if (err) {
+			  console.error(err);
+			  return;
+			}
+			console.log('JSON data has been written to file successfully.');
+		  });
+	} 
+  }
 
 function deleteNode(json: any, node: EcoreNode) {
 	let jsonID = getJsonID(json);
@@ -1339,6 +1423,38 @@ function deleteNode(json: any, node: EcoreNode) {
 	//console.log("deleteNode in  json " + node.getID() );
 	//console.log(json);
 	return json;
+}
+
+function deleteSuperType(json: any, superType : EcoreNode, node:EcoreNode){
+	let jsonID= getJsonID(json);
+	let found = false;
+	if(jsonID === node.getId()){
+		console.log("found")
+		//if(node.type == "VModel"){
+		//	delete json["VPackage"];
+		//}		 
+		//else
+		//delete json[node.type];
+		console.log(json)
+	}
+	else{
+		if(json.hasOwnProperty("VModel") && json.VModel.hasOwnProperty("VPackages")){
+			for (let childJSON of json.VModel.VPackages) {
+				childJSON = deleteSuperType(childJSON, superType, node);
+				if(found)
+					break;
+			}
+		}
+		else if(json.hasOwnProperty("VPackage") && json.VPackage.hasOwnProperty("VComponents")){
+			for (let childJSON of json.VPackage.VComponents) {
+				if(childJSON.hasOwnProperty("VClass") && childJSON.VClass.hasOwnProperty("VSuperType")){
+					
+					console.log(childJSON.VClass.VSuperType)
+					console.log(childJSON.VClass.VSuperType[1])
+				}
+			}
+		}
+	}
 }
 
 function cleanJSON(json: any) {
@@ -1545,27 +1661,54 @@ function pushChild(json: any, child: any, node: EcoreNode) {
 		json.VParameter.VStructuralAnnotations.push(child);
 }
 
-// function getAllAvailableSuperTypes(json: any) {
-// 	const supertypes = [];
-// 	if (json.hasOwnProperty("VModel") && json.VModel.hasOwnProperty("VPackages")) {
-// 		for (let childJSON of json.VModel.VPackages) {
-// 			childJSON = getAllAvailableSuperTypes(childJSON);
-// 		}
-// 	}
-// 	else if (json.hasOwnProperty("VPackage") && json.VPackage.hasOwnProperty("VComponents")) {
-// 		for (let childJSON of json.VPackage.VComponents) {
-// 			if (childJSON.hasOwnProperty("VClass")) {
-// 				supertypes.push(
-// 					{
-// 						label: `${childJSON.VClass.nom}`,
-// 						command: `${childJSON.VClass.id}`
-// 					}
-// 				);
-// 			}
-// 			else if (childJSON.hasOwnProperty("VPackage") && json.VPackage.hasOwnProperty("VComponents")) {
-// 				childJSON = getAllAvailableSuperTypes(childJSON);
-// 			}
-// 		}
-// 	}
-// 	return supertypes;
-// }
+function addSuperType(json: any, node : EcoreNode){
+	if(!node.getParent()){
+		console.log("ERROR ADD: no parent");
+		return;
+	}
+	
+	let jsonID= getJsonID(json);
+	if(jsonID === node.getParent()?.getId()){ //found class
+		console.log("found")
+		if(json.hasOwnProperty("VClass") && json.VClass.id === node.getParent()?.getId()){
+			if(json.VClass.hasOwnProperty("VSuperType")){
+				json.VClass.VSuperType.push(node.getId());
+			}
+			else{
+				json.VClass.VSuperType = [node.getId()];
+			}
+		}
+				
+	}
+	else{
+		if(json.hasOwnProperty("VModel")) {
+			if(json.VModel.hasOwnProperty("VPackages")){
+				for (let childJSON of json.VModel.VPackages) {
+					childJSON = addSuperType(json, node);
+				}
+			}
+			else{
+				json.VModel.VPackages = [];
+			}
+		}
+		else if(json.hasOwnProperty("VPackage")) {
+			if(json.VPackage.hasOwnProperty("VComponents")){
+				for (let childJSON of json.VPackage.VComponents) {
+					if(childJSON.type === "VClass" && childJSON.getId() === node.getParent()?.getId()){
+						if(json.VClass.hasOwnProperty("VSuperType")){
+							//if i idin t exist
+							console.log(json.VClass.VSuperType)
+							json.VClass.VSuperType.push(node.getId());
+						}
+						else{
+							childJSON.VClass.VSuperType = [node.getId()];
+						}
+					}				
+				}
+			}
+			else{
+				json.VPackage.VComponents = [];
+			}
+		}
+	}
+}
