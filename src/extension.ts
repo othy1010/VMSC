@@ -338,12 +338,12 @@ async function vscodeMDE(context: vscode.ExtensionContext, selectFile?: string) 
 				vscode.window.registerTreeDataProvider('exampleView', new MyMenuButtonsProvider());
 				// re-register command for "Select File" button 
 
-				const mySelectFileButtonCommand = 'mySelectFileButtonCommand';
+				let mybuttonCommand = 'mySelectFileButtonCommand';
 
-
-				if (existingCommands.includes(mySelectFileButtonCommand)) {
+				//select file button
+				if (existingCommands.includes(mybuttonCommand)) {
 					context.subscriptions.splice(context.subscriptions.indexOf(treeView), 1)
-					vscode.commands.executeCommand(mySelectFileButtonCommand)
+					vscode.commands.executeCommand(mybuttonCommand)
 				}
 
 				else {
@@ -379,6 +379,74 @@ async function vscodeMDE(context: vscode.ExtensionContext, selectFile?: string) 
 							});
 					}));
 				}
+
+				//create new file button
+				mybuttonCommand = "myCreateFileButtonCommand"
+				if (existingCommands.includes(mybuttonCommand)) {
+					context.subscriptions.splice(context.subscriptions.indexOf(treeView), 1)
+					vscode.commands.executeCommand(mybuttonCommand)
+				}
+
+				else {
+					context.subscriptions.push(vscode.commands.registerCommand(mybuttonCommand, () => {
+						vscode.window.showInputBox({ placeHolder: "Enter file name" }).then((fileName) => {
+							if (fileName) {
+								// you can use the path of the selected file to read its content
+								let options = {
+									canSelectFolders: true,
+									canSelectMany: false,
+									openLabel: 'Select a folder'
+								};
+	
+								vscode.window.showOpenDialog(options).then(folderUri => {
+									if (folderUri) {
+										let folderPath = folderUri[0].fsPath;
+										// Use the folderPath variable to create the new file in the selected directory
+										console.log(`Selected folder: ${folderPath}`);
+										vscode.window.showInformationMessage("New file created: " + folderPath + "\\" + fileName + ".vmsc");
+									} else {
+										vscode.window.showErrorMessage("The selected folder is not a valid directory. Please select a valid directory.");
+										console.log(">>>>> The selected folder is not a valid directory. Please select a valid directory.");
+									}
+								});
+							}
+						});
+					}));
+				}
+
+				//import file button
+				mybuttonCommand = "myImportFileButtonCommand"
+				if (existingCommands.includes(mybuttonCommand)) {
+					context.subscriptions.splice(context.subscriptions.indexOf(treeView), 1)
+					vscode.commands.executeCommand(mybuttonCommand)
+				}
+
+				else {
+					context.subscriptions.push(vscode.commands.registerCommand(mybuttonCommand, () => {
+						vscode.window.showOpenDialog({
+							canSelectMany: false,
+							openLabel: "Select",
+							filters: {
+								"All files": ["*"]
+								//"Model files": ["*.ecore"]
+							},
+						}).then((fileUri) => {
+							if (fileUri) {
+								// you can use the path of the selected file to read its content
+								let filePath = fileUri[0].fsPath;
+								let fileName = path.basename(filePath);
+								if (fileName.endsWith(".ecore")) {
+									vscode.window.showInformationMessage("Imported ecore file: " + filePath);
+									console.log("Imported ecore file: " + filePath);
+								}
+							} else {
+								vscode.window.showErrorMessage("The selected file is not an Ecore file. Please select a valid .ecore file.");
+								console.log(">>>>> The selected file is not an Ecore file. Please select a valid .ecore file.");
+							}
+						});
+					}));
+				}
+
 			}
 		}));
 	}
