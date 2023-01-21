@@ -1,161 +1,175 @@
 {
-   "VModel": {
-   "id":"backlog",
-   "name":"BacklogMainModel",
-   "VPackages":[
-      { 
-
-         "VPackage":{
-            "id":"backlogpackage",
-            "name":"Backlog",
-            "VPrefix":"Backlog",
-            "VUri":"httpwwwexamplecom",
-            "VComponents":[
-               {
-                  "VClass":{
-                     "id":"1",
-                     "name":"BacklogModel",
-                     "VStructuralFeatures":[
+    "VModel": {
+        "id": "backlog",
+        "name": "Backlog Example",
+        "VPackages": [
+            {
+                "VPackage": {
+                    "id": "backlogpackage",
+                    "name": "Backlog",
+                    "VPrefix": "Backlog",
+                    "VUri": "httpwwwexamplecom",
+                    "VComponents": [
                         {
-                           "VReference":{
-                              "id":"processesattr",
-                              "name":"processes",
-                              "VType":"Process",
-                              // "value":23
-                              "LowerBound":1,
-                              "UpperBound":1,
-                           }
+                            "VClass": {
+                                "id": "1",
+                                "name": "BacklogModel",
+                                "VStructuralFeatures": [
+                                    {
+                                        "VReference": {
+                                            "id": "processesattr",
+                                            "name": "processes",
+                                            "VType": "Process",
+                                            "LowerBound": 1,
+                                            "UpperBound": 1,
+                                            "VStructuralAnnotations": []
+                                        }
+                                    },
+                                    {
+                                        "VReference": {
+                                            "id": "processesattr2",
+                                            "name": "bakclog",
+                                            "VType": "Backlogs",
+                                            "LowerBound": 1,
+                                            "UpperBound": 1,
+                                            "VStructuralAnnotations": []
+                                        }
+                                    },
+                                    {
+                                        "VOperation": {
+                                            "id": "ld5tjpya-5d0xyz",
+                                            "name": "operation",
+                                            "return": "void",
+                                            "VParameters": [
+                                                {
+                                                    "VParameter": {
+                                                        "id": "ld5tjvru-qw055o",
+                                                        "name": "parameter",
+                                                        "VType": "int",
+                                                        "VContent": 0,
+                                                        "VStructuralAnnotations": []
+                                                    }
+                                                }
+                                            ],
+                                            "VStructuralFeatures": []
+                                        }
+                                    }
+                                ]
+                            }
                         },
                         {
-                           "VReference":{
-                               "id":"processesattr2",
-                              "name":"bakclog",
-                              "VType":"Backlogs",
-                              // "value":23
-                              "LowerBound":1,
-                              "UpperBound":1,
-                           }
-                        }
-                  
-                     ],
-                   
-                  }
-               },
-               {
-                  "VClass":{
-                     "id":"2",
-                     "name":"Process",
-                     "VStructuralFeatures":[
+                            "VClass": {
+                                "id": "2",
+                                "name": "Process",
+                                "VStructuralFeatures": [
+                                    {
+                                        "VReference": {
+                                            "id": "processattr",
+                                            "name": "activity",
+                                            "VType": "Activity",
+                                            "LowerBound": 1,
+                                            "UpperBound": -1,
+                                            "VStructuralAnnotations": []
+                                        }
+                                    },
+                                    {
+                                        "VReference": {
+                                            "id": "processattr2",
+                                            "name": "role",
+                                            "VType": "Roles",
+                                            "LowerBound": 1,
+                                            "UpperBound": -1,
+                                            "VStructuralAnnotations": []
+                                        }
+                                    }
+                                ]
+                            }
+                        },
                         {
-                           "VReference":{
-                              "id":"processattr",
-                              "name":"activity",
-                              "VType":"Activity",
-                              // "value":23
-                              "LowerBound":1,
-                              "UpperBound":-1,
-                           }
-                        },{
-                           "VReference":{
-                              "id":"processattr2",
-                              "name":"role",
-                              "VType":"Roles",
-                              // "value":23
-                              "LowerBound":1,
-                              "UpperBound":-1,
-                           }
-                        }
-                     ],
-                   
-                  }
-               },
-               {
-                  "VClass":{
-                     "id":"3",
-                     "name":"Backlogs",
-                     "VStructuralFeatures":[
+                            "VClass": {
+                                "id": "3",
+                                "name": "Backlogs",
+                                "VStructuralFeatures": [
+                                    {
+                                        "VReference": {
+                                            "id": "backlogattr",
+                                            "name": "userstories",
+                                            "VType": "UserStory",
+                                            "LowerBound": 1,
+                                            "UpperBound": -1,
+                                            "VStructuralAnnotations": []
+                                        }
+                                    }
+                                ]
+                            }
+                        },
                         {
-                           "VReference":{
-                              "id":"backlogattr",
-                              "name":"userstories",
-                              "VType":"UserStory",
-                              // "value":23
-                              "LowerBound":1,
-                              "UpperBound":-1,
-                           }
-                        }
-                     ],
-                  }
-               },
-               {
-                  "VClass":{
-                     "id":"4",
-                     "name":"UserStory",
-                     "VStructuralFeatures":[
+                            "VClass": {
+                                "id": "4",
+                                "name": "UserStory",
+                                "VStructuralFeatures": [
+                                    {
+                                        "VReference": {
+                                            "id": "userstoryattr",
+                                            "name": "activities",
+                                            "VType": "Activity",
+                                            "LowerBound": 1,
+                                            "UpperBound": 1,
+                                            "VStructuralAnnotations": []
+                                        }
+                                    },
+                                    {
+                                        "VReference": {
+                                            "id": "userstoryattr",
+                                            "name": "role",
+                                            "VType": "Roles",
+                                            "LowerBound": 1,
+                                            "UpperBound": 1,
+                                            "VStructuralAnnotations": []
+                                        }
+                                    }
+                                ]
+                            }
+                        },
                         {
-                           "VReference":{
-                              "id":"userstoryattr",
-                              "name":"activities",
-                              "VType":"Activity",
-                              // "value":23
-                              "LowerBound":1,
-                              "UpperBound":1,
-                           }
-                        },  {
-                           "VReference":{
-                              "id":"userstoryattr",
-                              "name":"role",
-                              "VType":"Roles",
-                              // "value":23
-                              "LowerBound":1,
-                              "UpperBound":1,
-                           }
-                        }
-                     ],
-                   
-                  }
-               },
-                              {
-                  "VClass":{
-                     "id":"6",
-                     "name":"Activity",
-                     "VStructuralFeatures":[
+                            "VClass": {
+                                "id": "6",
+                                "name": "Activity",
+                                "VStructuralFeatures": [
+                                    {
+                                        "VAttribute": {
+                                            "id": "activitiesattr",
+                                            "name": "content",
+                                            "VType": "VString",
+                                            "LowerBound": 1,
+                                            "UpperBound": 1,
+                                            "VStructuralAnnotations": []
+                                        }
+                                    }
+                                ]
+                            }
+                        },
                         {
-                           "VAttribute":{
-                              "id":"activitiesattr",
-                              "name":"content",
-                              "VType": "VString",
-                              // "value":23
-                              "LowerBound":1,
-                              "UpperBound":1,
-                           }
+                            "VClass": {
+                                "id": "7",
+                                "name": "Roles",
+                                "VStructuralFeatures": [
+                                    {
+                                        "VAttribute": {
+                                            "id": "activitiesattr",
+                                            "name": "content",
+                                            "VType": "VString",
+                                            "LowerBound": 1,
+                                            "UpperBound": 1,
+                                            "VStructuralAnnotations": []
+                                        }
+                                    }
+                                ]
+                            }
                         }
-                     ],
-                   
-                  }
-               },
-               {
-                  "VClass":{
-                     "id":"7",
-                     "name":"Roles",
-                     "VStructuralFeatures":[
-                        {
-                           "VAttribute":{
-                              "id":"activitiesattr",
-                              "name":"content",
-                              "VType": "VString",
-                              // "value":23
-                              "LowerBound":1,
-                              "UpperBound":1,
-                           }
-                        }
-                     ],
-                   
-                  }
-               }
-            ]
-         }
-      }
-   ]
-}
+                    ]
+                }
+            }
+        ]
+    }
 }

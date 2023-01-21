@@ -115,7 +115,7 @@ export class EcoreTreeDataProvider implements vscode.TreeDataProvider<EcoreNode>
   //constructor() { }
 
   refresh(): void {
-    this._onDidChangeTreeData.fire();
+    this._onDidChangeTreeData.fire(undefined);
   }
 
   getonDidChangeTreeData() {

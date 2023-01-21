@@ -276,7 +276,7 @@ async function vscodeMDE(context: vscode.ExtensionContext, selectFile?: string) 
 			if(result)
 			{
 				node.setName(result);
-				ecoreTreeDataProvider?.getonDidChangeTreeData().fire();
+				ecoreTreeDataProvider?.getonDidChangeTreeData().fire(undefined);
 				vscode.window.showInformationMessage(`Renamed node to ${node.getName()}`);
 
 				//save shange to superTypeList
@@ -325,7 +325,7 @@ async function vscodeMDE(context: vscode.ExtensionContext, selectFile?: string) 
 			//console.log("superTypeList");
 			//console.log(superTypeList);
 
-			ecoreTreeDataProvider.getonDidChangeTreeData().fire;
+			ecoreTreeDataProvider.getonDidChangeTreeData().fire(undefined)
 
 			//save changes to json
 			saveRenameDeleteChangesToJSON("delete", node, hasparent);
@@ -347,7 +347,7 @@ async function vscodeMDE(context: vscode.ExtensionContext, selectFile?: string) 
 				}
 
 				else {
-					context.subscriptions.push(vscode.commands.registerCommand(mySelectFileButtonCommand, () => {
+					context.subscriptions.push(vscode.commands.registerCommand(mybuttonCommand, () => {
 						vscode.window
 							.showOpenDialog({
 								canSelectMany: false,
@@ -464,7 +464,7 @@ async function vscodeMDE(context: vscode.ExtensionContext, selectFile?: string) 
 			else{ 
 				console.log("error: no parent");
 			}
-			ecoreTreeDataProvider.getonDidChangeTreeData().fire();
+			ecoreTreeDataProvider.getonDidChangeTreeData().fire(undefined);
 			
 			//save changes to json
 			saveDeleteSuperTypeChangesToJSON(superTypeNode, hasparent? hasparent: model.rootNodes[0]);
@@ -480,7 +480,7 @@ async function vscodeMDE(context: vscode.ExtensionContext, selectFile?: string) 
 			let newPackage = new EcoreNode('VPackage', newname ? newname : 'New Package');
 			newPackage.setParent(node);
 			node.getChildren().push(newPackage);
-			ecoreTreeDataProvider.getonDidChangeTreeData().fire;
+			ecoreTreeDataProvider.getonDidChangeTreeData().fire(undefined)
 
 			//save changes to json
 			saveAddChangesToJSON(newPackage);
@@ -497,7 +497,7 @@ async function vscodeMDE(context: vscode.ExtensionContext, selectFile?: string) 
 			let newClass = new EcoreNode('VClass', newname ? newname : 'New Class');
 			newClass.setParent(node);
 			node.getChildren().push(newClass);
-			ecoreTreeDataProvider.getonDidChangeTreeData().fire;
+			ecoreTreeDataProvider.getonDidChangeTreeData().fire(undefined)
 
 			//save shange to superTypeList
 			if(node.type == "VClass"){
@@ -525,7 +525,7 @@ async function vscodeMDE(context: vscode.ExtensionContext, selectFile?: string) 
 			let newEnumeration = new EcoreNode('VEnumeration', newname ? newname : 'New Enumeration');
 			newEnumeration.setParent(node);
 			node.getChildren().push(newEnumeration);
-			ecoreTreeDataProvider.getonDidChangeTreeData().fire;
+			ecoreTreeDataProvider.getonDidChangeTreeData().fire(undefined)
 
 			//save changes to json
 			saveAddChangesToJSON(newEnumeration);
@@ -541,7 +541,7 @@ async function vscodeMDE(context: vscode.ExtensionContext, selectFile?: string) 
 			let newEDataType = new EcoreNode('VDataType', newname ? newname : 'New EDataType');
 			newEDataType.setParent(node);
 			node.getChildren().push(newEDataType);
-			ecoreTreeDataProvider.getonDidChangeTreeData().fire;
+			ecoreTreeDataProvider.getonDidChangeTreeData().fire(undefined)
 
 			//save changes to json
 			saveAddChangesToJSON(newEDataType);
@@ -558,7 +558,7 @@ async function vscodeMDE(context: vscode.ExtensionContext, selectFile?: string) 
 			let newAttribute = new EcoreNode('VAttribute', newname ? newname : 'New Attribute');
 			newAttribute.setParent(node);
 			node.getChildren().push(newAttribute);
-			ecoreTreeDataProvider.getonDidChangeTreeData().fire;
+			ecoreTreeDataProvider.getonDidChangeTreeData().fire(undefined)
 
 			//save changes to json
 			saveAddChangesToJSON(newAttribute);
@@ -574,7 +574,7 @@ async function vscodeMDE(context: vscode.ExtensionContext, selectFile?: string) 
 			let newOperation = new EcoreNode('VOperation', newname ? newname : 'New Operation');
 			newOperation.setParent(node);
 			node.getChildren().push(newOperation);
-			ecoreTreeDataProvider.getonDidChangeTreeData().fire;
+			ecoreTreeDataProvider.getonDidChangeTreeData().fire(undefined)
 
 			//save changes to json
 			saveAddChangesToJSON(newOperation);
@@ -590,7 +590,7 @@ async function vscodeMDE(context: vscode.ExtensionContext, selectFile?: string) 
 			let newAnnotation = new EcoreNode('VAnnotation', newname ? newname : 'New Annotation');
 			newAnnotation.setParent(node);
 			node.getChildren().push(newAnnotation);
-			ecoreTreeDataProvider.getonDidChangeTreeData().fire;
+			ecoreTreeDataProvider.getonDidChangeTreeData().fire(undefined);
 
 			//save changes to json
 			saveAddChangesToJSON(newAnnotation);
@@ -606,7 +606,7 @@ async function vscodeMDE(context: vscode.ExtensionContext, selectFile?: string) 
 			let newLiteral = new EcoreNode('VLiteral', newname ? newname : 'New Literal');
 			newLiteral.setParent(node);
 			node.getChildren().push(newLiteral);
-			ecoreTreeDataProvider.getonDidChangeTreeData().fire;
+			ecoreTreeDataProvider.getonDidChangeTreeData().fire(undefined);
 
 			//save changes to json
 			saveAddChangesToJSON(newLiteral);
@@ -622,7 +622,7 @@ async function vscodeMDE(context: vscode.ExtensionContext, selectFile?: string) 
 			let newReference = new EcoreNode('VReference', newname ? newname : 'New Reference');
 			newReference.setParent(node);
 			node.getChildren().push(newReference);
-			ecoreTreeDataProvider.getonDidChangeTreeData().fire;
+			ecoreTreeDataProvider.getonDidChangeTreeData().fire(undefined);
 
 			//save changes to json
 			saveAddChangesToJSON(newReference);
@@ -640,7 +640,7 @@ async function vscodeMDE(context: vscode.ExtensionContext, selectFile?: string) 
 			let newParameter = new EcoreNode('VParameter', newname ? newname : 'New Parameter');
 			newParameter.setParent(node);
 			node.getChildren().push(newParameter);
-			ecoreTreeDataProvider.getonDidChangeTreeData().fire;
+			ecoreTreeDataProvider.getonDidChangeTreeData().fire(undefined);
 
 			//save changes to json
 			saveAddChangesToJSON(newParameter);
@@ -655,7 +655,7 @@ async function vscodeMDE(context: vscode.ExtensionContext, selectFile?: string) 
 			let newDetailEntry = new EcoreNode('VDetailEntry', newname ? newname : 'New DetailEntry');
 			newDetailEntry.setParent(node);
 			node.getChildren().push(newDetailEntry);
-			ecoreTreeDataProvider.getonDidChangeTreeData().fire;
+			ecoreTreeDataProvider.getonDidChangeTreeData().fire(undefined);
 
 			//save changes to json
 			saveAddChangesToJSON(newDetailEntry);
@@ -670,7 +670,7 @@ async function vscodeMDE(context: vscode.ExtensionContext, selectFile?: string) 
 		context.subscriptions.push(vscode.commands.registerCommand(commandName, (node: EcoreNode) => {
 			vscode.window.showInformationMessage(`Add Association`);
 
-			ecoreTreeDataProvider.getonDidChangeTreeData().fire;
+			ecoreTreeDataProvider.getonDidChangeTreeData().fire(undefined);
 		}));
 	}
 	//add super type
@@ -697,7 +697,7 @@ async function vscodeMDE(context: vscode.ExtensionContext, selectFile?: string) 
 				superTypeDependency.setParent(node);
 				node.getChildren().push(superTypeDependency);
 				node.getSuperTypes()?.push(superTypeDependency);
-				ecoreTreeDataProvider.getonDidChangeTreeData().fire();
+				ecoreTreeDataProvider.getonDidChangeTreeData().fire(undefined);
 				//save changes to json
 				saveAddChangesToJSON(superTypeDependency);
 			}
@@ -710,7 +710,7 @@ async function vscodeMDE(context: vscode.ExtensionContext, selectFile?: string) 
 		context.subscriptions.push(vscode.commands.registerCommand(commandName, (node: EcoreNode) => {
 			vscode.window.showInformationMessage(`Add Constraint`);
 
-			ecoreTreeDataProvider.getonDidChangeTreeData().fire;
+			ecoreTreeDataProvider.getonDidChangeTreeData().fire(undefined)
 		}));
 	}
 }
@@ -1415,8 +1415,8 @@ function deleteNode(json: any, node: EcoreNode) {
 		delete json[node.type];
 	}
 	else {
-		if (json.hasOwnProperty("VModel") && json.VPackage.hasOwnProperty("VPackages")) {
-			for (let childJSON of json.VModel.VPackage) {
+		if (json.hasOwnProperty("VModel") && json.VModel.hasOwnProperty("VPackages")) {
+			for (let childJSON of json.VModel.VPackages) {
 				childJSON = deleteNode(childJSON, node);
 				if (found)
 					break;
@@ -1571,7 +1571,7 @@ function addChildNode(json: any, child: any, node: EcoreNode): any {
 	}
 	else {
 		if (json.hasOwnProperty("VModel")) {
-			if (json.VPackage.hasOwnProperty("VPackages")) {
+			if (json.VModel.hasOwnProperty("VPackages")) {
 				for (let childJSON of json.VModel.VPackages) {
 					childJSON = addChildNode(childJSON, child, node);
 				}
