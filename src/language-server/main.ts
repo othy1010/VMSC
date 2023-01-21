@@ -1,5 +1,6 @@
 import { startLanguageServer } from 'langium';
 import { NodeFileSystem } from 'langium/node';
+import { addDiagramHandler } from 'langium-sprotty';
 import { createConnection, ProposedFeatures } from 'vscode-languageserver/node';
 import { createVmscServices } from './vmsc-module';
 
@@ -11,3 +12,4 @@ const { shared } = createVmscServices({ connection, ...NodeFileSystem });
 
 // Start the language server with the shared services
 startLanguageServer(shared);
+addDiagramHandler(connection, shared);

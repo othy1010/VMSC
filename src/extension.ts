@@ -1,7 +1,10 @@
 import * as vscode from 'vscode';
 import * as fs from "fs";
 import { EcoreTreeDataProvider, EcoreModel, EcoreNode } from "./treeview";
-import * as path from "path";
+
+import * as path from 'path';
+import { registerDefaultCommands, registerTextEditorSync } from 'sprotty-vscode';
+import { LspSprottyEditorProvider, LspSprottyViewProvider, LspWebviewPanelManager } from 'sprotty-vscode/lib/lsp';
 import { MyMenuButtonsProvider } from './models/selectFileButton';
 import {
 	LanguageClient, LanguageClientOptions, ServerOptions, TransportKind
@@ -17,6 +20,16 @@ let treeView: vscode.TreeView<EcoreNode>;
 export async function activate(context: vscode.ExtensionContext) {
 	// Create the tree view
 	client = startLanguageClient(context);
+	// Set up webview panel manager for freestyle webviews
+
+	const webviewPanelManager = new LspWebviewPanelManager({
+		extensionUri: context.extensionUri,
+		defaultDiagramType: 'vmsc',
+		languageClient: client,
+		supportedFileExtensions: ['.vmsc']
+	});
+
+	registerDefaultCommands(webviewPanelManager, context, { extensionPrefix: 'vmsc' });
 
 	let menuButtons = new MyMenuButtonsProvider();
 	menuButtons.getChildren()?.forEach((button) => {
@@ -35,7 +48,7 @@ export async function activate(context: vscode.ExtensionContext) {
 					canSelectMany: false,
 					openLabel: "Select",
 					filters: {
-						"Vmsc files": ["*"]
+						"Vmsc files": ["vmsc"]
 						//"Model files": ["*.model"]
 					},
 				})

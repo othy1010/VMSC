@@ -1,16 +1,25 @@
+
+import ElkConstructor from 'elkjs/lib/elk.bundled';
 import {
     createDefaultModule, createDefaultSharedModule, DefaultSharedModuleContext, inject,
     LangiumServices, LangiumSharedServices, Module, PartialLangiumServices
 } from 'langium';
 import { VmscGeneratedModule, VmscGeneratedSharedModule } from './generated/module';
 import { VmscValidator, registerValidationChecks } from './vmsc-validator';
-
+import { VmscDiagramGenerator } from './diagram-generator';
+import { VmscLayoutConfigurator } from './layout-config';
+import { LangiumSprottyServices, LangiumSprottySharedServices, SprottyDiagramServices, SprottySharedModule } from 'langium-sprotty';
+import { DefaultElementFilter, ElkFactory, ElkLayoutEngine, IElementFilter, ILayoutConfigurator } from 'sprotty-elk/lib/elk-layout';
 /**
  * Declaration of custom services - add your own service classes here.
  */
 export type VmscAddedServices = {
     validation: {
         VmscValidator: VmscValidator
+    }, layout: {
+        ElkFactory: ElkFactory,
+        ElementFilter: IElementFilter,
+        LayoutConfigurator: ILayoutConfigurator
     }
 }
 
@@ -18,16 +27,24 @@ export type VmscAddedServices = {
  * Union of Langium default services and your custom services - use this as constructor parameter
  * of custom service classes.
  */
-export type VmscServices = LangiumServices & VmscAddedServices
+export type VmscServices = LangiumSprottyServices & VmscAddedServices
 
 /**
  * Dependency injection module that overrides Langium default services and contributes the
  * declared custom services. The Langium defaults can be partially specified to override only
  * selected services, while the custom services must be fully specified.
  */
-export const VmscModule: Module<VmscServices, PartialLangiumServices & VmscAddedServices> = {
+export const VmscModule: Module<VmscServices, PartialLangiumServices & SprottyDiagramServices & VmscAddedServices> = {
+    diagram: {
+        DiagramGenerator: services => new VmscDiagramGenerator(services),
+        ModelLayoutEngine: services => new ElkLayoutEngine(services.layout.ElkFactory, services.layout.ElementFilter, services.layout.LayoutConfigurator) as any
+    },
     validation: {
         VmscValidator: () => new VmscValidator()
+    }, layout: {
+        ElkFactory: () => () => new ElkConstructor({ algorithms: ['layered'] }),
+        ElementFilter: () => new DefaultElementFilter,
+        LayoutConfigurator: () => new VmscLayoutConfigurator
     }
 };
 
@@ -47,12 +64,13 @@ export const VmscModule: Module<VmscServices, PartialLangiumServices & VmscAdded
  * @returns An object wrapping the shared services and the language-specific services
  */
 export function createVmscServices(context: DefaultSharedModuleContext): {
-    shared: LangiumSharedServices,
+    shared: LangiumSprottySharedServices,
     Vmsc: VmscServices
 } {
     const shared = inject(
         createDefaultSharedModule(context),
-        VmscGeneratedSharedModule
+        VmscGeneratedSharedModule,
+        SprottySharedModule
     );
     const Vmsc = inject(
         createDefaultModule({ shared }),
